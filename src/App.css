@@ -161,7 +161,7 @@
   --xy-controls-button-color-default: var(--text-h);
   --xy-controls-button-border-color-default: var(--border);
   --xy-edge-stroke-default: var(--accent);
-  --xy-edge-stroke-width-default: 1.5;
+  --xy-edge-stroke-width-default: 2.5;
 }
 
 .flow-panel__body .react-flow__attribution {
@@ -197,7 +197,10 @@
   display: flex;
   align-items: center;
   padding: 6px 10px;
+  background: color-mix(in srgb, var(--bg) 80%, #111827 20%);
   border-bottom: 1px solid var(--border);
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 .gn-node__title {
@@ -208,6 +211,9 @@
 
 .gn-node__body {
   padding: 6px 0;
+  background: color-mix(in srgb, var(--bg) 90%, #111827 10%);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 
 .gn-node__row {
@@ -254,27 +260,27 @@
 }
 
 .gn-node .react-flow__handle.gn-socket--circle {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
 }
 
 .gn-node .react-flow__handle.gn-socket--line {
-  width: 8px;
-  height: 14px;
+  width: 7px;
+  height: 12px;
   border-radius: 1px;
 }
 
 .gn-node .react-flow__handle.gn-socket--diamond {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 1px;
 }
 
 .gn-node .react-flow__handle.gn-socket--list,
 .gn-node .react-flow__handle.gn-socket--grid {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 2px;
 }
 
@@ -297,7 +303,7 @@
 }
 
 .flow-panel__body .react-flow__edge-path {
-  stroke-width: 1.5;
+  stroke-width: 2.5;
 }
 
 .flow-panel__body .react-flow__edge.selected .react-flow__edge-path,
