@@ -131,32 +131,119 @@
   color: #ef4444;
 }
 
-.canvas-panel .panel-body {
+.flow-panel .panel-header {
+  justify-content: space-between;
+}
+
+.flow-panel__body {
   position: relative;
+  background:
+    radial-gradient(
+      1200px 600px at 20% 10%,
+      rgba(170, 59, 255, 0.08),
+      transparent 60%
+    ),
+    var(--bg);
 }
 
-.canvas-body {
-  background: radial-gradient(
-    1200px 600px at 20% 10%,
-    rgba(170, 59, 255, 0.08),
-    transparent 60%
-  );
-}
-
-.render-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.canvas-overlay {
-  position: absolute;
-  inset: 0;
+.flow-empty {
+  flex: 1 1 auto;
   display: grid;
   place-items: center;
-  color: var(--text);
-  pointer-events: none;
   font-size: 14px;
+}
+
+.flow-panel__body .react-flow {
+  width: 100%;
+  height: 100%;
+  --xy-background-color-default: transparent;
+  --xy-controls-button-background-color-default: var(--bg);
+  --xy-controls-button-color-default: var(--text-h);
+  --xy-controls-button-border-color-default: var(--border);
+  --xy-edge-stroke-default: var(--accent);
+  --xy-edge-stroke-width-default: 1.5;
+}
+
+.flow-panel__body .react-flow__attribution {
+  display: none;
+}
+
+.gn-node {
+  min-width: 220px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg) 92%, #1f2937 8%);
+  color: var(--text-h);
+  box-shadow: var(--shadow);
+  overflow: visible;
+}
+
+.gn-node__header {
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.gn-node__title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.gn-node__type {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.gn-node__body {
+  padding: 8px 0;
+}
+
+.gn-node__row {
+  min-height: 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.gn-node__column {
+  min-width: 0;
+}
+
+.gn-node__column--right {
+  text-align: right;
+}
+
+.gn-node__socket-row {
+  position: relative;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.gn-node__socket-row--right {
+  justify-content: flex-end;
+}
+
+.gn-node__socket-label {
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--text-h);
+  white-space: nowrap;
+}
+
+.gn-node .react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+}
+
+.gn-node .react-flow__handle-left {
+  left: -6px;
+}
+
+.gn-node .react-flow__handle-right {
+  right: -6px;
 }
 
 @media (max-width: 980px) {

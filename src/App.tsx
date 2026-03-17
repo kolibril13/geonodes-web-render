@@ -1,7 +1,7 @@
 import './App.css'
 import { useState } from 'react'
-import { CanvasPane } from './components/CanvasPane'
 import { JsonEditorTabs } from './components/JsonEditorTabs'
+import { GeometryNodesFlow } from './gn/components/GeometryNodesFlow'
 
 function App() {
   const [jsonText, setJsonText] = useState('')
@@ -12,7 +12,7 @@ function App() {
         <JsonEditorTabs value={jsonText} onChange={setJsonText} />
       </div>
       <div className="right-pane">
-        <CanvasPane />
+        <GeometryNodesFlow jsonText={jsonText} />
       </div>
     </div>
   )
