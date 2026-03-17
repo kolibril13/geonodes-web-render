@@ -6,6 +6,7 @@ import type {
   SocketIR,
 } from '../ir/types'
 import { socketColor } from '../ir/socketColors'
+import { nodeHeaderColor } from '../ir/nodeColors'
 
 type BlenderSocket = {
   id: number
@@ -83,6 +84,7 @@ export type NormalizedNode = {
     y: number
   }
   width: number
+  headerColor: string
   inputs: NormalizedSocket[]
   outputs: NormalizedSocket[]
 }
@@ -129,6 +131,7 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
           y: -location[1],
         },
         width: node.data.width ?? 140,
+        headerColor: nodeHeaderColor(node.data.bl_idname),
         inputs: node.data.inputs.data.items.map(normalizeSocket),
         outputs: node.data.outputs.data.items.map(normalizeSocket),
       }
@@ -164,6 +167,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     label: node.label,
     position: node.position,
     width: node.width,
+    headerColor: node.headerColor,
     inputs: node.inputs.map((socket) => toInputSocket(node.id, socket)),
     outputs: node.outputs.map((socket) => toOutputSocket(node.id, socket)),
   }))

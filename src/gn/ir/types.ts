@@ -21,6 +21,7 @@ export type NodeIR = {
     y: number
   }
   width: number
+  headerColor: string
   inputs: SocketIR[]
   outputs: SocketIR[]
 }

@@ -25,6 +25,8 @@ const tabs: Tab[] = [
   { id: 'custom', label: 'Custom' },
 ]
 
+const TREE_CLIPPER_PREFIX = 'TreeClipper::'
+
 function formatJson(text: string): { ok: true; formatted: string } | { ok: false } {
   try {
     const parsed = JSON.parse(text)
@@ -32,6 +34,35 @@ function formatJson(text: string): { ok: true; formatted: string } | { ok: false
   } catch {
     return { ok: false }
   }
+}
+
+function base64ToUint8Array(base64: string): Uint8Array {
+  const binary = atob(base64)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
+  return bytes
+}
+
+async function decodeTreeClipperPayload(raw: string): Promise<string> {
+  const trimmed = raw.trim()
+  const base64 = trimmed.startsWith(TREE_CLIPPER_PREFIX)
+    ? trimmed.slice(TREE_CLIPPER_PREFIX.length)
+    : trimmed
+  const bytes = base64ToUint8Array(base64)
+  const isGzip = bytes.length >= 2 && bytes[0] === 0x1f && bytes[1] === 0x8b
+  const decodedBytes = isGzip
+    ? await decompressGzip(bytes)
+    : bytes
+  return new TextDecoder().decode(decodedBytes)
+}
+
+async function decompressGzip(bytes: Uint8Array): Promise<Uint8Array> {
+  const stream = new Blob([bytes as BlobPart]).stream().pipeThrough(
+    new DecompressionStream('gzip'),
+  )
+  const blob = await new Response(stream).blob()
+  const buf = await blob.arrayBuffer()
+  return new Uint8Array(buf)
 }
 
 export function JsonEditorTabs(props: {
@@ -96,6 +127,24 @@ export function JsonEditorTabs(props: {
     }
   }, [value])
 
+  const [base64ImportError, setBase64ImportError] = useState<string | null>(null)
+
+  async function importBase64FromClipboard() {
+    setBase64ImportError(null)
+    try {
+      const raw = await navigator.clipboard.readText()
+      const decoded = await decodeTreeClipperPayload(raw)
+      const parsed = JSON.parse(decoded) as unknown
+      const formatted = `${JSON.stringify(parsed, null, 2)}\n`
+      setActiveTab('custom')
+      onChange(formatted)
+    } catch (e) {
+      const message =
+        e instanceof Error ? e.message : 'Failed to import base64 JSON'
+      setBase64ImportError(message)
+    }
+  }
+
   return (
     <div className="panel">
       <div className="panel-header">
@@ -117,6 +166,14 @@ export function JsonEditorTabs(props: {
           <button
             type="button"
             className="action-button"
+            onClick={importBase64FromClipboard}
+            title="Decode base64 from clipboard and paste JSON into editor"
+          >
+            Import base64 from clipboard
+          </button>
+          <button
+            type="button"
+            className="action-button"
             onClick={() => {
               const res = formatJson(value)
               if (res.ok) onChange(res.formatted)
@@ -130,6 +187,7 @@ export function JsonEditorTabs(props: {
         <div className="panel-status" aria-live="polite">
           {loadState.kind === 'loading' ? 'Loading…' : null}
           {loadState.kind === 'error' ? `Load error: ${loadState.message}` : null}
+          {base64ImportError ? `Base64 import: ${base64ImportError}` : null}
         </div>
       </div>
 

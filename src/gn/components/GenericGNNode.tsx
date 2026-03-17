@@ -57,7 +57,7 @@ export function GenericGNNode(props: NodeProps) {
 
   return (
     <div className="gn-node">
-      <div className="gn-node__header">
+      <div className="gn-node__header" style={{ background: data.headerColor }}>
         <div className="gn-node__title">{data.label}</div>
       </div>
 
