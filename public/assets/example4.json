@@ -5,9 +5,9 @@
      {
       "id": 0,
       "data": {
-       "name": "MixMatrix.001",
+       "name": "Geometry Nodes.004",
        "use_fake_user": false,
-       "use_extra_user": true,
+       "use_extra_user": false,
        "is_runtime_data": false,
        "tag": false,
        "color_tag": "NONE",
@@ -17,7 +17,7 @@
        "interface": {
         "id": 1,
         "data": {
-         "active_index": 3,
+         "active_index": 0,
          "items_tree": {
           "id": 2,
           "data": {
@@ -25,78 +25,9 @@
             {
              "id": 3,
              "data": {
-              "name": "Transform",
+              "name": "Geometry",
               "description": "",
-              "socket_type": "NodeSocketMatrix",
-              "hide_value": false,
-              "hide_in_modifier": false,
-              "force_non_field": false,
-              "is_inspect_output": false,
-              "is_panel_toggle": false,
-              "layer_selection_field": false,
-              "menu_expanded": false,
-              "optional_label": false,
-              "select": false,
-              "attribute_domain": "POINT",
-              "default_attribute_name": "",
-              "structure_type": "AUTO",
-              "default_input": "VALUE",
-              "in_out": "OUTPUT",
-              "item_type": "SOCKET"
-             }
-            },
-            {
-             "id": 4,
-             "data": {
-              "name": "Transform",
-              "description": "",
-              "socket_type": "NodeSocketMatrix",
-              "hide_value": false,
-              "hide_in_modifier": false,
-              "force_non_field": false,
-              "is_inspect_output": false,
-              "is_panel_toggle": false,
-              "layer_selection_field": false,
-              "menu_expanded": false,
-              "optional_label": false,
-              "select": false,
-              "attribute_domain": "POINT",
-              "default_attribute_name": "",
-              "structure_type": "AUTO",
-              "default_input": "VALUE",
-              "in_out": "INPUT",
-              "item_type": "SOCKET"
-             }
-            },
-            {
-             "id": 5,
-             "data": {
-              "name": "Transform",
-              "description": "",
-              "socket_type": "NodeSocketMatrix",
-              "hide_value": false,
-              "hide_in_modifier": false,
-              "force_non_field": false,
-              "is_inspect_output": false,
-              "is_panel_toggle": false,
-              "layer_selection_field": false,
-              "menu_expanded": false,
-              "optional_label": false,
-              "select": false,
-              "attribute_domain": "POINT",
-              "default_attribute_name": "",
-              "structure_type": "AUTO",
-              "default_input": "VALUE",
-              "in_out": "INPUT",
-              "item_type": "SOCKET"
-             }
-            },
-            {
-             "id": 6,
-             "data": {
-              "name": "Factor",
-              "description": "",
-              "socket_type": "NodeSocketFloat",
+              "socket_type": "NodeSocketGeometry",
               "hide_value": false,
               "hide_in_modifier": false,
               "force_non_field": false,
@@ -110,12 +41,31 @@
               "default_attribute_name": "",
               "structure_type": "AUTO",
               "default_input": "VALUE",
+              "in_out": "OUTPUT",
+              "item_type": "SOCKET"
+             }
+            },
+            {
+             "id": 4,
+             "data": {
+              "name": "Geometry",
+              "description": "",
+              "socket_type": "NodeSocketGeometry",
+              "hide_value": false,
+              "hide_in_modifier": false,
+              "force_non_field": false,
+              "is_inspect_output": false,
+              "is_panel_toggle": false,
+              "layer_selection_field": false,
+              "menu_expanded": false,
+              "optional_label": false,
+              "select": false,
+              "attribute_domain": "POINT",
+              "default_attribute_name": "",
+              "structure_type": "AUTO",
+              "default_input": "VALUE",
               "in_out": "INPUT",
-              "item_type": "SOCKET",
-              "subtype": "FACTOR",
-              "default_value": 0.0,
-              "min_value": 0.0,
-              "max_value": 1.0
+              "item_type": "SOCKET"
              }
             }
            ]
@@ -124,96 +74,20 @@
         }
        },
        "nodes": {
-        "id": 7,
+        "id": 5,
         "data": {
-         "active": 13,
+         "active": 41,
          "items": [
           {
-           "id": 8,
+           "id": 6,
            "data": {
             "location": [
-             285.0121765136719,
-             19.380905151367188
+             -340.0,
+             0.0
             ],
             "location_absolute": [
-             285.0121765136719,
-             19.380905151367188
-            ],
-            "width": 140.0,
-            "height": 100.0,
-            "name": "Group Output",
-            "label": "",
-            "warning_propagation": "ALL",
-            "use_custom_color": false,
-            "color": [
-             0.6079999804496765,
-             0.6079999804496765,
-             0.6079999804496765
-            ],
-            "select": false,
-            "show_options": true,
-            "show_preview": false,
-            "hide": false,
-            "mute": false,
-            "show_texture": false,
-            "inputs": {
-             "id": 9,
-             "data": {
-              "items": [
-               {
-                "id": 10,
-                "data": {
-                 "name": "Transform",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "MATRIX",
-                 "display_shape": "CIRCLE"
-                }
-               },
-               {
-                "id": 11,
-                "data": {
-                 "name": "",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "CUSTOM",
-                 "display_shape": "CIRCLE"
-                }
-               }
-              ]
-             }
-            },
-            "outputs": {
-             "id": 12,
-             "data": {
-              "items": []
-             }
-            },
-            "bl_idname": "NodeGroupOutput",
-            "parent": null,
-            "is_active_output": true
-           }
-          },
-          {
-           "id": 13,
-           "data": {
-            "location": [
-             -764.3643188476562,
-             55.82357406616211
-            ],
-            "location_absolute": [
-             -764.3643188476562,
-             55.82357406616211
+             -340.0,
+             0.0
             ],
             "width": 140.0,
             "height": 100.0,
@@ -233,19 +107,19 @@
             "mute": false,
             "show_texture": false,
             "inputs": {
-             "id": 14,
+             "id": 7,
              "data": {
               "items": []
              }
             },
             "outputs": {
-             "id": 15,
+             "id": 8,
              "data": {
               "items": [
                {
-                "id": 16,
+                "id": 9,
                 "data": {
-                 "name": "Transform",
+                 "name": "Geometry",
                  "description": "",
                  "hide": false,
                  "enabled": true,
@@ -253,43 +127,12 @@
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "MATRIX",
-                 "display_shape": "CIRCLE"
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
                 }
                },
                {
-                "id": 17,
-                "data": {
-                 "name": "Transform",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "MATRIX",
-                 "display_shape": "CIRCLE"
-                }
-               },
-               {
-                "id": 18,
-                "data": {
-                 "name": "Factor",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 19,
+                "id": 10,
                 "data": {
                  "name": "",
                  "description": "",
@@ -311,19 +154,19 @@
            }
           },
           {
-           "id": 20,
+           "id": 11,
            "data": {
             "location": [
-             -443.0849609375,
-             215.51107788085938
+             354.39886474609375,
+             68.54328155517578
             ],
             "location_absolute": [
-             -443.0849609375,
-             215.51107788085938
+             354.39886474609375,
+             68.54328155517578
             ],
             "width": 140.0,
             "height": 100.0,
-            "name": "Separate Transform",
+            "name": "Group Output",
             "label": "",
             "warning_propagation": "ALL",
             "use_custom_color": false,
@@ -339,13 +182,13 @@
             "mute": false,
             "show_texture": false,
             "inputs": {
-             "id": 21,
+             "id": 12,
              "data": {
               "items": [
                {
-                "id": 22,
+                "id": 13,
                 "data": {
-                 "name": "Transform",
+                 "name": "Geometry",
                  "description": "",
                  "hide": false,
                  "enabled": true,
@@ -353,7 +196,22 @@
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "MATRIX",
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 14,
+                "data": {
+                 "name": "",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "CUSTOM",
                  "display_shape": "CIRCLE"
                 }
                }
@@ -361,17 +219,124 @@
              }
             },
             "outputs": {
-             "id": 23,
+             "id": 15,
+             "data": {
+              "items": []
+             }
+            },
+            "bl_idname": "NodeGroupOutput",
+            "parent": null,
+            "is_active_output": true
+           }
+          },
+          {
+           "id": 16,
+           "data": {
+            "location": [
+             -19.299930572509766,
+             -119.95075988769531
+            ],
+            "location_absolute": [
+             -19.299930572509766,
+             -119.95075988769531
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Mix",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": true,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 17,
              "data": {
               "items": [
                {
-                "id": 24,
+                "id": 18,
                 "data": {
-                 "name": "Translation",
+                 "name": "Factor",
                  "description": "",
                  "hide": false,
                  "enabled": true,
-                 "link_limit": 4095,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.6825095415115356
+                }
+               },
+               {
+                "id": 19,
+                "data": {
+                 "name": "Factor",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.5,
+                  0.5,
+                  0.5
+                 ]
+                }
+               },
+               {
+                "id": 20,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 21,
+                "data": {
+                 "name": "B",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 22,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
@@ -385,13 +350,75 @@
                 }
                },
                {
-                "id": 25,
+                "id": 23,
                 "data": {
-                 "name": "Rotation",
+                 "name": "B",
                  "description": "",
                  "hide": false,
                  "enabled": true,
-                 "link_limit": 4095,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 24,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "RGBA",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.5,
+                  0.5,
+                  0.5,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 25,
+                "data": {
+                 "name": "B",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "RGBA",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.5,
+                  0.5,
+                  0.5,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 26,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
@@ -405,17 +432,17 @@
                 }
                },
                {
-                "id": 26,
+                "id": 27,
                 "data": {
-                 "name": "Scale",
+                 "name": "B",
                  "description": "",
                  "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
+                 "enabled": false,
+                 "link_limit": 1,
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "VECTOR",
+                 "type": "ROTATION",
                  "display_shape": "CIRCLE",
                  "default_value": [
                   0.0,
@@ -427,74 +454,38 @@
               ]
              }
             },
-            "bl_idname": "FunctionNodeSeparateTransform",
-            "parent": null
-           }
-          },
-          {
-           "id": 27,
-           "data": {
-            "location": [
-             111.040771484375,
-             27.88930892944336
-            ],
-            "location_absolute": [
-             111.040771484375,
-             27.88930892944336
-            ],
-            "width": 140.0,
-            "height": 100.0,
-            "name": "Combine Transform.003",
-            "label": "",
-            "warning_propagation": "ALL",
-            "use_custom_color": false,
-            "color": [
-             0.6079999804496765,
-             0.6079999804496765,
-             0.6079999804496765
-            ],
-            "select": false,
-            "show_options": true,
-            "show_preview": false,
-            "hide": false,
-            "mute": false,
-            "show_texture": false,
-            "inputs": {
+            "outputs": {
              "id": 28,
              "data": {
               "items": [
                {
                 "id": 29,
                 "data": {
-                 "name": "Translation",
+                 "name": "Result",
                  "description": "",
                  "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
+                 "enabled": false,
+                 "link_limit": 4095,
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "VECTOR",
+                 "type": "VALUE",
                  "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
+                 "default_value": 0.0
                 }
                },
                {
                 "id": 30,
                 "data": {
-                 "name": "Rotation",
+                 "name": "Result",
                  "description": "",
                  "hide": false,
                  "enabled": true,
-                 "link_limit": 1,
+                 "link_limit": 4095,
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "ROTATION",
+                 "type": "VECTOR",
                  "display_shape": "CIRCLE",
                  "default_value": [
                   0.0,
@@ -506,133 +497,31 @@
                {
                 "id": 31,
                 "data": {
-                 "name": "Scale",
+                 "name": "Result",
                  "description": "",
                  "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
+                 "enabled": false,
+                 "link_limit": 4095,
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "VECTOR",
+                 "type": "RGBA",
                  "display_shape": "CIRCLE",
                  "default_value": [
-                  1.0,
-                  1.0,
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
                   1.0
-                 ]
-                }
-               }
-              ]
-             }
-            },
-            "outputs": {
-             "id": 32,
-             "data": {
-              "items": [
-               {
-                "id": 33,
-                "data": {
-                 "name": "Transform",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "MATRIX",
-                 "display_shape": "CIRCLE"
-                }
-               }
-              ]
-             }
-            },
-            "bl_idname": "FunctionNodeCombineTransform",
-            "parent": null
-           }
-          },
-          {
-           "id": 34,
-           "data": {
-            "location": [
-             -449.6343994140625,
-             -105.96544647216797
-            ],
-            "location_absolute": [
-             -449.6343994140625,
-             -105.96544647216797
-            ],
-            "width": 140.0,
-            "height": 100.0,
-            "name": "Separate Transform.001",
-            "label": "",
-            "warning_propagation": "ALL",
-            "use_custom_color": false,
-            "color": [
-             0.6079999804496765,
-             0.6079999804496765,
-             0.6079999804496765
-            ],
-            "select": false,
-            "show_options": true,
-            "show_preview": false,
-            "hide": false,
-            "mute": false,
-            "show_texture": false,
-            "inputs": {
-             "id": 35,
-             "data": {
-              "items": [
-               {
-                "id": 36,
-                "data": {
-                 "name": "Transform",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "MATRIX",
-                 "display_shape": "CIRCLE"
-                }
-               }
-              ]
-             }
-            },
-            "outputs": {
-             "id": 37,
-             "data": {
-              "items": [
-               {
-                "id": 38,
-                "data": {
-                 "name": "Translation",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
                  ]
                 }
                },
                {
-                "id": 39,
+                "id": 32,
                 "data": {
-                 "name": "Rotation",
+                 "name": "Result",
                  "description": "",
                  "hide": false,
-                 "enabled": true,
+                 "enabled": false,
                  "link_limit": 4095,
                  "show_expanded": false,
                  "hide_value": false,
@@ -645,11 +534,61 @@
                   0.0
                  ]
                 }
-               },
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeMix",
+            "parent": null,
+            "data_type": "VECTOR",
+            "factor_mode": "UNIFORM",
+            "blend_type": "MIX",
+            "clamp_factor": true,
+            "clamp_result": false
+           }
+          },
+          {
+           "id": 33,
+           "data": {
+            "location": [
+             -258.2456359863281,
+             -109.05516052246094
+            ],
+            "location_absolute": [
+             -258.2456359863281,
+             -109.05516052246094
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Vector",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": true,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 34,
+             "data": {
+              "items": []
+             }
+            },
+            "outputs": {
+             "id": 35,
+             "data": {
+              "items": [
                {
-                "id": 40,
+                "id": 36,
                 "data": {
-                 "name": "Scale",
+                 "name": "Vector",
                  "description": "",
                  "hide": false,
                  "enabled": true,
@@ -658,7 +597,7 @@
                  "hide_value": false,
                  "pin_gizmo": false,
                  "type": "VECTOR",
-                 "display_shape": "CIRCLE",
+                 "display_shape": "LINE",
                  "default_value": [
                   0.0,
                   0.0,
@@ -669,24 +608,99 @@
               ]
              }
             },
-            "bl_idname": "FunctionNodeSeparateTransform",
-            "parent": null
+            "bl_idname": "FunctionNodeInputVector",
+            "parent": null,
+            "vector": [
+             0.0,
+             0.0,
+             0.0
+            ]
+           }
+          },
+          {
+           "id": 37,
+           "data": {
+            "location": [
+             -270.20611572265625,
+             -245.0537567138672
+            ],
+            "location_absolute": [
+             -270.20611572265625,
+             -245.0537567138672
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Vector.001",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": true,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 38,
+             "data": {
+              "items": []
+             }
+            },
+            "outputs": {
+             "id": 39,
+             "data": {
+              "items": [
+               {
+                "id": 40,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "LINE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "FunctionNodeInputVector",
+            "parent": null,
+            "vector": [
+             1.0,
+             1.0,
+             1.0
+            ]
            }
           },
           {
            "id": 41,
            "data": {
             "location": [
-             -141.51930236816406,
-             284.3290710449219
+             174.5316162109375,
+             24.351280212402344
             ],
             "location_absolute": [
-             -141.51930236816406,
-             284.3290710449219
+             174.5316162109375,
+             24.351280212402344
             ],
             "width": 140.0,
             "height": 100.0,
-            "name": "Mix",
+            "name": "Set Position",
             "label": "",
             "warning_propagation": "ALL",
             "use_custom_color": false,
@@ -708,7 +722,7 @@
                {
                 "id": 43,
                 "data": {
-                 "name": "Factor",
+                 "name": "Geometry",
                  "description": "",
                  "hide": false,
                  "enabled": true,
@@ -716,67 +730,50 @@
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.5
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
                 }
                },
                {
                 "id": 44,
                 "data": {
-                 "name": "Factor",
+                 "name": "Selection",
                  "description": "",
                  "hide": false,
-                 "enabled": false,
+                 "enabled": true,
                  "link_limit": 1,
                  "show_expanded": false,
-                 "hide_value": false,
+                 "hide_value": true,
                  "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5
-                 ]
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
                 }
                },
                {
                 "id": 45,
                 "data": {
-                 "name": "A",
+                 "name": "Position",
                  "description": "",
                  "hide": false,
-                 "enabled": false,
+                 "enabled": true,
                  "link_limit": 1,
                  "show_expanded": false,
-                 "hide_value": false,
+                 "hide_value": true,
                  "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
                 }
                },
                {
                 "id": 46,
                 "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 47,
-                "data": {
-                 "name": "A",
+                 "name": "Offset",
                  "description": "",
                  "hide": false,
                  "enabled": true,
@@ -785,880 +782,41 @@
                  "hide_value": false,
                  "pin_gizmo": false,
                  "type": "VECTOR",
-                 "display_shape": "CIRCLE",
+                 "display_shape": "DIAMOND",
                  "default_value": [
                   0.0,
                   0.0,
                   0.0
                  ]
                 }
-               },
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 47,
+             "data": {
+              "items": [
                {
                 "id": 48,
                 "data": {
-                 "name": "B",
+                 "name": "Geometry",
                  "description": "",
                  "hide": false,
                  "enabled": true,
-                 "link_limit": 1,
+                 "link_limit": 4095,
                  "show_expanded": false,
                  "hide_value": false,
                  "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 49,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 50,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 51,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 52,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
                 }
                }
               ]
              }
             },
-            "outputs": {
-             "id": 53,
-             "data": {
-              "items": [
-               {
-                "id": 54,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 55,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 56,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.800000011920929,
-                  0.800000011920929,
-                  0.800000011920929,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 57,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               }
-              ]
-             }
-            },
-            "bl_idname": "ShaderNodeMix",
-            "parent": null,
-            "data_type": "VECTOR",
-            "factor_mode": "UNIFORM",
-            "blend_type": "MIX",
-            "clamp_factor": true,
-            "clamp_result": false
-           }
-          },
-          {
-           "id": 58,
-           "data": {
-            "location": [
-             -147.95167541503906,
-             -172.68197631835938
-            ],
-            "location_absolute": [
-             -147.95167541503906,
-             -172.68197631835938
-            ],
-            "width": 140.0,
-            "height": 100.0,
-            "name": "Mix.001",
-            "label": "",
-            "warning_propagation": "ALL",
-            "use_custom_color": false,
-            "color": [
-             0.6079999804496765,
-             0.6079999804496765,
-             0.6079999804496765
-            ],
-            "select": false,
-            "show_options": true,
-            "show_preview": false,
-            "hide": false,
-            "mute": false,
-            "show_texture": false,
-            "inputs": {
-             "id": 59,
-             "data": {
-              "items": [
-               {
-                "id": 60,
-                "data": {
-                 "name": "Factor",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.5
-                }
-               },
-               {
-                "id": 61,
-                "data": {
-                 "name": "Factor",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5
-                 ]
-                }
-               },
-               {
-                "id": 62,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 63,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 64,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 65,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 66,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 67,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 68,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 69,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               }
-              ]
-             }
-            },
-            "outputs": {
-             "id": 70,
-             "data": {
-              "items": [
-               {
-                "id": 71,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 72,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 73,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.800000011920929,
-                  0.800000011920929,
-                  0.800000011920929,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 74,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               }
-              ]
-             }
-            },
-            "bl_idname": "ShaderNodeMix",
-            "parent": null,
-            "data_type": "VECTOR",
-            "factor_mode": "UNIFORM",
-            "blend_type": "MIX",
-            "clamp_factor": true,
-            "clamp_result": false
-           }
-          },
-          {
-           "id": 75,
-           "data": {
-            "location": [
-             -134.13734436035156,
-             67.27713012695312
-            ],
-            "location_absolute": [
-             -134.13734436035156,
-             67.27713012695312
-            ],
-            "width": 140.0,
-            "height": 100.0,
-            "name": "Mix.002",
-            "label": "",
-            "warning_propagation": "ALL",
-            "use_custom_color": false,
-            "color": [
-             0.6079999804496765,
-             0.6079999804496765,
-             0.6079999804496765
-            ],
-            "select": false,
-            "show_options": true,
-            "show_preview": false,
-            "hide": false,
-            "mute": false,
-            "show_texture": false,
-            "inputs": {
-             "id": 76,
-             "data": {
-              "items": [
-               {
-                "id": 77,
-                "data": {
-                 "name": "Factor",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.5
-                }
-               },
-               {
-                "id": 78,
-                "data": {
-                 "name": "Factor",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5
-                 ]
-                }
-               },
-               {
-                "id": 79,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 80,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 81,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 82,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 83,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 84,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.5,
-                  0.5,
-                  0.5,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 85,
-                "data": {
-                 "name": "A",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 86,
-                "data": {
-                 "name": "B",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 1,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               }
-              ]
-             }
-            },
-            "outputs": {
-             "id": 87,
-             "data": {
-              "items": [
-               {
-                "id": 88,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VALUE",
-                 "display_shape": "CIRCLE",
-                 "default_value": 0.0
-                }
-               },
-               {
-                "id": 89,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "VECTOR",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               },
-               {
-                "id": 90,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": false,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "RGBA",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.800000011920929,
-                  0.800000011920929,
-                  0.800000011920929,
-                  1.0
-                 ]
-                }
-               },
-               {
-                "id": 91,
-                "data": {
-                 "name": "Result",
-                 "description": "",
-                 "hide": false,
-                 "enabled": true,
-                 "link_limit": 4095,
-                 "show_expanded": false,
-                 "hide_value": false,
-                 "pin_gizmo": false,
-                 "type": "ROTATION",
-                 "display_shape": "CIRCLE",
-                 "default_value": [
-                  0.0,
-                  0.0,
-                  0.0
-                 ]
-                }
-               }
-              ]
-             }
-            },
-            "bl_idname": "ShaderNodeMix",
-            "parent": null,
-            "data_type": "ROTATION",
-            "factor_mode": "UNIFORM",
-            "blend_type": "MIX",
-            "clamp_factor": true,
-            "clamp_result": false
-           }
-          },
-          {
-           "id": 92,
-           "data": {
-            "location": [
-             -311.4038391113281,
-             -39.00244140625
-            ],
-            "location_absolute": [
-             -311.4038391113281,
-             -39.00244140625
-            ],
-            "height": 100.0,
-            "name": "Reroute",
-            "label": "",
-            "warning_propagation": "ALL",
-            "use_custom_color": false,
-            "color": [
-             0.6079999804496765,
-             0.6079999804496765,
-             0.6079999804496765
-            ],
-            "select": false,
-            "show_options": true,
-            "show_preview": false,
-            "hide": false,
-            "mute": false,
-            "show_texture": false,
-            "socket_idname": "NodeSocketFloatFactor",
-            "bl_idname": "NodeReroute",
-            "parent": null,
-            "single_input": 93,
-            "single_output": 94
+            "bl_idname": "GeometryNodeSetPosition",
+            "parent": null
            }
           }
          ]
@@ -1667,151 +825,52 @@
        "bl_idname": "GeometryNodeTree",
        "annotation": null,
        "links": {
-        "id": 95,
+        "id": 49,
         "data": {
          "items": [
           {
-           "id": 96,
+           "id": 50,
            "data": {
             "is_valid": true,
             "is_muted": false,
-            "from_socket": 55,
-            "to_socket": 29
+            "from_socket": 48,
+            "to_socket": 13
            }
           },
           {
-           "id": 97,
+           "id": 51,
            "data": {
             "is_valid": true,
             "is_muted": false,
-            "from_socket": 26,
-            "to_socket": 64
-           }
-          },
-          {
-           "id": 98,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 25,
-            "to_socket": 85
-           }
-          },
-          {
-           "id": 99,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 24,
-            "to_socket": 47
-           }
-          },
-          {
-           "id": 100,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 72,
-            "to_socket": 31
-           }
-          },
-          {
-           "id": 101,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 39,
-            "to_socket": 86
-           }
-          },
-          {
-           "id": 102,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 91,
-            "to_socket": 30
-           }
-          },
-          {
-           "id": 103,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 40,
-            "to_socket": 65
-           }
-          },
-          {
-           "id": 104,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 38,
-            "to_socket": 48
-           }
-          },
-          {
-           "id": 105,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 94,
-            "to_socket": 43
-           }
-          },
-          {
-           "id": 106,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 94,
-            "to_socket": 77
-           }
-          },
-          {
-           "id": 107,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 94,
-            "to_socket": 60
-           }
-          },
-          {
-           "id": 108,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 33,
-            "to_socket": 10
-           }
-          },
-          {
-           "id": 109,
-           "data": {
-            "is_valid": true,
-            "is_muted": false,
-            "from_socket": 16,
+            "from_socket": 36,
             "to_socket": 22
            }
           },
           {
-           "id": 110,
+           "id": 52,
            "data": {
             "is_valid": true,
             "is_muted": false,
-            "from_socket": 17,
-            "to_socket": 36
+            "from_socket": 40,
+            "to_socket": 23
            }
           },
           {
-           "id": 111,
+           "id": 53,
            "data": {
             "is_valid": true,
             "is_muted": false,
-            "from_socket": 18,
-            "to_socket": 93
+            "from_socket": 9,
+            "to_socket": 43
+           }
+          },
+          {
+           "id": 54,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 30,
+            "to_socket": 46
            }
           }
          ]
