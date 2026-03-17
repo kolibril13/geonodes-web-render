@@ -1,9 +1,12 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
   Background,
   Controls,
   ReactFlow,
   ReactFlowProvider,
+  useReactFlow,
+  type Edge,
+  type Node,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import {
@@ -18,6 +21,44 @@ import { RerouteNode } from './RerouteNode'
 const nodeTypes = {
   gnNode: GenericGNNode,
   rerouteNode: RerouteNode,
+}
+
+const FIT_VIEW_OPTIONS = { padding: 0.2, maxZoom: 0.9 }
+
+function FlowCanvas(props: { nodes: Node[]; edges: Edge[] }) {
+  const { nodes, edges } = props
+  const { fitView } = useReactFlow()
+
+  useEffect(() => {
+    // Re-fit whenever the node set changes (tab switch, new JSON, etc.)
+    fitView(FIT_VIEW_OPTIONS)
+  }, [nodes, fitView])
+
+  return (
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      nodeTypes={nodeTypes}
+      fitView
+      fitViewOptions={FIT_VIEW_OPTIONS}
+      minZoom={0.2}
+      nodesDraggable={false}
+      nodesConnectable={false}
+      elementsSelectable={false}
+      nodesFocusable={false}
+      edgesFocusable={false}
+      selectNodesOnDrag={false}
+      selectionOnDrag={false}
+      connectOnClick={false}
+      panOnDrag
+      panOnScroll={false}
+      zoomOnScroll
+      zoomOnDoubleClick={false}
+    >
+      <Background gap={20} size={1} />
+      <Controls showInteractive={false} />
+    </ReactFlow>
+  )
 }
 
 export function GeometryNodesFlow(props: { jsonText: string }) {
@@ -56,29 +97,7 @@ export function GeometryNodesFlow(props: { jsonText: string }) {
           </div>
         ) : graphView?.flow ? (
           <ReactFlowProvider>
-            <ReactFlow
-              nodes={graphView.flow.nodes}
-              edges={graphView.flow.edges}
-              nodeTypes={nodeTypes}
-              fitView
-              fitViewOptions={{ padding: 0.2, maxZoom: 0.9 }}
-              minZoom={0.2}
-              nodesDraggable={false}
-              nodesConnectable={false}
-              elementsSelectable={false}
-              nodesFocusable={false}
-              edgesFocusable={false}
-              selectNodesOnDrag={false}
-              selectionOnDrag={false}
-              connectOnClick={false}
-              panOnDrag
-              panOnScroll={false}
-              zoomOnScroll
-              zoomOnDoubleClick={false}
-            >
-              <Background gap={20} size={1} />
-              <Controls showInteractive={false} />
-            </ReactFlow>
+            <FlowCanvas nodes={graphView.flow.nodes} edges={graphView.flow.edges} />
           </ReactFlowProvider>
         ) : (
           <div className="flow-empty">Waiting for sample graph...</div>
