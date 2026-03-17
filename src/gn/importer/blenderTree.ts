@@ -2,6 +2,7 @@ import type {
   EdgeIR,
   GraphIR,
   NodeIR,
+  SocketDefaultValue,
   SocketDisplayShape,
   SocketIR,
 } from '../ir/types'
@@ -14,6 +15,8 @@ type BlenderSocket = {
     name: string
     type: string
     display_shape: SocketDisplayShape
+    default_value?: unknown
+    hide_value?: boolean
   }
 }
 
@@ -72,6 +75,8 @@ export type NormalizedSocket = {
   dataType: string
   displayShape: SocketDisplayShape
   color: string
+  defaultValue: SocketDefaultValue | null
+  hideValue: boolean
   index: number
 }
 
@@ -102,6 +107,17 @@ export type NormalizedGraph = {
   links: NormalizedLink[]
 }
 
+function parseDefaultValue(raw: unknown): SocketDefaultValue | null {
+  if (raw === undefined || raw === null) return null
+  if (Array.isArray(raw) && raw.length >= 2) {
+    return { kind: 'vec', values: raw as number[] }
+  }
+  if (typeof raw === 'number' || typeof raw === 'boolean' || typeof raw === 'string') {
+    return { kind: 'scalar', value: raw }
+  }
+  return null
+}
+
 function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket {
   return {
     id: String(socket.id),
@@ -109,6 +125,8 @@ function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket
     dataType: socket.data.type,
     displayShape: socket.data.display_shape,
     color: socketColor(socket.data.type),
+    defaultValue: parseDefaultValue(socket.data.default_value),
+    hideValue: socket.data.hide_value ?? false,
     index,
   }
 }

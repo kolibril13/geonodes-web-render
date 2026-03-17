@@ -1,6 +1,10 @@
 export type SocketDirection = 'input' | 'output'
 export type SocketDisplayShape = 'CIRCLE' | 'DIAMOND' | 'LINE' | 'LIST' | 'VOLUME_GRID'
 
+export type SocketDefaultValue =
+  | { kind: 'scalar'; value: number | boolean | string }
+  | { kind: 'vec'; values: number[] }
+
 export type SocketIR = {
   id: string
   nodeId: string
@@ -9,6 +13,8 @@ export type SocketIR = {
   dataType: string
   displayShape: SocketDisplayShape
   color: string
+  defaultValue: SocketDefaultValue | null
+  hideValue: boolean
   index: number
 }
 

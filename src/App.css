@@ -216,7 +216,7 @@
 }
 
 .gn-node__row {
-  min-height: 22px;
+  min-height: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -231,7 +231,7 @@
 
 .gn-node__socket-row {
   position: relative;
-  min-height: 22px;
+  min-height: 20px;
   display: flex;
   align-items: center;
   padding: 0 10px;
@@ -246,6 +246,52 @@
   line-height: 1.2;
   color: var(--text-h);
   white-space: nowrap;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.gn-node__value {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--text);
+  white-space: nowrap;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+.gn-node__vec-block {
+  margin: 1px 8px 4px 18px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.gn-node__vec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 16px;
+  padding: 0 6px;
+  background: color-mix(in srgb, var(--bg) 70%, #111827 30%);
+  border-top: 1px solid var(--border);
+}
+
+.gn-node__vec-row:first-child {
+  border-top: none;
+}
+
+.gn-node__vec-label {
+  font-size: 9px;
+  color: var(--text);
+  flex-shrink: 0;
+  width: 10px;
+  text-transform: uppercase;
+}
+
+.gn-node__vec-value {
+  font-size: 9px;
+  color: var(--text-h);
+  text-align: right;
 }
 
 .gn-node .react-flow__handle.gn-socket {
