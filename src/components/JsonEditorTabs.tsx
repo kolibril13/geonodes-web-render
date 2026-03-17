@@ -4,7 +4,7 @@ import { json } from '@codemirror/lang-json'
 import { EditorView } from '@codemirror/view'
 import { oneDark } from '@codemirror/theme-one-dark'
 
-type TabId = 'example1' | 'example2' | 'custom'
+type TabId = 'example1' | 'example2' | 'example3' | 'example4' | 'example5' | 'custom'
 
 type Tab = {
   id: TabId
@@ -22,6 +22,9 @@ function withBaseUrl(path: string) {
 const tabs: Tab[] = [
   { id: 'example1', label: 'Example 1', assetPath: 'assets/example1.json' },
   { id: 'example2', label: 'Example 2', assetPath: 'assets/example2.json' },
+  { id: 'example3', label: 'Example 3', assetPath: 'assets/example3.json' },
+  { id: 'example4', label: 'Example 4', assetPath: 'assets/example4.json' },
+  { id: 'example5', label: 'Example 5', assetPath: 'assets/example5.json' },
   { id: 'custom', label: 'Custom' },
 ]
 

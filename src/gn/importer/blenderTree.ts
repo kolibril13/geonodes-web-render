@@ -29,16 +29,13 @@ type BlenderNode = {
     width?: number
     location?: [number, number]
     location_absolute?: [number, number]
-    inputs: {
-      data: {
-        items: BlenderSocket[]
-      }
-    }
-    outputs: {
-      data: {
-        items: BlenderSocket[]
-      }
-    }
+    // standard nodes
+    inputs?: { data: { items: BlenderSocket[] } }
+    outputs?: { data: { items: BlenderSocket[] } }
+    // NodeReroute only
+    socket_idname?: string
+    single_input?: number
+    single_output?: number
   }
 }
 
@@ -107,6 +104,57 @@ export type NormalizedGraph = {
   links: NormalizedLink[]
 }
 
+const SOCKET_IDNAME_TO_TYPE: Record<string, string> = {
+  NodeSocketGeometry:   'GEOMETRY',
+  NodeSocketFloat:      'FLOAT',
+  NodeSocketVector:     'VECTOR',
+  NodeSocketBool:       'BOOLEAN',
+  NodeSocketInt:        'INT',
+  NodeSocketColor:      'RGBA',
+  NodeSocketString:     'STRING',
+  NodeSocketObject:     'OBJECT',
+  NodeSocketCollection: 'COLLECTION',
+  NodeSocketImage:      'IMAGE',
+  NodeSocketTexture:    'TEXTURE',
+  NodeSocketMaterial:   'MATERIAL',
+  NodeSocketRotation:   'ROTATION',
+  NodeSocketMatrix:     'MATRIX',
+  NodeSocketMenu:       'MENU',
+}
+
+function socketTypeFromIdname(idname: string): string {
+  return SOCKET_IDNAME_TO_TYPE[idname] ?? 'CUSTOM'
+}
+
+function normalizeRerouteNode(node: BlenderNode, location: [number, number]): NormalizedNode {
+  const dataType = socketTypeFromIdname(node.data.socket_idname ?? '')
+  const color = socketColor(dataType)
+  const inputId = String(node.data.single_input ?? `${node.id}_in`)
+  const outputId = String(node.data.single_output ?? `${node.id}_out`)
+
+  const rerouteSocket = (id: string): NormalizedSocket => ({
+    id,
+    name: '',
+    dataType,
+    displayShape: 'CIRCLE',
+    color,
+    defaultValue: null,
+    hideValue: true,
+    index: 0,
+  })
+
+  return {
+    id: String(node.id),
+    type: 'NodeReroute',
+    label: '',
+    position: { x: location[0], y: -location[1] },
+    width: 0,
+    headerColor: '',
+    inputs: [rerouteSocket(inputId)],
+    outputs: [rerouteSocket(outputId)],
+  }
+}
+
 function parseDefaultValue(raw: unknown): SocketDefaultValue | null {
   if (raw === undefined || raw === null) return null
   if (Array.isArray(raw) && raw.length >= 2) {
@@ -132,13 +180,36 @@ function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket
 }
 
 export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
+  if (!raw || typeof raw !== 'object') {
+    throw new Error('JSON root must be an object.')
+  }
+  if (!Array.isArray(raw.node_trees) || raw.node_trees.length === 0) {
+    throw new Error('Expected "node_trees" array with at least one entry.')
+  }
+
   const tree = raw.node_trees[0]
+  if (!tree?.data) {
+    throw new Error('"node_trees[0].data" is missing.')
+  }
+  if (!tree.data.nodes?.data?.items) {
+    throw new Error('"node_trees[0].data.nodes.data.items" is missing.')
+  }
+  if (!tree.data.links?.data?.items) {
+    throw new Error('"node_trees[0].data.links.data.items" is missing.')
+  }
 
   return {
     id: String(tree.id),
     label: tree.data.name,
-    nodes: tree.data.nodes.data.items.map((node) => {
+    nodes: tree.data.nodes.data.items.map((node, ni) => {
+      if (!node?.data) {
+        throw new Error(`Node at index ${ni} is missing ".data".`)
+      }
       const location = node.data.location_absolute ?? node.data.location ?? [0, 0]
+
+      if (node.data.bl_idname === 'NodeReroute') {
+        return normalizeRerouteNode(node, location as [number, number])
+      }
 
       return {
         id: String(node.id),
@@ -150,15 +221,24 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         },
         width: node.data.width ?? 140,
         headerColor: nodeHeaderColor(node.data.bl_idname),
-        inputs: node.data.inputs.data.items.map(normalizeSocket),
-        outputs: node.data.outputs.data.items.map(normalizeSocket),
+        inputs: (node.data.inputs?.data?.items ?? []).map((s, si) => {
+          if (!s?.data) throw new Error(`Node "${node.data.name}" input socket ${si} is missing ".data".`)
+          return normalizeSocket(s, si)
+        }),
+        outputs: (node.data.outputs?.data?.items ?? []).map((s, si) => {
+          if (!s?.data) throw new Error(`Node "${node.data.name}" output socket ${si} is missing ".data".`)
+          return normalizeSocket(s, si)
+        }),
       }
     }),
-    links: tree.data.links.data.items.map((link) => ({
-      id: String(link.id),
-      fromSocketId: String(link.data.from_socket),
-      toSocketId: String(link.data.to_socket),
-    })),
+    links: tree.data.links.data.items.map((link, li) => {
+      if (!link?.data) throw new Error(`Link at index ${li} is missing ".data".`)
+      return {
+        id: String(link.id),
+        fromSocketId: String(link.data.from_socket),
+        toSocketId: String(link.data.to_socket),
+      }
+    }),
   }
 }
 

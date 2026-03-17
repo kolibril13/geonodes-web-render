@@ -13,9 +13,11 @@ import {
 } from '../importer/blenderTree'
 import { mapGraphIRToFlow } from '../xyflow/mapGraphIRToFlow'
 import { GenericGNNode } from './GenericGNNode'
+import { RerouteNode } from './RerouteNode'
 
 const nodeTypes = {
   gnNode: GenericGNNode,
+  rerouteNode: RerouteNode,
 }
 
 export function GeometryNodesFlow(props: { jsonText: string }) {
@@ -24,14 +26,14 @@ export function GeometryNodesFlow(props: { jsonText: string }) {
   const graphView = useMemo(() => {
     if (!jsonText.trim()) return null
 
-    const raw = JSON.parse(jsonText) as BlenderTreeExport
-    const normalized = normalizeBlenderGraph(raw)
-    const graph = toGraphIR(normalized)
-    const flow = mapGraphIRToFlow(graph)
-
-    return {
-      graph,
-      flow,
+    try {
+      const raw = JSON.parse(jsonText) as BlenderTreeExport
+      const normalized = normalizeBlenderGraph(raw)
+      const graph = toGraphIR(normalized)
+      const flow = mapGraphIRToFlow(graph)
+      return { graph, flow, error: null }
+    } catch (e) {
+      return { graph: null, flow: null, error: e instanceof Error ? e.message : String(e) }
     }
   }, [jsonText])
 
@@ -40,14 +42,19 @@ export function GeometryNodesFlow(props: { jsonText: string }) {
       <div className="panel-header">
         <div className="panel-title">Geometry Nodes Graph</div>
         <div className="panel-status" aria-live="polite">
-          {graphView
+          {graphView?.graph
             ? `${graphView.graph.nodes.length} nodes, ${graphView.graph.edges.length} links`
-            : 'Loading sample JSON…'}
+            : null}
         </div>
       </div>
 
       <div className="panel-body flow-panel__body">
-        {graphView ? (
+        {graphView?.error ? (
+          <div className="flow-error" role="alert">
+            <strong>Parse error</strong>
+            <span>{graphView.error}</span>
+          </div>
+        ) : graphView?.flow ? (
           <ReactFlowProvider>
             <ReactFlow
               nodes={graphView.flow.nodes}

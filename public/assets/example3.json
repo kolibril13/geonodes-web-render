@@ -1,0 +1,1375 @@
+{
+    "blender_version": "5.1.0 Release Candidate",
+    "tree_clipper_version": "0.1.6",
+    "node_trees": [
+     {
+      "id": 0,
+      "data": {
+       "name": "Ball-Stick",
+       "use_fake_user": false,
+       "use_extra_user": true,
+       "is_runtime_data": false,
+       "tag": false,
+       "color_tag": "NONE",
+       "default_group_node_width": 140,
+       "description": "",
+       "bl_use_group_interface": true,
+       "interface": {
+        "id": 1,
+        "data": {
+         "active_index": 2,
+         "items_tree": {
+          "id": 2,
+          "data": {
+           "items": [
+            {
+             "id": 3,
+             "data": {
+              "name": "Geometry",
+              "description": "",
+              "socket_type": "NodeSocketGeometry",
+              "hide_value": false,
+              "hide_in_modifier": false,
+              "force_non_field": false,
+              "is_inspect_output": false,
+              "is_panel_toggle": false,
+              "layer_selection_field": false,
+              "menu_expanded": false,
+              "optional_label": false,
+              "select": false,
+              "attribute_domain": "POINT",
+              "default_attribute_name": "",
+              "structure_type": "AUTO",
+              "default_input": "VALUE",
+              "in_out": "OUTPUT",
+              "item_type": "SOCKET"
+             }
+            },
+            {
+             "id": 4,
+             "data": {
+              "name": "Geometry",
+              "description": "",
+              "socket_type": "NodeSocketGeometry",
+              "hide_value": false,
+              "hide_in_modifier": false,
+              "force_non_field": false,
+              "is_inspect_output": false,
+              "is_panel_toggle": false,
+              "layer_selection_field": false,
+              "menu_expanded": false,
+              "optional_label": false,
+              "select": false,
+              "attribute_domain": "POINT",
+              "default_attribute_name": "",
+              "structure_type": "AUTO",
+              "default_input": "VALUE",
+              "in_out": "INPUT",
+              "item_type": "SOCKET"
+             }
+            },
+            {
+             "id": 5,
+             "data": {
+              "name": "Radius Ball",
+              "description": "Number of vertices on the circle",
+              "socket_type": "NodeSocketFloat",
+              "hide_value": false,
+              "hide_in_modifier": false,
+              "force_non_field": false,
+              "is_inspect_output": false,
+              "is_panel_toggle": false,
+              "layer_selection_field": false,
+              "menu_expanded": false,
+              "optional_label": false,
+              "select": true,
+              "attribute_domain": "POINT",
+              "default_attribute_name": "",
+              "structure_type": "AUTO",
+              "default_input": "VALUE",
+              "in_out": "INPUT",
+              "item_type": "SOCKET",
+              "subtype": "NONE",
+              "default_value": 0.2800000011920929,
+              "min_value": 0.009999999776482582,
+              "max_value": 5.0
+             }
+            },
+            {
+             "id": 6,
+             "data": {
+              "name": "Radius Stick",
+              "description": "Distance of the points from the origin",
+              "socket_type": "NodeSocketFloat",
+              "hide_value": false,
+              "hide_in_modifier": false,
+              "force_non_field": false,
+              "is_inspect_output": false,
+              "is_panel_toggle": false,
+              "layer_selection_field": false,
+              "menu_expanded": false,
+              "optional_label": false,
+              "select": false,
+              "attribute_domain": "POINT",
+              "default_attribute_name": "",
+              "structure_type": "AUTO",
+              "default_input": "VALUE",
+              "in_out": "INPUT",
+              "item_type": "SOCKET",
+              "subtype": "DISTANCE",
+              "default_value": 0.11999999731779099,
+              "min_value": 0.009999999776482582,
+              "max_value": 5.0
+             }
+            }
+           ]
+          }
+         }
+        }
+       },
+       "nodes": {
+        "id": 7,
+        "data": {
+         "active": null,
+         "items": [
+          {
+           "id": 8,
+           "data": {
+            "location": [
+             420.0,
+             100.00000762939453
+            ],
+            "location_absolute": [
+             420.0,
+             100.00000762939453
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Group Input",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 9,
+             "data": {
+              "items": []
+             }
+            },
+            "outputs": {
+             "id": 10,
+             "data": {
+              "items": [
+               {
+                "id": 11,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 12,
+                "data": {
+                 "name": "Radius Ball",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "LINE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 13,
+                "data": {
+                 "name": "Radius Stick",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "LINE",
+                 "default_value": 0.12000000476837158
+                }
+               },
+               {
+                "id": 14,
+                "data": {
+                 "name": "",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "CUSTOM",
+                 "display_shape": "CIRCLE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "NodeGroupInput",
+            "parent": null
+           }
+          },
+          {
+           "id": 15,
+           "data": {
+            "location": [
+             1400.0,
+             60.0
+            ],
+            "location_absolute": [
+             1400.0,
+             60.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Group Output",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 16,
+             "data": {
+              "items": [
+               {
+                "id": 17,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 18,
+                "data": {
+                 "name": "",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "CUSTOM",
+                 "display_shape": "CIRCLE"
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 19,
+             "data": {
+              "items": []
+             }
+            },
+            "bl_idname": "NodeGroupOutput",
+            "parent": null,
+            "is_active_output": true
+           }
+          },
+          {
+           "id": 20,
+           "data": {
+            "location": [
+             715.3232421875,
+             20.156232833862305
+            ],
+            "location_absolute": [
+             715.3232421875,
+             20.156232833862305
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Mesh to Curve",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 21,
+             "data": {
+              "items": [
+               {
+                "id": 22,
+                "data": {
+                 "name": "Mesh",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 23,
+                "data": {
+                 "name": "Selection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 24,
+             "data": {
+              "items": [
+               {
+                "id": 25,
+                "data": {
+                 "name": "Curve",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeMeshToCurve",
+            "parent": null,
+            "mode": "FACES"
+           }
+          },
+          {
+           "id": 26,
+           "data": {
+            "location": [
+             880.0,
+             -20.000001907348633
+            ],
+            "location_absolute": [
+             880.0,
+             -20.000001907348633
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Curve to Mesh",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 27,
+             "data": {
+              "items": [
+               {
+                "id": 28,
+                "data": {
+                 "name": "Curve",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 29,
+                "data": {
+                 "name": "Profile Curve",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 30,
+                "data": {
+                 "name": "Scale",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "DIAMOND",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 31,
+                "data": {
+                 "name": "Fill Caps",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "LINE",
+                 "default_value": false
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 32,
+             "data": {
+              "items": [
+               {
+                "id": 33,
+                "data": {
+                 "name": "Mesh",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeCurveToMesh",
+            "parent": null
+           }
+          },
+          {
+           "id": 34,
+           "data": {
+            "location": [
+             720.0000610351562,
+             -120.00000762939453
+            ],
+            "location_absolute": [
+             720.0000610351562,
+             -120.00000762939453
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Curve Circle",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 35,
+             "data": {
+              "items": [
+               {
+                "id": 36,
+                "data": {
+                 "name": "Resolution",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "INT",
+                 "display_shape": "LINE",
+                 "default_value": 35
+                }
+               },
+               {
+                "id": 37,
+                "data": {
+                 "name": "Point 1",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "LINE",
+                 "default_value": [
+                  -1.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 38,
+                "data": {
+                 "name": "Point 2",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "LINE",
+                 "default_value": [
+                  0.0,
+                  1.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 39,
+                "data": {
+                 "name": "Point 3",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "LINE",
+                 "default_value": [
+                  1.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 40,
+                "data": {
+                 "name": "Radius",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "LINE",
+                 "default_value": 0.12000000476837158
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 41,
+             "data": {
+              "items": [
+               {
+                "id": 42,
+                "data": {
+                 "name": "Curve",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 43,
+                "data": {
+                 "name": "Center",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "LINE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeCurvePrimitiveCircle",
+            "parent": null,
+            "mode": "RADIUS"
+           }
+          },
+          {
+           "id": 44,
+           "data": {
+            "location": [
+             1240.0,
+             60.0
+            ],
+            "location_absolute": [
+             1240.0,
+             60.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Set Shade Smooth",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 45,
+             "data": {
+              "items": [
+               {
+                "id": 46,
+                "data": {
+                 "name": "Mesh",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 47,
+                "data": {
+                 "name": "Selection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               },
+               {
+                "id": 48,
+                "data": {
+                 "name": "Shade Smooth",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 49,
+             "data": {
+              "items": [
+               {
+                "id": 50,
+                "data": {
+                 "name": "Mesh",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeSetShadeSmooth",
+            "parent": null,
+            "domain": "EDGE"
+           }
+          },
+          {
+           "id": 51,
+           "data": {
+            "location": [
+             900.0,
+             440.0000305175781
+            ],
+            "location_absolute": [
+             900.0,
+             440.0000305175781
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Instance on Points.001",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 52,
+             "data": {
+              "items": [
+               {
+                "id": 53,
+                "data": {
+                 "name": "Points",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 54,
+                "data": {
+                 "name": "Selection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               },
+               {
+                "id": 55,
+                "data": {
+                 "name": "Instance",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 56,
+                "data": {
+                 "name": "Pick Instance",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": false
+                }
+               },
+               {
+                "id": 57,
+                "data": {
+                 "name": "Instance Index",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "INT",
+                 "display_shape": "DIAMOND",
+                 "default_value": 0
+                }
+               },
+               {
+                "id": 58,
+                "data": {
+                 "name": "Rotation",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "ROTATION",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 59,
+                "data": {
+                 "name": "Scale",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  1.0,
+                  1.0,
+                  1.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 60,
+             "data": {
+              "items": [
+               {
+                "id": 61,
+                "data": {
+                 "name": "Instances",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeInstanceOnPoints",
+            "parent": null
+           }
+          },
+          {
+           "id": 62,
+           "data": {
+            "location": [
+             1060.0,
+             60.000003814697266
+            ],
+            "location_absolute": [
+             1060.0,
+             60.000003814697266
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Join Geometry",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 63,
+             "data": {
+              "items": [
+               {
+                "id": 64,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 65,
+             "data": {
+              "items": [
+               {
+                "id": 66,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeJoinGeometry",
+            "parent": null
+           }
+          },
+          {
+           "id": 67,
+           "data": {
+            "location": [
+             720.0,
+             180.0
+            ],
+            "location_absolute": [
+             720.0,
+             180.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "UV Sphere",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 68,
+             "data": {
+              "items": [
+               {
+                "id": 69,
+                "data": {
+                 "name": "Segments",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "INT",
+                 "display_shape": "LINE",
+                 "default_value": 32
+                }
+               },
+               {
+                "id": 70,
+                "data": {
+                 "name": "Rings",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "INT",
+                 "display_shape": "LINE",
+                 "default_value": 16
+                }
+               },
+               {
+                "id": 71,
+                "data": {
+                 "name": "Radius",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "LINE",
+                 "default_value": 0.20000001788139343
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 72,
+             "data": {
+              "items": [
+               {
+                "id": 73,
+                "data": {
+                 "name": "Mesh",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 74,
+                "data": {
+                 "name": "UV Map",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeMeshUVSphere",
+            "parent": null
+           }
+          },
+          {
+           "id": 75,
+           "data": {
+            "location": [
+             640.0,
+             120.0
+            ],
+            "location_absolute": [
+             640.0,
+             120.0
+            ],
+            "height": 100.0,
+            "name": "Reroute",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": true,
+            "mute": false,
+            "show_texture": false,
+            "socket_idname": "NodeSocketGeometry",
+            "bl_idname": "NodeReroute",
+            "parent": null,
+            "single_input": 76,
+            "single_output": 77
+           }
+          }
+         ]
+        }
+       },
+       "bl_idname": "GeometryNodeTree",
+       "annotation": null,
+       "links": {
+        "id": 78,
+        "data": {
+         "items": [
+          {
+           "id": 79,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 77,
+            "to_socket": 22
+           }
+          },
+          {
+           "id": 80,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 50,
+            "to_socket": 17
+           }
+          },
+          {
+           "id": 81,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 25,
+            "to_socket": 28
+           }
+          },
+          {
+           "id": 82,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 42,
+            "to_socket": 29
+           }
+          },
+          {
+           "id": 83,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 77,
+            "to_socket": 53
+           }
+          },
+          {
+           "id": 84,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "multi_input_sort_id": 1,
+            "from_socket": 61,
+            "to_socket": 64
+           }
+          },
+          {
+           "id": 85,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "multi_input_sort_id": 0,
+            "from_socket": 33,
+            "to_socket": 64
+           }
+          },
+          {
+           "id": 86,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 66,
+            "to_socket": 46
+           }
+          },
+          {
+           "id": 87,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 73,
+            "to_socket": 55
+           }
+          },
+          {
+           "id": 88,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 11,
+            "to_socket": 76
+           }
+          },
+          {
+           "id": 89,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 12,
+            "to_socket": 71
+           }
+          },
+          {
+           "id": 90,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 13,
+            "to_socket": 40
+           }
+          }
+         ]
+        }
+       },
+       "is_tool": false,
+       "node_tool_idname": "",
+       "is_modifier": true,
+       "is_mode_object": false,
+       "is_mode_edit": false,
+       "is_mode_sculpt": false,
+       "is_mode_paint": false,
+       "is_type_mesh": false,
+       "is_type_curve": false,
+       "is_type_pointcloud": false,
+       "use_wait_for_click": false,
+       "is_type_grease_pencil": false,
+       "show_modifier_manage_panel": true
+      }
+     }
+    ],
+    "external": {},
+    "scenes": {}
+   }
