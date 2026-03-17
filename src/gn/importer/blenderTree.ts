@@ -17,6 +17,7 @@ type BlenderSocket = {
     display_shape: SocketDisplayShape
     default_value?: unknown
     hide_value?: boolean
+    enabled?: boolean
   }
 }
 
@@ -36,6 +37,8 @@ type BlenderNode = {
     socket_idname?: string
     single_input?: number
     single_output?: number
+    // FunctionNodeInputVector
+    vector?: number[]
   }
 }
 
@@ -74,6 +77,7 @@ export type NormalizedSocket = {
   color: string
   defaultValue: SocketDefaultValue | null
   hideValue: boolean
+  enabled: boolean
   index: number
 }
 
@@ -140,6 +144,7 @@ function normalizeRerouteNode(node: BlenderNode, location: [number, number]): No
     color,
     defaultValue: null,
     hideValue: true,
+    enabled: true,
     index: 0,
   })
 
@@ -175,6 +180,7 @@ function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket
     color: socketColor(socket.data.type),
     defaultValue: parseDefaultValue(socket.data.default_value),
     hideValue: socket.data.hide_value ?? false,
+    enabled: socket.data.enabled ?? true,
     index,
   }
 }
@@ -211,6 +217,19 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         return normalizeRerouteNode(node, location as [number, number])
       }
 
+      const outputs = (node.data.outputs?.data?.items ?? []).map((s, si) => {
+        if (!s?.data) throw new Error(`Node "${node.data.name}" output socket ${si} is missing ".data".`)
+        return normalizeSocket(s, si)
+      })
+
+      // FunctionNodeInputVector stores the user-set value in node.data.vector,
+      // not in the output socket's default_value (which is always [0,0,0]).
+      if (node.data.bl_idname === 'FunctionNodeInputVector' && Array.isArray(node.data.vector)) {
+        if (outputs[0]) {
+          outputs[0] = { ...outputs[0], defaultValue: { kind: 'vec', values: node.data.vector } }
+        }
+      }
+
       return {
         id: String(node.id),
         type: node.data.bl_idname,
@@ -225,10 +244,7 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
           if (!s?.data) throw new Error(`Node "${node.data.name}" input socket ${si} is missing ".data".`)
           return normalizeSocket(s, si)
         }),
-        outputs: (node.data.outputs?.data?.items ?? []).map((s, si) => {
-          if (!s?.data) throw new Error(`Node "${node.data.name}" output socket ${si} is missing ".data".`)
-          return normalizeSocket(s, si)
-        }),
+        outputs,
       }
     }),
     links: tree.data.links.data.items.map((link, li) => {

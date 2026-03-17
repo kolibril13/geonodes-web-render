@@ -21,7 +21,8 @@ function socketShapeClass(displayShape: GNFlowNodeData['inputs'][number]['displa
 
 function unitForType(dataType: string): string {
   if (dataType === 'ROTATION') return '°'
-  if (dataType === 'INT' || dataType === 'BOOLEAN' || dataType === 'STRING') return ''
+  // VALUE is a generic dimensionless float (e.g. Mix Factor, weights)
+  if (dataType === 'INT' || dataType === 'BOOLEAN' || dataType === 'STRING' || dataType === 'VALUE') return ''
   return ' m'
 }
 
@@ -56,13 +57,11 @@ function SocketLine(props: {
   position: Position.Left | Position.Right
   type: 'source' | 'target'
   align: 'left' | 'right'
+  suppressDefault: boolean
 }) {
-  const { socket, position, type, align } = props
+  const { socket, position, type, align, suppressDefault } = props
   const isBlank = socket.name.trim().length === 0
-  const showScalar =
-    align === 'left' &&
-    !socket.hideValue &&
-    socket.defaultValue?.kind === 'scalar'
+  const showScalar = !suppressDefault && !socket.hideValue && socket.defaultValue?.kind === 'scalar'
 
   return (
     <div className={`gn-node__socket-row gn-node__socket-row--${align}`}>
@@ -85,8 +84,15 @@ function SocketLine(props: {
   )
 }
 
+function showVec(socket: SocketData, suppressDefault: boolean) {
+  return !suppressDefault && !socket.hideValue && socket.defaultValue?.kind === 'vec'
+}
+
 export function GenericGNNode(props: NodeProps) {
   const data = props.data as GNFlowNodeData
+  const connectedIds = new Set(data.connectedInputIds ?? [])
+  const outputs = data.outputs.filter((s) => s.enabled)
+  const inputs = data.inputs.filter((s) => s.enabled)
 
   return (
     <div className="gn-node">
@@ -95,29 +101,34 @@ export function GenericGNNode(props: NodeProps) {
       </div>
 
       <div className="gn-node__body">
-        {data.outputs.map((socket) => (
+        {outputs.map((socket) => (
           <SocketLine
             key={socket.id}
             socket={socket}
             position={Position.Right}
             type="source"
             align="right"
+            suppressDefault={true}
           />
         ))}
 
-        {data.inputs.map((socket) => (
-          <div key={socket.id}>
-            <SocketLine
-              socket={socket}
-              position={Position.Left}
-              type="target"
-              align="left"
-            />
-            {!socket.hideValue && socket.defaultValue?.kind === 'vec' ? (
-              <VecBlock values={socket.defaultValue.values} dataType={socket.dataType} />
-            ) : null}
-          </div>
-        ))}
+        {inputs.map((socket) => {
+          const suppress = connectedIds.has(socket.id)
+          return (
+            <div key={socket.id}>
+              <SocketLine
+                socket={socket}
+                position={Position.Left}
+                type="target"
+                align="left"
+                suppressDefault={suppress}
+              />
+              {showVec(socket, suppress) ? (
+                <VecBlock values={(socket.defaultValue as { kind: 'vec'; values: number[] }).values} dataType={socket.dataType} />
+              ) : null}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

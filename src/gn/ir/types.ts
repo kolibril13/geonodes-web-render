@@ -15,6 +15,7 @@ export type SocketIR = {
   color: string
   defaultValue: SocketDefaultValue | null
   hideValue: boolean
+  enabled: boolean
   index: number
 }
 

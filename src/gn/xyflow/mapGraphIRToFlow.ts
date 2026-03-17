@@ -8,6 +8,7 @@ export type GNFlowNodeData = {
   headerColor: string
   inputs: SocketIR[]
   outputs: SocketIR[]
+  connectedInputIds: string[]
 }
 
 export type GNRerouteNodeData = {
@@ -16,7 +17,7 @@ export type GNRerouteNodeData = {
   outputSocketId: string
 }
 
-function mapNode(node: NodeIR): Node {
+function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
   if (node.type === 'NodeReroute') {
     const color = node.outputs[0]?.color ?? node.inputs[0]?.color ?? '#888888'
     return {
@@ -46,6 +47,9 @@ function mapNode(node: NodeIR): Node {
       headerColor: node.headerColor,
       inputs: node.inputs,
       outputs: node.outputs,
+      connectedInputIds: node.inputs
+        .filter((s) => connectedTargetIds.has(s.id))
+        .map((s) => s.id),
     } as GNFlowNodeData,
   }
 }
@@ -54,8 +58,10 @@ export function mapGraphIRToFlow(graph: GraphIR): {
   nodes: Node[]
   edges: Edge[]
 } {
+  const connectedTargetIds = new Set(graph.edges.map((e) => e.targetSocketId))
+
   return {
-    nodes: graph.nodes.map(mapNode),
+    nodes: graph.nodes.map((node) => mapNode(node, connectedTargetIds)),
     edges: graph.edges.map((edge) => ({
       id: edge.id,
       source: edge.sourceNodeId,
