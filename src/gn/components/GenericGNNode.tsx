@@ -80,11 +80,6 @@ function SocketLine(props: {
 
 export function GenericGNNode(props: NodeProps) {
   const data = props.data as GNFlowNodeData
-  const rowCount = Math.max(data.inputs.length, data.outputs.length)
-  const rows = Array.from({ length: rowCount }, (_, i) => ({
-    input: data.inputs[i] ?? null,
-    output: data.outputs[i] ?? null,
-  }))
 
   return (
     <div className="gn-node">
@@ -93,34 +88,26 @@ export function GenericGNNode(props: NodeProps) {
       </div>
 
       <div className="gn-node__body">
-        {rows.map((row, index) => (
-          <div key={index}>
-            <div className="gn-node__row">
-              <div className="gn-node__column">
-                {row.input ? (
-                  <SocketLine
-                    socket={row.input}
-                    position={Position.Left}
-                    type="target"
-                    align="left"
-                  />
-                ) : null}
-              </div>
-              <div className="gn-node__column gn-node__column--right">
-                {row.output ? (
-                  <SocketLine
-                    socket={row.output}
-                    position={Position.Right}
-                    type="source"
-                    align="right"
-                  />
-                ) : null}
-              </div>
-            </div>
-            {row.input &&
-              !row.input.hideValue &&
-              row.input.defaultValue?.kind === 'vec' ? (
-              <VecBlock values={row.input.defaultValue.values} />
+        {data.outputs.map((socket) => (
+          <SocketLine
+            key={socket.id}
+            socket={socket}
+            position={Position.Right}
+            type="source"
+            align="right"
+          />
+        ))}
+
+        {data.inputs.map((socket) => (
+          <div key={socket.id}>
+            <SocketLine
+              socket={socket}
+              position={Position.Left}
+              type="target"
+              align="left"
+            />
+            {!socket.hideValue && socket.defaultValue?.kind === 'vec' ? (
+              <VecBlock values={socket.defaultValue.values} />
             ) : null}
           </div>
         ))}
