@@ -4,7 +4,17 @@ import { json } from '@codemirror/lang-json'
 import { EditorView } from '@codemirror/view'
 import { oneDark } from '@codemirror/theme-one-dark'
 
-type TabId = 'example1' | 'example2' | 'example3' | 'example4' | 'example5' | 'custom'
+type TabId =
+  | 'example1'
+  | 'example2'
+  | 'example3'
+  | 'example4'
+  | 'example5'
+  | 'example6'
+  | 'example7'
+  | 'example8'
+  | 'example9'
+  | 'custom'
 
 type Tab = {
   id: TabId
@@ -25,6 +35,10 @@ const tabs: Tab[] = [
   { id: 'example3', label: 'Example 3', assetPath: 'assets/example3.json' },
   { id: 'example4', label: 'Example 4', assetPath: 'assets/example4.json' },
   { id: 'example5', label: 'Example 5', assetPath: 'assets/example5.json' },
+  { id: 'example6', label: 'Example 6', assetPath: 'assets/example6.json' },
+  { id: 'example7', label: 'Example 7', assetPath: 'assets/example7.json' },
+  { id: 'example8', label: 'Example 8', assetPath: 'assets/example8.json' },
+  { id: 'example9', label: 'Example 9', assetPath: 'assets/example9.json' },
   { id: 'custom', label: 'Custom' },
 ]
 

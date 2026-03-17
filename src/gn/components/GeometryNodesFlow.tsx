@@ -17,10 +17,12 @@ import {
 import { mapGraphIRToFlow } from '../xyflow/mapGraphIRToFlow'
 import { GenericGNNode } from './GenericGNNode'
 import { RerouteNode } from './RerouteNode'
+import { SimulationZoneFrame } from './SimulationZoneFrame.tsx'
 
 const nodeTypes = {
   gnNode: GenericGNNode,
   rerouteNode: RerouteNode,
+  simulationZone: SimulationZoneFrame,
 }
 
 const FIT_VIEW_OPTIONS = { padding: 0.08 }
