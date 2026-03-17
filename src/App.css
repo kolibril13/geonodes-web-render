@@ -249,6 +249,8 @@
   color: var(--text-h);
   pointer-events: none;
   cursor: default;
+  top: 50%;
+  margin-top: 0;
 }
 
 .gn-node .react-flow__handle.gn-socket--circle {
@@ -267,7 +269,6 @@
   width: 9px;
   height: 9px;
   border-radius: 1px;
-  transform: translateY(-50%) rotate(45deg);
 }
 
 .gn-node .react-flow__handle.gn-socket--list,
@@ -278,16 +279,21 @@
 }
 
 .gn-node .react-flow__handle-left.gn-socket {
-  left: -4px;
+  left: 0;
+  transform: translate(-50%, -50%);
 }
 
 .gn-node .react-flow__handle-right.gn-socket {
-  right: -4px;
+  right: 0;
+  transform: translate(50%, -50%);
 }
 
-.gn-node .react-flow__handle-right.gn-socket--diamond,
 .gn-node .react-flow__handle-left.gn-socket--diamond {
-  margin-top: -0.5px;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.gn-node .react-flow__handle-right.gn-socket--diamond {
+  transform: translate(50%, -50%) rotate(45deg);
 }
 
 .flow-panel__body .react-flow__edge-path {
