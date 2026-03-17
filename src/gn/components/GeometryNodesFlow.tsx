@@ -54,7 +54,20 @@ export function GeometryNodesFlow(props: { jsonText: string }) {
               edges={graphView.flow.edges}
               nodeTypes={nodeTypes}
               fitView
+              fitViewOptions={{ padding: 0.2, maxZoom: 0.9 }}
               minZoom={0.2}
+              nodesDraggable={false}
+              nodesConnectable={false}
+              elementsSelectable={false}
+              nodesFocusable={false}
+              edgesFocusable={false}
+              selectNodesOnDrag={false}
+              selectionOnDrag={false}
+              connectOnClick={false}
+              panOnDrag
+              panOnScroll={false}
+              zoomOnScroll
+              zoomOnDoubleClick={false}
             >
               <Background gap={20} size={1} />
               <Controls showInteractive={false} />

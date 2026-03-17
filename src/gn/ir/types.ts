@@ -1,4 +1,5 @@
 export type SocketDirection = 'input' | 'output'
+export type SocketDisplayShape = 'CIRCLE' | 'DIAMOND' | 'LINE' | 'LIST' | 'VOLUME_GRID'
 
 export type SocketIR = {
   id: string
@@ -6,6 +7,7 @@ export type SocketIR = {
   name: string
   direction: SocketDirection
   dataType: string
+  displayShape: SocketDisplayShape
   index: number
 }
 
@@ -17,6 +19,7 @@ export type NodeIR = {
     x: number
     y: number
   }
+  width: number
   inputs: SocketIR[]
   outputs: SocketIR[]
 }

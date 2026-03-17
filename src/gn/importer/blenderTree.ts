@@ -1,10 +1,17 @@
-import type { EdgeIR, GraphIR, NodeIR, SocketIR } from '../ir/types'
+import type {
+  EdgeIR,
+  GraphIR,
+  NodeIR,
+  SocketDisplayShape,
+  SocketIR,
+} from '../ir/types'
 
 type BlenderSocket = {
   id: number
   data: {
     name: string
     type: string
+    display_shape: SocketDisplayShape
   }
 }
 
@@ -14,6 +21,7 @@ type BlenderNode = {
     name: string
     label: string
     bl_idname: string
+    width?: number
     location?: [number, number]
     location_absolute?: [number, number]
     inputs: {
@@ -60,6 +68,7 @@ export type NormalizedSocket = {
   id: string
   name: string
   dataType: string
+  displayShape: SocketDisplayShape
   index: number
 }
 
@@ -71,6 +80,7 @@ export type NormalizedNode = {
     x: number
     y: number
   }
+  width: number
   inputs: NormalizedSocket[]
   outputs: NormalizedSocket[]
 }
@@ -91,8 +101,9 @@ export type NormalizedGraph = {
 function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket {
   return {
     id: String(socket.id),
-    name: socket.data.name || socket.data.type,
+    name: socket.data.name,
     dataType: socket.data.type,
+    displayShape: socket.data.display_shape,
     index,
   }
 }
@@ -114,6 +125,7 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
           x: location[0],
           y: -location[1],
         },
+        width: node.data.width ?? 140,
         inputs: node.data.inputs.data.items.map(normalizeSocket),
         outputs: node.data.outputs.data.items.map(normalizeSocket),
       }
@@ -148,6 +160,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     type: node.type,
     label: node.label,
     position: node.position,
+    width: node.width,
     inputs: node.inputs.map((socket) => toInputSocket(node.id, socket)),
     outputs: node.outputs.map((socket) => toOutputSocket(node.id, socket)),
   }))

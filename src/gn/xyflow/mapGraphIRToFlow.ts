@@ -4,6 +4,7 @@ import type { GraphIR, SocketIR } from '../ir/types'
 export type GNFlowNodeData = {
   label: string
   type: string
+  width: number
   inputs: SocketIR[]
   outputs: SocketIR[]
 }
@@ -19,9 +20,13 @@ export function mapGraphIRToFlow(graph: GraphIR): {
       position: node.position,
       sourcePosition: Position.Right,
       targetPosition: Position.Left,
+      style: {
+        width: node.width,
+      },
       data: {
         label: node.label,
         type: node.type,
+        width: node.width,
         inputs: node.inputs,
         outputs: node.outputs,
       },
