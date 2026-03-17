@@ -250,9 +250,8 @@
 }
 
 .gn-node .react-flow__handle.gn-socket {
-  border: 1px solid currentColor;
-  background: var(--bg);
-  color: var(--text-h);
+  border: 1px solid transparent;
+  background: transparent;
   pointer-events: none;
   cursor: default;
   top: 50%;

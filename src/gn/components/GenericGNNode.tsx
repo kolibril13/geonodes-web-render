@@ -21,11 +21,12 @@ function SocketRow(props: {
   socketId: string
   label: string
   displayShape: GNFlowNodeData['inputs'][number]['displayShape']
+  color: string
   position: Position.Left | Position.Right
   type: 'source' | 'target'
   align: 'left' | 'right'
 }) {
-  const { socketId, label, displayShape, position, type, align } = props
+  const { socketId, label, displayShape, color, position, type, align } = props
   const isBlank = label.trim().length === 0
 
   return (
@@ -35,7 +36,11 @@ function SocketRow(props: {
         type={type}
         position={position}
         className={`gn-socket ${socketShapeClass(displayShape)}`}
-        style={{ top: '50%' }}
+        style={{
+          top: '50%',
+          background: color,
+          borderColor: `color-mix(in srgb, ${color} 60%, #000)`,
+        }}
       />
       {!isBlank ? <span className="gn-node__socket-label">{label}</span> : null}
     </div>
@@ -65,6 +70,7 @@ export function GenericGNNode(props: NodeProps) {
                   socketId={row.input.id}
                   label={row.input.name}
                   displayShape={row.input.displayShape}
+                  color={row.input.color}
                   position={Position.Left}
                   type="target"
                   align="left"
@@ -78,6 +84,7 @@ export function GenericGNNode(props: NodeProps) {
                   socketId={row.output.id}
                   label={row.output.name}
                   displayShape={row.output.displayShape}
+                  color={row.output.color}
                   position={Position.Right}
                   type="source"
                   align="right"

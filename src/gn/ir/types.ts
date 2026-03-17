@@ -8,6 +8,7 @@ export type SocketIR = {
   direction: SocketDirection
   dataType: string
   displayShape: SocketDisplayShape
+  color: string
   index: number
 }
 
@@ -30,6 +31,7 @@ export type EdgeIR = {
   sourceSocketId: string
   targetNodeId: string
   targetSocketId: string
+  color: string
 }
 
 export type GraphIR = {

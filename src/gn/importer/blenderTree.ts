@@ -5,6 +5,7 @@ import type {
   SocketDisplayShape,
   SocketIR,
 } from '../ir/types'
+import { socketColor } from '../ir/socketColors'
 
 type BlenderSocket = {
   id: number
@@ -69,6 +70,7 @@ export type NormalizedSocket = {
   name: string
   dataType: string
   displayShape: SocketDisplayShape
+  color: string
   index: number
 }
 
@@ -104,6 +106,7 @@ function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket
     name: socket.data.name,
     dataType: socket.data.type,
     displayShape: socket.data.display_shape,
+    color: socketColor(socket.data.type),
     index,
   }
 }
@@ -166,10 +169,12 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
   }))
 
   const socketToNode = new Map<string, string>()
+  const socketById = new Map<string, SocketIR>()
 
   for (const node of nodes) {
     for (const socket of [...node.inputs, ...node.outputs]) {
       socketToNode.set(socket.id, node.id)
+      socketById.set(socket.id, socket)
     }
   }
 
@@ -179,6 +184,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     sourceSocketId: link.fromSocketId,
     targetNodeId: socketToNode.get(link.toSocketId) ?? '',
     targetSocketId: link.toSocketId,
+    color: socketById.get(link.fromSocketId)?.color ?? '#888888',
   }))
 
   return {

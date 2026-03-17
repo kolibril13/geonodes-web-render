@@ -38,6 +38,9 @@ export function mapGraphIRToFlow(graph: GraphIR): {
       target: edge.targetNodeId,
       targetHandle: edge.targetSocketId,
       animated: false,
+      style: {
+        stroke: edge.color,
+      },
     })),
   }
 }
