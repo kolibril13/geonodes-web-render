@@ -1,4 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
+import CodeMirror from '@uiw/react-codemirror'
+import { json } from '@codemirror/lang-json'
+import { EditorView } from '@codemirror/view'
+import { oneDark } from '@codemirror/theme-one-dark'
 
 type TabId = 'example1' | 'example2' | 'custom'
 
@@ -21,6 +25,15 @@ const tabs: Tab[] = [
   { id: 'custom', label: 'Custom' },
 ]
 
+function formatJson(text: string): { ok: true; formatted: string } | { ok: false } {
+  try {
+    const parsed = JSON.parse(text)
+    return { ok: true, formatted: `${JSON.stringify(parsed, null, 2)}\n` }
+  } catch {
+    return { ok: false }
+  }
+}
+
 export function JsonEditorTabs(props: {
   value: string
   onChange: (next: string) => void
@@ -30,11 +43,23 @@ export function JsonEditorTabs(props: {
   const [loadState, setLoadState] = useState<
     { kind: 'idle' } | { kind: 'loading' } | { kind: 'error'; message: string }
   >({ kind: 'idle' })
+  const [prefersDark, setPrefersDark] = useState<boolean>(() =>
+    window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false,
+  )
 
   const active = useMemo(
     () => tabs.find((t) => t.id === activeTab) ?? tabs[0],
     [activeTab],
   )
+
+  useEffect(() => {
+    const mq = window.matchMedia?.('(prefers-color-scheme: dark)')
+    if (!mq) return
+    const onChangeMq = () => setPrefersDark(mq.matches)
+    onChangeMq()
+    mq.addEventListener('change', onChangeMq)
+    return () => mq.removeEventListener('change', onChangeMq)
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -88,6 +113,20 @@ export function JsonEditorTabs(props: {
             </button>
           ))}
         </div>
+        <div className="panel-actions">
+          <button
+            type="button"
+            className="action-button"
+            onClick={() => {
+              const res = formatJson(value)
+              if (res.ok) onChange(res.formatted)
+            }}
+            disabled={value.trim().length === 0 || !!parseError}
+            title={parseError ? 'Fix JSON errors to format' : 'Format JSON'}
+          >
+            Format
+          </button>
+        </div>
         <div className="panel-status" aria-live="polite">
           {loadState.kind === 'loading' ? 'Loading…' : null}
           {loadState.kind === 'error' ? `Load error: ${loadState.message}` : null}
@@ -95,12 +134,26 @@ export function JsonEditorTabs(props: {
       </div>
 
       <div className="panel-body">
-        <textarea
-          className="editor"
-          spellCheck={false}
+        <CodeMirror
+          className="cm-editor"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="Paste or edit JSON here…"
+          height="100%"
+          basicSetup={{
+            lineNumbers: true,
+            foldGutter: true,
+            highlightActiveLine: true,
+            highlightSelectionMatches: true,
+          }}
+          extensions={[
+            json(),
+            EditorView.lineWrapping,
+            EditorView.theme({
+              '&': { height: '100%' },
+              '.cm-scroller': { overflow: 'auto' },
+            }),
+          ]}
+          theme={prefersDark ? oneDark : undefined}
+          onChange={(next) => onChange(next)}
         />
       </div>
 

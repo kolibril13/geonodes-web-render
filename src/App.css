@@ -46,6 +46,7 @@
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
+  overflow: hidden;
 }
 
 .panel-footer {
@@ -81,15 +82,39 @@
   outline-offset: 2px;
 }
 
-.editor {
-  width: 100%;
-  height: 100%;
-  resize: none;
-  border: 0;
-  outline: 0;
-  padding: 12px;
+.panel-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.action-button {
+  appearance: none;
+  border: 1px solid var(--border);
   background: transparent;
   color: var(--text-h);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.cm-editor {
+  width: 100%;
+  height: 100%;
+}
+
+/* Keep CodeMirror consistent with the app theme */
+.cm-editor .cm-content {
   font-family: var(--mono);
   font-size: 13px;
   line-height: 150%;
