@@ -159,7 +159,10 @@ export function JsonEditorTabs(props: {
               className={`tab ${t.id === activeTab ? 'active' : ''}`}
               role="tab"
               aria-selected={t.id === activeTab}
-              onClick={() => setActiveTab(t.id)}
+              onClick={() => {
+                if (t.id === 'custom') onChange('')
+                setActiveTab(t.id)
+              }}
             >
               {t.label}
             </button>
