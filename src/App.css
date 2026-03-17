@@ -3,7 +3,7 @@
   min-height: 100svh;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(360px, 40vw) 1fr;
+  grid-template-columns: minmax(320px, 34vw) 1fr;
   gap: 0;
 }
 
@@ -113,11 +113,14 @@
   height: 100%;
 }
 
-/* Keep CodeMirror consistent with the app theme */
+/* Keep CodeMirror consistent with the app theme; slightly zoomed out */
 .cm-editor .cm-content {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 150%;
+}
+.cm-editor .cm-gutters {
+  font-size: 11px;
 }
 
 .json-status.ok {
