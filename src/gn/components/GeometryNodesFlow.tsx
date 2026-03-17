@@ -23,7 +23,7 @@ const nodeTypes = {
   rerouteNode: RerouteNode,
 }
 
-const FIT_VIEW_OPTIONS = { padding: 0.2, maxZoom: 0.9 }
+const FIT_VIEW_OPTIONS = { padding: 0.08 }
 
 function FlowCanvas(props: { nodes: Node[]; edges: Edge[] }) {
   const { nodes, edges } = props
