@@ -1,3 +1,9 @@
+.flow-container {
+  width: 100%;
+  height: 100vh;
+  min-height: 100svh;
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
