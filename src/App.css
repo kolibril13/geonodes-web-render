@@ -322,6 +322,42 @@
   border: 1px solid var(--border);
 }
 
+/* Float Curve visualization */
+.gn-node__curve-wrap {
+  padding: 6px 6px 4px;
+  background: #1e1e1e;
+  border-bottom: 1px solid var(--border);
+}
+
+.gn-node__curve-svg {
+  display: block;
+}
+
+.gn-node__curve-zero {
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1;
+  fill: none;
+  stroke-dasharray: 3 3;
+}
+
+.gn-node__curve-fill {
+  fill: rgba(255, 255, 255, 0.08);
+}
+
+.gn-node__curve-stroke {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.gn-node__curve-dot {
+  fill: #ccc;
+  stroke: #1e1e1e;
+  stroke-width: 1;
+}
+
 .gn-node__vec-block {
   margin: 1px 8px 4px 18px;
   border-radius: 4px;

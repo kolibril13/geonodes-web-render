@@ -1,5 +1,6 @@
 import type {
   EdgeIR,
+  FloatCurveData,
   GraphIR,
   NodeIR,
   SocketDefaultValue,
@@ -41,6 +42,32 @@ type BlenderNode = {
     vector?: number[]
     // ShaderNodeCombineColor / ShaderNodeSeparateColor
     mode?: string
+    // ShaderNodeFloatCurve / ShaderNodeRGBCurve
+    mapping?: {
+      data: {
+        use_clip?: boolean
+        clip_min_x?: number
+        clip_min_y?: number
+        clip_max_x?: number
+        clip_max_y?: number
+        extend?: string
+        curves?: {
+          data: {
+            items: Array<{
+              data: {
+                points: {
+                  data: {
+                    items: Array<{
+                      data: { location: [number, number]; handle_type: string }
+                    }>
+                  }
+                }
+              }
+            }>
+          }
+        }
+      }
+    }
   }
 }
 
@@ -95,6 +122,7 @@ export type NormalizedNode = {
   headerColor: string
   inputs: NormalizedSocket[]
   outputs: NormalizedSocket[]
+  floatCurve?: FloatCurveData
 }
 
 export type NormalizedLink = {
@@ -138,6 +166,29 @@ const COLOR_CHANNEL_LABELS: Record<string, [string, string, string]> = {
   HSV: ['Hue', 'Saturation', 'Value'],
   HSL: ['Hue', 'Saturation', 'Lightness'],
   RGB: ['Red', 'Green', 'Blue'],
+}
+
+function parseFloatCurve(node: BlenderNode): FloatCurveData | undefined {
+  const m = node.data.mapping?.data
+  if (!m) return undefined
+  const curveItems = m.curves?.data?.items
+  if (!curveItems || curveItems.length === 0) return undefined
+
+  // Float curve only has one curve channel (index 0)
+  const pointItems = curveItems[0]?.data?.points?.data?.items ?? []
+  const points = pointItems.map((item) => ({
+    location: item.data.location as [number, number],
+    handleType: item.data.handle_type,
+  }))
+
+  return {
+    clipMinX: m.clip_min_x ?? 0,
+    clipMinY: m.clip_min_y ?? 0,
+    clipMaxX: m.clip_max_x ?? 1,
+    clipMaxY: m.clip_max_y ?? 1,
+    extend: m.extend ?? 'EXTRAPOLATED',
+    points,
+  }
 }
 
 function remapColorChannelNames(
@@ -265,6 +316,11 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         inputs = remapColorChannelNames(inputs, node.data.mode)
       }
 
+      const floatCurve =
+        node.data.bl_idname === 'ShaderNodeFloatCurve'
+          ? parseFloatCurve(node)
+          : undefined
+
       return {
         id: String(node.id),
         type: node.data.bl_idname,
@@ -277,6 +333,7 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         headerColor: nodeHeaderColor(node.data.bl_idname),
         inputs,
         outputs,
+        floatCurve,
       }
     }),
     links: tree.data.links.data.items.map((link, li) => {
@@ -316,6 +373,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     headerColor: node.headerColor,
     inputs: node.inputs.map((socket) => toInputSocket(node.id, socket)),
     outputs: node.outputs.map((socket) => toOutputSocket(node.id, socket)),
+    floatCurve: node.floatCurve,
   }))
 
   const socketToNode = new Map<string, string>()

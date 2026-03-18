@@ -1,4 +1,18 @@
 export type SocketDirection = 'input' | 'output'
+
+export type FloatCurvePoint = {
+  location: [number, number]
+  handleType: string
+}
+
+export type FloatCurveData = {
+  clipMinX: number
+  clipMinY: number
+  clipMaxX: number
+  clipMaxY: number
+  extend: string
+  points: FloatCurvePoint[]
+}
 export type SocketDisplayShape = 'CIRCLE' | 'DIAMOND' | 'LINE' | 'LIST' | 'VOLUME_GRID'
 
 export type SocketDefaultValue =
@@ -31,6 +45,7 @@ export type NodeIR = {
   headerColor: string
   inputs: SocketIR[]
   outputs: SocketIR[]
+  floatCurve?: FloatCurveData
 }
 
 export type EdgeIR = {

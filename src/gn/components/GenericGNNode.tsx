@@ -1,4 +1,6 @@
 import { Handle, Position, type NodeProps } from '@xyflow/react'
+import type { FloatCurveData } from '../ir/types'
+import { buildCurvePaths } from '../ir/curvePath'
 import type { GNFlowNodeData } from '../xyflow/mapGraphIRToFlow'
 
 const VEC_LABELS = ['X', 'Y', 'Z', 'W']
@@ -65,6 +67,58 @@ function VecBlock(props: { values: number[]; dataType: string }) {
   )
 }
 
+// ---------------------------------------------------------------------------
+// Float Curve visualization
+// ---------------------------------------------------------------------------
+
+const CURVE_H = 120
+const CURVE_PAD = 6
+
+function FloatCurveViz({ curve, width }: { curve: FloatCurveData; width: number }) {
+  const svgW = Math.max(10, width - CURVE_PAD * 2)
+  const svgH = CURVE_H
+
+  const { strokePath, fillPath, zeroLinePath, dotPositions } = buildCurvePaths(
+    curve.points,
+    curve.clipMinX,
+    curve.clipMinY,
+    curve.clipMaxX,
+    curve.clipMaxY,
+    svgW,
+    svgH,
+  )
+
+  return (
+    <div className="gn-node__curve-wrap">
+      <svg
+        width={svgW}
+        height={svgH}
+        viewBox={`0 0 ${svgW} ${svgH}`}
+        className="gn-node__curve-svg"
+      >
+        {/* zero line */}
+        {zeroLinePath && (
+          <path d={zeroLinePath} className="gn-node__curve-zero" />
+        )}
+        {/* filled area under the curve */}
+        {fillPath && (
+          <path d={fillPath} className="gn-node__curve-fill" />
+        )}
+        {/* curve stroke */}
+        {strokePath && (
+          <path d={strokePath} className="gn-node__curve-stroke" />
+        )}
+        {/* control-point dots */}
+        {dotPositions.map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r={2.5} className="gn-node__curve-dot" />
+        ))}
+      </svg>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+
 type SocketData = GNFlowNodeData['inputs'][number]
 
 function SocketLine(props: {
@@ -114,6 +168,10 @@ export function GenericGNNode(props: NodeProps) {
       <div className="gn-node__header" style={{ background: data.headerColor }}>
         <div className="gn-node__title">{data.label}</div>
       </div>
+
+      {data.floatCurve && (
+        <FloatCurveViz curve={data.floatCurve} width={data.width} />
+      )}
 
       <div className="gn-node__body">
         {outputs.map((socket) => (

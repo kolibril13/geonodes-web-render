@@ -1,5 +1,5 @@
 import { Position, type Edge, type Node } from '@xyflow/react'
-import type { GraphIR, NodeIR, SocketIR } from '../ir/types'
+import type { FloatCurveData, GraphIR, NodeIR, SocketIR } from '../ir/types'
 
 export type GNFlowNodeData = {
   label: string
@@ -9,6 +9,7 @@ export type GNFlowNodeData = {
   inputs: SocketIR[]
   outputs: SocketIR[]
   connectedInputIds: string[]
+  floatCurve?: FloatCurveData
 }
 
 export type GNRerouteNodeData = {
@@ -60,6 +61,7 @@ function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
       connectedInputIds: node.inputs
         .filter((s) => connectedTargetIds.has(s.id))
         .map((s) => s.id),
+      floatCurve: node.floatCurve,
     } as GNFlowNodeData,
   }
 }
