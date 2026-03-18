@@ -1,1 +1,3303 @@
-{}
+{
+    "blender_version": "5.1.0",
+    "tree_clipper_version": "0.1.6",
+    "node_trees": [
+     {
+      "id": 0,
+      "data": {
+       "name": "JUMP",
+       "use_fake_user": false,
+       "use_extra_user": false,
+       "is_runtime_data": false,
+       "tag": false,
+       "color_tag": "NONE",
+       "default_group_node_width": 140,
+       "description": "",
+       "bl_use_group_interface": true,
+       "interface": {
+        "id": 1,
+        "data": {
+         "active_index": 0,
+         "items_tree": {
+          "id": 2,
+          "data": {
+           "items": [
+            {
+             "id": 3,
+             "data": {
+              "name": "Geometry",
+              "description": "",
+              "socket_type": "NodeSocketGeometry",
+              "hide_value": false,
+              "hide_in_modifier": false,
+              "force_non_field": false,
+              "is_inspect_output": false,
+              "is_panel_toggle": false,
+              "layer_selection_field": false,
+              "menu_expanded": false,
+              "optional_label": false,
+              "select": false,
+              "attribute_domain": "POINT",
+              "default_attribute_name": "",
+              "structure_type": "AUTO",
+              "default_input": "VALUE",
+              "in_out": "OUTPUT",
+              "item_type": "SOCKET"
+             }
+            },
+            {
+             "id": 4,
+             "data": {
+              "name": "Geometry",
+              "description": "",
+              "socket_type": "NodeSocketGeometry",
+              "hide_value": false,
+              "hide_in_modifier": false,
+              "force_non_field": false,
+              "is_inspect_output": false,
+              "is_panel_toggle": false,
+              "layer_selection_field": false,
+              "menu_expanded": false,
+              "optional_label": false,
+              "select": false,
+              "attribute_domain": "POINT",
+              "default_attribute_name": "",
+              "structure_type": "AUTO",
+              "default_input": "VALUE",
+              "in_out": "INPUT",
+              "item_type": "SOCKET"
+             }
+            }
+           ]
+          }
+         }
+        }
+       },
+       "nodes": {
+        "id": 5,
+        "data": {
+         "active": 183,
+         "items": [
+          {
+           "id": 6,
+           "data": {
+            "location": [
+             620.0,
+             600.0
+            ],
+            "location_absolute": [
+             620.0,
+             600.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Group Input",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 7,
+             "data": {
+              "items": []
+             }
+            },
+            "outputs": {
+             "id": 8,
+             "data": {
+              "items": [
+               {
+                "id": 9,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "CIRCLE"
+                }
+               },
+               {
+                "id": 10,
+                "data": {
+                 "name": "",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "CUSTOM",
+                 "display_shape": "CIRCLE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "NodeGroupInput",
+            "parent": null
+           }
+          },
+          {
+           "id": 11,
+           "data": {
+            "location": [
+             2539.999755859375,
+             259.9999694824219
+            ],
+            "location_absolute": [
+             2539.999755859375,
+             259.9999694824219
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Group Output",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 12,
+             "data": {
+              "items": [
+               {
+                "id": 13,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 14,
+                "data": {
+                 "name": "",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "CUSTOM",
+                 "display_shape": "CIRCLE"
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 15,
+             "data": {
+              "items": []
+             }
+            },
+            "bl_idname": "NodeGroupOutput",
+            "parent": null,
+            "is_active_output": true
+           }
+          },
+          {
+           "id": 16,
+           "data": {
+            "location": [
+             620.0,
+             780.0
+            ],
+            "location_absolute": [
+             620.0,
+             780.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "UV Sphere",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 17,
+             "data": {
+              "items": [
+               {
+                "id": 18,
+                "data": {
+                 "name": "Segments",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "INT",
+                 "display_shape": "LINE",
+                 "default_value": 32
+                }
+               },
+               {
+                "id": 19,
+                "data": {
+                 "name": "Rings",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "INT",
+                 "display_shape": "LINE",
+                 "default_value": 16
+                }
+               },
+               {
+                "id": 20,
+                "data": {
+                 "name": "Radius",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "LINE",
+                 "default_value": 0.10000000149011612
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 21,
+             "data": {
+              "items": [
+               {
+                "id": 22,
+                "data": {
+                 "name": "Mesh",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 23,
+                "data": {
+                 "name": "UV Map",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeMeshUVSphere",
+            "parent": null
+           }
+          },
+          {
+           "id": 24,
+           "data": {
+            "location": [
+             1679.9998779296875,
+             440.0
+            ],
+            "location_absolute": [
+             1679.9998779296875,
+             440.0
+            ],
+            "width": 160.0,
+            "height": 100.0,
+            "name": "Geometry to Instance",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 25,
+             "data": {
+              "items": [
+               {
+                "id": 26,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 27,
+             "data": {
+              "items": [
+               {
+                "id": 28,
+                "data": {
+                 "name": "Instances",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeGeometryToInstance",
+            "parent": null
+           }
+          },
+          {
+           "id": 29,
+           "data": {
+            "location": [
+             1039.9998779296875,
+             620.0
+            ],
+            "location_absolute": [
+             1039.9998779296875,
+             620.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Bounding Box",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 30,
+             "data": {
+              "items": [
+               {
+                "id": 31,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 32,
+                "data": {
+                 "name": "Use Radius",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "LINE",
+                 "default_value": true
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 33,
+             "data": {
+              "items": [
+               {
+                "id": 34,
+                "data": {
+                 "name": "Bounding Box",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 35,
+                "data": {
+                 "name": "Min",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "LINE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 36,
+                "data": {
+                 "name": "Max",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "LINE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeBoundBox",
+            "parent": null
+           }
+          },
+          {
+           "id": 37,
+           "data": {
+            "location": [
+             1380.0,
+             699.9999389648438
+            ],
+            "location_absolute": [
+             1380.0,
+             699.9999389648438
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Set Position",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 38,
+             "data": {
+              "items": [
+               {
+                "id": 39,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 40,
+                "data": {
+                 "name": "Selection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               },
+               {
+                "id": 41,
+                "data": {
+                 "name": "Position",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 42,
+                "data": {
+                 "name": "Offset",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 43,
+             "data": {
+              "items": [
+               {
+                "id": 44,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeSetPosition",
+            "parent": null
+           }
+          },
+          {
+           "id": 45,
+           "data": {
+            "location": [
+             1199.9998779296875,
+             599.9999389648438
+            ],
+            "location_absolute": [
+             1199.9998779296875,
+             599.9999389648438
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Vector Math",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 46,
+             "data": {
+              "items": [
+               {
+                "id": 47,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 48,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  -1.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 49,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 50,
+                "data": {
+                 "name": "Scale",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 51,
+             "data": {
+              "items": [
+               {
+                "id": 52,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 53,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeVectorMath",
+            "parent": null,
+            "operation": "MULTIPLY"
+           }
+          },
+          {
+           "id": 54,
+           "data": {
+            "location": [
+             800.0,
+             740.0
+            ],
+            "location_absolute": [
+             800.0,
+             740.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Switch",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 55,
+             "data": {
+              "items": [
+               {
+                "id": 56,
+                "data": {
+                 "name": "Switch",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "CIRCLE",
+                 "default_value": true
+                }
+               },
+               {
+                "id": 57,
+                "data": {
+                 "name": "False",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "CIRCLE"
+                }
+               },
+               {
+                "id": 58,
+                "data": {
+                 "name": "True",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "CIRCLE"
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 59,
+             "data": {
+              "items": [
+               {
+                "id": 60,
+                "data": {
+                 "name": "Output",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "CIRCLE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeSwitch",
+            "parent": null,
+            "input_type": "GEOMETRY"
+           }
+          },
+          {
+           "id": 61,
+           "data": {
+            "location": [
+             2119.999755859375,
+             259.9999694824219
+            ],
+            "location_absolute": [
+             2119.999755859375,
+             259.9999694824219
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Set Position.001",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 62,
+             "data": {
+              "items": [
+               {
+                "id": 63,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 64,
+                "data": {
+                 "name": "Selection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               },
+               {
+                "id": 65,
+                "data": {
+                 "name": "Position",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 66,
+                "data": {
+                 "name": "Offset",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 67,
+             "data": {
+              "items": [
+               {
+                "id": 68,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeSetPosition",
+            "parent": null
+           }
+          },
+          {
+           "id": 69,
+           "data": {
+            "location": [
+             -100.0,
+             59.999996185302734
+            ],
+            "location_absolute": [
+             -100.0,
+             59.999996185302734
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Scene Time",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 70,
+             "data": {
+              "items": []
+             }
+            },
+            "outputs": {
+             "id": 71,
+             "data": {
+              "items": [
+               {
+                "id": 72,
+                "data": {
+                 "name": "Seconds",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "LINE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 73,
+                "data": {
+                 "name": "Frame",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "LINE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeInputSceneTime",
+            "parent": null
+           }
+          },
+          {
+           "id": 74,
+           "data": {
+            "location": [
+             59.999996185302734,
+             59.999996185302734
+            ],
+            "location_absolute": [
+             59.999996185302734,
+             59.999996185302734
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Math",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 75,
+             "data": {
+              "items": [
+               {
+                "id": 76,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5
+                }
+               },
+               {
+                "id": 77,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 48.0
+                }
+               },
+               {
+                "id": 78,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 79,
+             "data": {
+              "items": [
+               {
+                "id": 80,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeMath",
+            "parent": null,
+            "operation": "DIVIDE",
+            "use_clamp": false
+           }
+          },
+          {
+           "id": 81,
+           "data": {
+            "location": [
+             1219.9998779296875,
+             0.0
+            ],
+            "location_absolute": [
+             1219.9998779296875,
+             0.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Vector Math.001",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 82,
+             "data": {
+              "items": [
+               {
+                "id": 83,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  1.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 84,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 85,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 86,
+                "data": {
+                 "name": "Scale",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 87,
+             "data": {
+              "items": [
+               {
+                "id": 88,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 89,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeVectorMath",
+            "parent": null,
+            "operation": "SCALE"
+           }
+          },
+          {
+           "id": 90,
+           "data": {
+            "location": [
+             540.0,
+             0.0
+            ],
+            "location_absolute": [
+             540.0,
+             0.0
+            ],
+            "width": 640.0,
+            "height": 100.0,
+            "name": "Float Curve",
+            "label": "hop",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 91,
+             "data": {
+              "items": [
+               {
+                "id": 92,
+                "data": {
+                 "name": "Factor",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 93,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 94,
+             "data": {
+              "items": [
+               {
+                "id": 95,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeFloatCurve",
+            "parent": null,
+            "mapping": {
+             "id": 96,
+             "data": {
+              "tone": "STANDARD",
+              "use_clip": true,
+              "clip_min_x": 0.0,
+              "clip_min_y": -1.0,
+              "clip_max_x": 1.0,
+              "clip_max_y": 1.0,
+              "extend": "EXTRAPOLATED",
+              "curves": {
+               "id": 97,
+               "data": {
+                "items": [
+                 {
+                  "id": 98,
+                  "data": {
+                   "points": {
+                    "id": 99,
+                    "data": {
+                     "items": [
+                      {
+                       "id": 100,
+                       "data": {
+                        "location": [
+                         0.0,
+                         0.0
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 101,
+                       "data": {
+                        "location": [
+                         0.24891868233680725,
+                         0.0
+                        ],
+                        "handle_type": "AUTO_CLAMPED",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 102,
+                       "data": {
+                        "location": [
+                         0.4990471601486206,
+                         0.6615852117538452
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 103,
+                       "data": {
+                        "location": [
+                         0.800000011920929,
+                         0.0
+                        ],
+                        "handle_type": "VECTOR",
+                        "select": true
+                       }
+                      },
+                      {
+                       "id": 104,
+                       "data": {
+                        "location": [
+                         1.0,
+                         0.0
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      }
+                     ]
+                    }
+                   }
+                  }
+                 }
+                ]
+               }
+              },
+              "black_level": [
+               0.0,
+               0.0,
+               0.0
+              ],
+              "white_level": [
+               1.0,
+               1.0,
+               1.0
+              ]
+             }
+            }
+           }
+          },
+          {
+           "id": 105,
+           "data": {
+            "location": [
+             220.0,
+             59.999996185302734
+            ],
+            "location_absolute": [
+             220.0,
+             59.999996185302734
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Math.001",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 106,
+             "data": {
+              "items": [
+               {
+                "id": 107,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5
+                }
+               },
+               {
+                "id": 108,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.5
+                }
+               },
+               {
+                "id": 109,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 110,
+             "data": {
+              "items": [
+               {
+                "id": 111,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeMath",
+            "parent": null,
+            "operation": "WRAP",
+            "use_clamp": false
+           }
+          },
+          {
+           "id": 112,
+           "data": {
+            "location": [
+             1899.999755859375,
+             399.9999694824219
+            ],
+            "location_absolute": [
+             1899.999755859375,
+             399.9999694824219
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Scale Instances",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 113,
+             "data": {
+              "items": [
+               {
+                "id": 114,
+                "data": {
+                 "name": "Instances",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 115,
+                "data": {
+                 "name": "Selection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               },
+               {
+                "id": 116,
+                "data": {
+                 "name": "Scale",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  1.0,
+                  1.0,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 117,
+                "data": {
+                 "name": "Center",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 118,
+                "data": {
+                 "name": "Local Space",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 119,
+             "data": {
+              "items": [
+               {
+                "id": 120,
+                "data": {
+                 "name": "Instances",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeScaleInstances",
+            "parent": null
+           }
+          },
+          {
+           "id": 121,
+           "data": {
+            "location": [
+             1699.9998779296875,
+             340.0
+            ],
+            "location_absolute": [
+             1699.9998779296875,
+             340.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Combine XYZ",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 122,
+             "data": {
+              "items": [
+               {
+                "id": 123,
+                "data": {
+                 "name": "X",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 124,
+                "data": {
+                 "name": "Y",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 125,
+                "data": {
+                 "name": "Z",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 126,
+             "data": {
+              "items": [
+               {
+                "id": 127,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeCombineXYZ",
+            "parent": null
+           }
+          },
+          {
+           "id": 128,
+           "data": {
+            "location": [
+             1519.9998779296875,
+             239.99998474121094
+            ],
+            "location_absolute": [
+             1519.9998779296875,
+             239.99998474121094
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Math.002",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 129,
+             "data": {
+              "items": [
+               {
+                "id": 130,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 131,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5
+                }
+               },
+               {
+                "id": 132,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 133,
+             "data": {
+              "items": [
+               {
+                "id": 134,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeMath",
+            "parent": null,
+            "operation": "DIVIDE",
+            "use_clamp": false
+           }
+          },
+          {
+           "id": 135,
+           "data": {
+            "location": [
+             1439.9998779296875,
+             260.0
+            ],
+            "location_absolute": [
+             1439.9998779296875,
+             260.0
+            ],
+            "height": 100.0,
+            "name": "Reroute",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "socket_idname": "NodeSocketFloat",
+            "bl_idname": "NodeReroute",
+            "parent": null,
+            "single_input": 136,
+            "single_output": 137
+           }
+          },
+          {
+           "id": 138,
+           "data": {
+            "location": [
+             1239.9998779296875,
+             340.0
+            ],
+            "location_absolute": [
+             1239.9998779296875,
+             340.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Map Range",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 139,
+             "data": {
+              "items": [
+               {
+                "id": 140,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 141,
+                "data": {
+                 "name": "From Min",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": -1.0
+                }
+               },
+               {
+                "id": 142,
+                "data": {
+                 "name": "From Max",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 143,
+                "data": {
+                 "name": "To Min",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.20000000298023224
+                }
+               },
+               {
+                "id": 144,
+                "data": {
+                 "name": "To Max",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.7999999523162842
+                }
+               },
+               {
+                "id": 145,
+                "data": {
+                 "name": "Steps",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 4.0
+                }
+               },
+               {
+                "id": 146,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 147,
+                "data": {
+                 "name": "From Min",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 148,
+                "data": {
+                 "name": "From Max",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  1.0,
+                  1.0,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 149,
+                "data": {
+                 "name": "To Min",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 150,
+                "data": {
+                 "name": "To Max",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  1.0,
+                  1.0,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 151,
+                "data": {
+                 "name": "Steps",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  4.0,
+                  4.0,
+                  4.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 152,
+             "data": {
+              "items": [
+               {
+                "id": 153,
+                "data": {
+                 "name": "Result",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 154,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeMapRange",
+            "parent": null,
+            "clamp": true,
+            "interpolation_type": "LINEAR",
+            "data_type": "FLOAT"
+           }
+          },
+          {
+           "id": 155,
+           "data": {
+            "location": [
+             540.0,
+             340.0
+            ],
+            "location_absolute": [
+             540.0,
+             340.0
+            ],
+            "width": 640.0,
+            "height": 100.0,
+            "name": "Float Curve.001",
+            "label": "bounce",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 156,
+             "data": {
+              "items": [
+               {
+                "id": 157,
+                "data": {
+                 "name": "Factor",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 158,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 159,
+             "data": {
+              "items": [
+               {
+                "id": 160,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeFloatCurve",
+            "parent": null,
+            "mapping": {
+             "id": 161,
+             "data": {
+              "tone": "STANDARD",
+              "use_clip": true,
+              "clip_min_x": 0.0,
+              "clip_min_y": -1.0,
+              "clip_max_x": 1.0,
+              "clip_max_y": 1.0,
+              "extend": "HORIZONTAL",
+              "curves": {
+               "id": 162,
+               "data": {
+                "items": [
+                 {
+                  "id": 163,
+                  "data": {
+                   "points": {
+                    "id": 164,
+                    "data": {
+                     "items": [
+                      {
+                       "id": 165,
+                       "data": {
+                        "location": [
+                         0.0,
+                         0.00609721802175045
+                        ],
+                        "handle_type": "AUTO_CLAMPED",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 166,
+                       "data": {
+                        "location": [
+                         0.09501177072525024,
+                         -0.3231706917285919
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 167,
+                       "data": {
+                        "location": [
+                         0.3310869336128235,
+                         0.24390286207199097
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 168,
+                       "data": {
+                        "location": [
+                         0.4408973753452301,
+                         0.24390260875225067
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 169,
+                       "data": {
+                        "location": [
+                         0.5162219405174255,
+                         0.18292692303657532
+                        ],
+                        "handle_type": "AUTO_CLAMPED",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 170,
+                       "data": {
+                        "location": [
+                         0.7599999904632568,
+                         0.15243902802467346
+                        ],
+                        "handle_type": "VECTOR",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 171,
+                       "data": {
+                        "location": [
+                         0.8197802305221558,
+                         -0.18902455270290375
+                        ],
+                        "handle_type": "AUTO_CLAMPED",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 172,
+                       "data": {
+                        "location": [
+                         0.8656079769134521,
+                         0.21341446042060852
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      },
+                      {
+                       "id": 173,
+                       "data": {
+                        "location": [
+                         0.9268373250961304,
+                         0.0
+                        ],
+                        "handle_type": "AUTO_CLAMPED",
+                        "select": true
+                       }
+                      },
+                      {
+                       "id": 174,
+                       "data": {
+                        "location": [
+                         0.997802197933197,
+                         8.568167686462402e-08
+                        ],
+                        "handle_type": "AUTO",
+                        "select": false
+                       }
+                      }
+                     ]
+                    }
+                   }
+                  }
+                 }
+                ]
+               }
+              },
+              "black_level": [
+               0.0,
+               0.0,
+               0.0
+              ],
+              "white_level": [
+               1.0,
+               1.0,
+               1.0
+              ]
+             }
+            }
+           }
+          },
+          {
+           "id": 175,
+           "data": {
+            "location": [
+             2359.999755859375,
+             240.0
+            ],
+            "location_absolute": [
+             2359.999755859375,
+             240.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Set Position.002",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 176,
+             "data": {
+              "items": [
+               {
+                "id": 177,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               },
+               {
+                "id": 178,
+                "data": {
+                 "name": "Selection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "BOOLEAN",
+                 "display_shape": "DIAMOND",
+                 "default_value": true
+                }
+               },
+               {
+                "id": 179,
+                "data": {
+                 "name": "Position",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 180,
+                "data": {
+                 "name": "Offset",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "DIAMOND",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 181,
+             "data": {
+              "items": [
+               {
+                "id": 182,
+                "data": {
+                 "name": "Geometry",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "GEOMETRY",
+                 "display_shape": "LINE"
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "GeometryNodeSetPosition",
+            "parent": null
+           }
+          },
+          {
+           "id": 183,
+           "data": {
+            "location": [
+             2100.0,
+             100.0
+            ],
+            "location_absolute": [
+             2100.0,
+             100.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Vector Math.002",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 184,
+             "data": {
+              "items": [
+               {
+                "id": 185,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 186,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  -1.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 187,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 188,
+                "data": {
+                 "name": "Scale",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 189,
+             "data": {
+              "items": [
+               {
+                "id": 190,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 191,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeVectorMath",
+            "parent": null,
+            "operation": "MULTIPLY"
+           }
+          },
+          {
+           "id": 192,
+           "data": {
+            "location": [
+             999.9999389648438,
+             679.9999389648438
+            ],
+            "location_absolute": [
+             999.9999389648438,
+             679.9999389648438
+            ],
+            "height": 100.0,
+            "name": "Reroute.003",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "socket_idname": "NodeSocketGeometry",
+            "bl_idname": "NodeReroute",
+            "parent": null,
+            "single_input": 193,
+            "single_output": 194
+           }
+          }
+         ]
+        }
+       },
+       "bl_idname": "GeometryNodeTree",
+       "annotation": null,
+       "links": {
+        "id": 195,
+        "data": {
+         "items": [
+          {
+           "id": 196,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 194,
+            "to_socket": 31
+           }
+          },
+          {
+           "id": 197,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "multi_input_sort_id": 0,
+            "from_socket": 44,
+            "to_socket": 26
+           }
+          },
+          {
+           "id": 198,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 194,
+            "to_socket": 39
+           }
+          },
+          {
+           "id": 199,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 35,
+            "to_socket": 47
+           }
+          },
+          {
+           "id": 200,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 52,
+            "to_socket": 42
+           }
+          },
+          {
+           "id": 201,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 22,
+            "to_socket": 57
+           }
+          },
+          {
+           "id": 202,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 9,
+            "to_socket": 58
+           }
+          },
+          {
+           "id": 203,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 120,
+            "to_socket": 63
+           }
+          },
+          {
+           "id": 204,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 182,
+            "to_socket": 13
+           }
+          },
+          {
+           "id": 205,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 73,
+            "to_socket": 76
+           }
+          },
+          {
+           "id": 206,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 88,
+            "to_socket": 66
+           }
+          },
+          {
+           "id": 207,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 80,
+            "to_socket": 107
+           }
+          },
+          {
+           "id": 208,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 111,
+            "to_socket": 93
+           }
+          },
+          {
+           "id": 209,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 28,
+            "to_socket": 114
+           }
+          },
+          {
+           "id": 210,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 127,
+            "to_socket": 116
+           }
+          },
+          {
+           "id": 211,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 137,
+            "to_socket": 131
+           }
+          },
+          {
+           "id": 212,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 134,
+            "to_socket": 123
+           }
+          },
+          {
+           "id": 213,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 153,
+            "to_socket": 136
+           }
+          },
+          {
+           "id": 214,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 111,
+            "to_socket": 158
+           }
+          },
+          {
+           "id": 215,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 160,
+            "to_socket": 140
+           }
+          },
+          {
+           "id": 216,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 68,
+            "to_socket": 177
+           }
+          },
+          {
+           "id": 217,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 190,
+            "to_socket": 180
+           }
+          },
+          {
+           "id": 218,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 52,
+            "to_socket": 185
+           }
+          },
+          {
+           "id": 219,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 60,
+            "to_socket": 193
+           }
+          },
+          {
+           "id": 220,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 137,
+            "to_socket": 124
+           }
+          },
+          {
+           "id": 221,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 134,
+            "to_socket": 125
+           }
+          },
+          {
+           "id": 222,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 95,
+            "to_socket": 86
+           }
+          }
+         ]
+        }
+       },
+       "is_tool": false,
+       "node_tool_idname": "geometry.jump",
+       "is_modifier": true,
+       "is_mode_object": false,
+       "is_mode_edit": false,
+       "is_mode_sculpt": false,
+       "is_mode_paint": false,
+       "is_type_mesh": false,
+       "is_type_curve": false,
+       "is_type_pointcloud": false,
+       "use_wait_for_click": false,
+       "is_type_grease_pencil": false,
+       "show_modifier_manage_panel": true
+      }
+     }
+    ],
+    "external": {},
+    "scenes": {}
+   }

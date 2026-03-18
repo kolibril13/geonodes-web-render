@@ -315,6 +315,13 @@
   text-align: right;
 }
 
+.gn-node__color-swatch {
+  margin: 2px 8px 4px 18px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
 .gn-node__vec-block {
   margin: 1px 8px 4px 18px;
   border-radius: 4px;

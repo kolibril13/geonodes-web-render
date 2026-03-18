@@ -39,6 +39,8 @@ type BlenderNode = {
     single_output?: number
     // FunctionNodeInputVector
     vector?: number[]
+    // ShaderNodeCombineColor / ShaderNodeSeparateColor
+    mode?: string
   }
 }
 
@@ -128,6 +130,27 @@ const SOCKET_IDNAME_TO_TYPE: Record<string, string> = {
 
 function socketTypeFromIdname(idname: string): string {
   return SOCKET_IDNAME_TO_TYPE[idname] ?? 'CUSTOM'
+}
+
+// Blender exports canonical RNA names (Red/Green/Blue) regardless of mode;
+// the UI renames them based on the selected color model.
+const COLOR_CHANNEL_LABELS: Record<string, [string, string, string]> = {
+  HSV: ['Hue', 'Saturation', 'Value'],
+  HSL: ['Hue', 'Saturation', 'Lightness'],
+  RGB: ['Red', 'Green', 'Blue'],
+}
+
+function remapColorChannelNames(
+  sockets: NormalizedSocket[],
+  mode: string | undefined,
+): NormalizedSocket[] {
+  const labels = COLOR_CHANNEL_LABELS[mode ?? 'RGB'] ?? COLOR_CHANNEL_LABELS['RGB']
+  const canonicalNames = COLOR_CHANNEL_LABELS['RGB']
+  return sockets.map((s) => {
+    const idx = canonicalNames.indexOf(s.name as (typeof canonicalNames)[number])
+    if (idx === -1) return s
+    return { ...s, name: labels[idx] }
+  })
 }
 
 function normalizeRerouteNode(node: BlenderNode, location: [number, number]): NormalizedNode {
@@ -230,6 +253,18 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         }
       }
 
+      let inputs = (node.data.inputs?.data?.items ?? []).map((s, si) => {
+        if (!s?.data) throw new Error(`Node "${node.data.name}" input socket ${si} is missing ".data".`)
+        return normalizeSocket(s, si)
+      })
+
+      if (
+        node.data.bl_idname === 'ShaderNodeCombineColor' ||
+        node.data.bl_idname === 'ShaderNodeSeparateColor'
+      ) {
+        inputs = remapColorChannelNames(inputs, node.data.mode)
+      }
+
       return {
         id: String(node.id),
         type: node.data.bl_idname,
@@ -240,10 +275,7 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         },
         width: node.data.width ?? 140,
         headerColor: nodeHeaderColor(node.data.bl_idname),
-        inputs: (node.data.inputs?.data?.items ?? []).map((s, si) => {
-          if (!s?.data) throw new Error(`Node "${node.data.name}" input socket ${si} is missing ".data".`)
-          return normalizeSocket(s, si)
-        }),
+        inputs,
         outputs,
       }
     }),

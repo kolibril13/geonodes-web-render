@@ -1,1 +1,1318 @@
-{}
+{
+    "blender_version": "5.1.0",
+    "tree_clipper_version": "0.1.6",
+    "node_trees": [
+     {
+      "id": 0,
+      "data": {
+       "name": "Shader Nodetree",
+       "use_fake_user": false,
+       "use_extra_user": true,
+       "is_runtime_data": false,
+       "tag": false,
+       "color_tag": "NONE",
+       "default_group_node_width": 140,
+       "description": "",
+       "bl_use_group_interface": true,
+       "interface": {
+        "id": 1,
+        "data": {
+         "active_index": 0,
+         "items_tree": {
+          "id": 2,
+          "data": {
+           "items": []
+          }
+         }
+        }
+       },
+       "nodes": {
+        "id": 3,
+        "data": {
+         "active": null,
+         "items": [
+          {
+           "id": 4,
+           "data": {
+            "location": [
+             120.0,
+             220.0
+            ],
+            "location_absolute": [
+             120.0,
+             220.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Material Output",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 5,
+             "data": {
+              "items": [
+               {
+                "id": 6,
+                "data": {
+                 "name": "Surface",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "SHADER",
+                 "display_shape": "CIRCLE"
+                }
+               },
+               {
+                "id": 7,
+                "data": {
+                 "name": "Volume",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "SHADER",
+                 "display_shape": "CIRCLE"
+                }
+               },
+               {
+                "id": 8,
+                "data": {
+                 "name": "Displacement",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 9,
+                "data": {
+                 "name": "Thickness",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 10,
+             "data": {
+              "items": []
+             }
+            },
+            "bl_idname": "ShaderNodeOutputMaterial",
+            "parent": null,
+            "is_active_output": true,
+            "target": "ALL"
+           }
+          },
+          {
+           "id": 11,
+           "data": {
+            "location": [
+             -40.0,
+             240.0
+            ],
+            "location_absolute": [
+             -40.0,
+             240.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Mix",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 12,
+             "data": {
+              "items": [
+               {
+                "id": 13,
+                "data": {
+                 "name": "Factor",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5
+                }
+               },
+               {
+                "id": 14,
+                "data": {
+                 "name": "Factor",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.5,
+                  0.5,
+                  0.5
+                 ]
+                }
+               },
+               {
+                "id": 15,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 16,
+                "data": {
+                 "name": "B",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 17,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 18,
+                "data": {
+                 "name": "B",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 19,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "RGBA",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 20,
+                "data": {
+                 "name": "B",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "RGBA",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.5,
+                  0.5,
+                  0.5,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 21,
+                "data": {
+                 "name": "A",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "ROTATION",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 22,
+                "data": {
+                 "name": "B",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "ROTATION",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 23,
+             "data": {
+              "items": [
+               {
+                "id": 24,
+                "data": {
+                 "name": "Result",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               },
+               {
+                "id": 25,
+                "data": {
+                 "name": "Result",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 26,
+                "data": {
+                 "name": "Result",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "RGBA",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 27,
+                "data": {
+                 "name": "Result",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "ROTATION",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeMix",
+            "parent": null,
+            "data_type": "RGBA",
+            "factor_mode": "UNIFORM",
+            "blend_type": "MIX",
+            "clamp_factor": true,
+            "clamp_result": false
+           }
+          },
+          {
+           "id": 28,
+           "data": {
+            "location": [
+             -560.0,
+             140.0
+            ],
+            "location_absolute": [
+             -560.0,
+             140.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Texture Coordinate",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 29,
+             "data": {
+              "items": []
+             }
+            },
+            "outputs": {
+             "id": 30,
+             "data": {
+              "items": [
+               {
+                "id": 31,
+                "data": {
+                 "name": "Generated",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 32,
+                "data": {
+                 "name": "Normal",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 33,
+                "data": {
+                 "name": "UV",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 34,
+                "data": {
+                 "name": "Object",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 35,
+                "data": {
+                 "name": "Camera",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 36,
+                "data": {
+                 "name": "Window",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 37,
+                "data": {
+                 "name": "Reflection",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeTexCoord",
+            "parent": null,
+            "object": null,
+            "from_instancer": false
+           }
+          },
+          {
+           "id": 38,
+           "data": {
+            "location": [
+             -380.0,
+             60.0
+            ],
+            "location_absolute": [
+             -380.0,
+             60.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Gradient Texture",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": true,
+            "inputs": {
+             "id": 39,
+             "data": {
+              "items": [
+               {
+                "id": 40,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": true,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 41,
+             "data": {
+              "items": [
+               {
+                "id": 42,
+                "data": {
+                 "name": "Color",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "RGBA",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
+                  1.0
+                 ]
+                }
+               },
+               {
+                "id": 43,
+                "data": {
+                 "name": "Factor",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeTexGradient",
+            "parent": null,
+            "texture_mapping": {
+             "id": 44,
+             "data": {
+              "vector_type": "POINT",
+              "translation": [
+               0.0,
+               0.0,
+               0.0
+              ],
+              "rotation": [
+               0.0,
+               0.0,
+               0.0
+              ],
+              "scale": [
+               1.0,
+               1.0,
+               1.0
+              ],
+              "min": [
+               0.0,
+               0.0,
+               0.0
+              ],
+              "max": [
+               1.0,
+               1.0,
+               1.0
+              ],
+              "use_min": false,
+              "use_max": false,
+              "mapping_x": "X",
+              "mapping_y": "Y",
+              "mapping_z": "Z",
+              "mapping": "FLAT"
+             }
+            },
+            "color_mapping": {
+             "id": 45,
+             "data": {
+              "use_color_ramp": false,
+              "color_ramp": {
+               "id": 46,
+               "data": {
+                "elements": {
+                 "id": 47,
+                 "data": {
+                  "items": [
+                   {
+                    "id": 48,
+                    "data": {
+                     "color": [
+                      0.0,
+                      0.0,
+                      0.0,
+                      1.0
+                     ],
+                     "alpha": 1.0,
+                     "position": 0.0
+                    }
+                   },
+                   {
+                    "id": 49,
+                    "data": {
+                     "color": [
+                      1.0,
+                      1.0,
+                      1.0,
+                      1.0
+                     ],
+                     "alpha": 1.0,
+                     "position": 1.0
+                    }
+                   }
+                  ]
+                 }
+                },
+                "interpolation": "LINEAR",
+                "hue_interpolation": "NEAR",
+                "color_mode": "RGB"
+               }
+              },
+              "brightness": 1.0,
+              "contrast": 1.0,
+              "saturation": 1.0,
+              "blend_type": "MIX",
+              "blend_color": [
+               0.800000011920929,
+               0.800000011920929,
+               0.800000011920929
+              ],
+              "blend_factor": 0.0
+             }
+            },
+            "gradient_type": "RADIAL"
+           }
+          },
+          {
+           "id": 50,
+           "data": {
+            "location": [
+             -380.0,
+             180.0
+            ],
+            "location_absolute": [
+             -380.0,
+             180.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Vector Math",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 51,
+             "data": {
+              "items": [
+               {
+                "id": 52,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 53,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 54,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 55,
+                "data": {
+                 "name": "Scale",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 56,
+             "data": {
+              "items": [
+               {
+                "id": 57,
+                "data": {
+                 "name": "Vector",
+                 "description": "",
+                 "hide": false,
+                 "enabled": false,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VECTOR",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.0,
+                  0.0,
+                  0.0
+                 ]
+                }
+               },
+               {
+                "id": 58,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeVectorMath",
+            "parent": null,
+            "operation": "LENGTH"
+           }
+          },
+          {
+           "id": 59,
+           "data": {
+            "location": [
+             -220.0,
+             240.0
+            ],
+            "location_absolute": [
+             -220.0,
+             240.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Math",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 60,
+             "data": {
+              "items": [
+               {
+                "id": 61,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5
+                }
+               },
+               {
+                "id": 62,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.5899999737739563
+                }
+               },
+               {
+                "id": 63,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.10000002384185791
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 64,
+             "data": {
+              "items": [
+               {
+                "id": 65,
+                "data": {
+                 "name": "Value",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.0
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeMath",
+            "parent": null,
+            "operation": "COMPARE",
+            "use_clamp": false
+           }
+          },
+          {
+           "id": 66,
+           "data": {
+            "location": [
+             -220.0,
+             60.0
+            ],
+            "location_absolute": [
+             -220.0,
+             60.0
+            ],
+            "width": 140.0,
+            "height": 100.0,
+            "name": "Combine Color",
+            "label": "",
+            "warning_propagation": "ALL",
+            "use_custom_color": false,
+            "color": [
+             0.6079999804496765,
+             0.6079999804496765,
+             0.6079999804496765
+            ],
+            "select": false,
+            "show_options": true,
+            "show_preview": false,
+            "hide": false,
+            "mute": false,
+            "show_texture": false,
+            "inputs": {
+             "id": 67,
+             "data": {
+              "items": [
+               {
+                "id": 68,
+                "data": {
+                 "name": "Red",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 0.23553718626499176
+                }
+               },
+               {
+                "id": 69,
+                "data": {
+                 "name": "Green",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               },
+               {
+                "id": 70,
+                "data": {
+                 "name": "Blue",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 1,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "VALUE",
+                 "display_shape": "CIRCLE",
+                 "default_value": 1.0
+                }
+               }
+              ]
+             }
+            },
+            "outputs": {
+             "id": 71,
+             "data": {
+              "items": [
+               {
+                "id": 72,
+                "data": {
+                 "name": "Color",
+                 "description": "",
+                 "hide": false,
+                 "enabled": true,
+                 "link_limit": 4095,
+                 "show_expanded": false,
+                 "hide_value": false,
+                 "pin_gizmo": false,
+                 "type": "RGBA",
+                 "display_shape": "CIRCLE",
+                 "default_value": [
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
+                  1.0
+                 ]
+                }
+               }
+              ]
+             }
+            },
+            "bl_idname": "ShaderNodeCombineColor",
+            "parent": null,
+            "mode": "HSV"
+           }
+          }
+         ]
+        }
+       },
+       "bl_idname": "ShaderNodeTree",
+       "annotation": null,
+       "links": {
+        "id": 73,
+        "data": {
+         "items": [
+          {
+           "id": 74,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 26,
+            "to_socket": 6
+           }
+          },
+          {
+           "id": 75,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 58,
+            "to_socket": 61
+           }
+          },
+          {
+           "id": 76,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 65,
+            "to_socket": 13
+           }
+          },
+          {
+           "id": 77,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 72,
+            "to_socket": 20
+           }
+          },
+          {
+           "id": 78,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 43,
+            "to_socket": 68
+           }
+          },
+          {
+           "id": 79,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 34,
+            "to_socket": 52
+           }
+          },
+          {
+           "id": 80,
+           "data": {
+            "is_valid": true,
+            "is_muted": false,
+            "from_socket": 34,
+            "to_socket": 40
+           }
+          }
+         ]
+        }
+       }
+      }
+     }
+    ],
+    "external": {},
+    "scenes": {},
+    "name": "Rainbow Ring"
+   }

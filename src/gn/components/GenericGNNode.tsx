@@ -21,9 +21,10 @@ function socketShapeClass(displayShape: GNFlowNodeData['inputs'][number]['displa
 
 function unitForType(dataType: string): string {
   if (dataType === 'ROTATION') return '°'
-  // VALUE is a generic dimensionless float (e.g. Mix Factor, weights)
-  if (dataType === 'INT' || dataType === 'BOOLEAN' || dataType === 'STRING' || dataType === 'VALUE') return ''
-  return ' m'
+  // FLOAT is the explicit distance/length type in geometry nodes
+  if (dataType === 'FLOAT') return ' m'
+  // Everything else (VALUE, RGBA, VECTOR, INT, STRING, …) is dimensionless
+  return ''
 }
 
 function formatNumber(value: number): string {
@@ -36,7 +37,21 @@ function formatScalar(value: number | boolean | string, dataType: string): strin
   return `${formatNumber(value)}${unitForType(dataType)}`
 }
 
+function toLinearCss(v: number): number {
+  // Blender stores colors in linear light; convert to sRGB for CSS display
+  return Math.round(Math.min(1, Math.max(0, v)) * 255)
+}
+
+function ColorSwatch(props: { values: number[] }) {
+  const [r, g, b, a = 1] = props.values
+  const css = `rgba(${toLinearCss(r)},${toLinearCss(g)},${toLinearCss(b)},${a.toFixed(2)})`
+  return <div className="gn-node__color-swatch" style={{ background: css }} />
+}
+
 function VecBlock(props: { values: number[]; dataType: string }) {
+  if (props.dataType === 'RGBA') {
+    return <ColorSwatch values={props.values} />
+  }
   const unit = unitForType(props.dataType)
   return (
     <div className="gn-node__vec-block">
