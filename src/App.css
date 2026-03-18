@@ -423,3 +423,45 @@
     border-bottom: 1px solid var(--border);
   }
 }
+
+/* Embed layout (modal / host app) – dark by default */
+.geonodes-embed {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--bg, #1a1a1a);
+}
+
+/* Force dark theme when embedded (e.g. on light host pages) */
+.geonodes-embed--dark {
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-border: rgba(192, 132, 252, 0.5);
+  color: var(--text);
+  background: var(--bg);
+}
+
+.geonodes-embed__header {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border, #333);
+  flex-shrink: 0;
+}
+
+.geonodes-embed__title {
+  font-weight: 600;
+  color: var(--text-h, #eee);
+}
+
+.geonodes-embed__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}

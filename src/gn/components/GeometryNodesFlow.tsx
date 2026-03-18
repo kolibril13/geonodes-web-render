@@ -63,8 +63,12 @@ function FlowCanvas(props: { nodes: Node[]; edges: Edge[] }) {
   )
 }
 
-export function GeometryNodesFlow(props: { jsonText: string }) {
-  const { jsonText } = props
+export function GeometryNodesFlow(props: {
+  jsonText: string
+  /** When false, hide the panel header ("Geometry Nodes Graph" and node count). Default true. */
+  showHeader?: boolean
+}) {
+  const { jsonText, showHeader = true } = props
 
   const graphView = useMemo(() => {
     if (!jsonText.trim()) return null
@@ -82,14 +86,16 @@ export function GeometryNodesFlow(props: { jsonText: string }) {
 
   return (
     <div className="panel flow-panel">
-      <div className="panel-header">
-        <div className="panel-title">Geometry Nodes Graph</div>
-        <div className="panel-status" aria-live="polite">
-          {graphView?.graph
-            ? `${graphView.graph.nodes.length} nodes, ${graphView.graph.edges.length} links`
-            : null}
+      {showHeader ? (
+        <div className="panel-header">
+          <div className="panel-title">Geometry Nodes Graph</div>
+          <div className="panel-status" aria-live="polite">
+            {graphView?.graph
+              ? `${graphView.graph.nodes.length} nodes, ${graphView.graph.edges.length} links`
+              : null}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <div className="panel-body flow-panel__body">
         {graphView?.error ? (
