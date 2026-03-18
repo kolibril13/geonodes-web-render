@@ -5,6 +5,72 @@ import type { GNFlowNodeData } from '../xyflow/mapGraphIRToFlow'
 
 const VEC_LABELS = ['X', 'Y', 'Z', 'W']
 
+const DATA_TYPE_LABELS: Record<string, string> = {
+  FLOAT:   'Float',
+  INT:     'Integer',
+  VECTOR:  'Vector',
+  RGBA:    'Color',
+  STRING:  'String',
+  BOOLEAN: 'Boolean',
+  ROTATION: 'Rotation',
+}
+
+const OPERATION_LABELS: Record<string, string> = {
+  // Compare
+  EQUAL:          'Equal',
+  NOT_EQUAL:      'Not Equal',
+  LESS_THAN:      'Less Than',
+  LESS_EQUAL:     'Less Than or Equal',
+  GREATER_THAN:   'Greater Than',
+  GREATER_EQUAL:  'Greater Than or Equal',
+  // Math
+  ADD:            'Add',
+  SUBTRACT:       'Subtract',
+  MULTIPLY:       'Multiply',
+  DIVIDE:         'Divide',
+  MULTIPLY_ADD:   'Multiply Add',
+  POWER:          'Power',
+  LOGARITHM:      'Logarithm',
+  SQRT:           'Square Root',
+  INVERSE_SQRT:   'Inverse Square Root',
+  ABSOLUTE:       'Absolute',
+  EXPONENT:       'Exponent',
+  MINIMUM:        'Minimum',
+  MAXIMUM:        'Maximum',
+  SIGN:           'Sign',
+  COMPARE:        'Compare',
+  SMOOTH_MIN:     'Smooth Minimum',
+  SMOOTH_MAX:     'Smooth Maximum',
+  ROUND:          'Round',
+  FLOOR:          'Floor',
+  CEIL:           'Ceiling',
+  TRUNCATE:       'Truncate',
+  FRACTION:       'Fraction',
+  MODULO:         'Modulo',
+  WRAP:           'Wrap',
+  SNAP:           'Snap',
+  PINGPONG:       'Ping-Pong',
+  SINE:           'Sine',
+  COSINE:         'Cosine',
+  TANGENT:        'Tangent',
+  ARCSINE:        'Arcsine',
+  ARCCOSINE:      'Arccosine',
+  ARCTANGENT:     'Arctangent',
+  ARCTAN2:        'Arctan2',
+  SINH:           'Hyperbolic Sine',
+  COSH:           'Hyperbolic Cosine',
+  TANH:           'Hyperbolic Tangent',
+  RADIANS:        'To Radians',
+  DEGREES:        'To Degrees',
+}
+
+function formatPropertyValue(key: string, value: string): string {
+  if (key === 'data_type') return DATA_TYPE_LABELS[value] ?? value
+  if (key === 'operation') return OPERATION_LABELS[value] ?? value
+  if (key === 'use_clamp') return 'Clamp'
+  return value
+}
+
 function socketShapeClass(displayShape: GNFlowNodeData['inputs'][number]['displayShape']) {
   switch (displayShape) {
     case 'LINE':
@@ -61,6 +127,20 @@ function VecBlock(props: { values: number[]; dataType: string }) {
         <div key={i} className="gn-node__vec-row">
           <span className="gn-node__vec-label">{VEC_LABELS[i]}</span>
           <span className="gn-node__vec-value">{formatNumber(v)}{unit}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function NodePropsBlock({ properties }: { properties: Record<string, string> }) {
+  const entries = Object.entries(properties)
+  if (entries.length === 0) return null
+  return (
+    <div className="gn-node__props">
+      {entries.map(([key, value]) => (
+        <div key={key} className="gn-node__prop-row">
+          {formatPropertyValue(key, value)}
         </div>
       ))}
     </div>
@@ -168,6 +248,8 @@ export function GenericGNNode(props: NodeProps) {
       <div className="gn-node__header" style={{ background: data.headerColor }}>
         <div className="gn-node__title">{data.label}</div>
       </div>
+
+      {data.properties && <NodePropsBlock properties={data.properties} />}
 
       {data.floatCurve && (
         <FloatCurveViz curve={data.floatCurve} width={data.width} />

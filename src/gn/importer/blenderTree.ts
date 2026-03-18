@@ -42,6 +42,10 @@ type BlenderNode = {
     vector?: number[]
     // ShaderNodeCombineColor / ShaderNodeSeparateColor
     mode?: string
+    // FunctionNodeCompare / ShaderNodeMath
+    operation?: string
+    data_type?: string
+    use_clamp?: boolean
     // ShaderNodeFloatCurve / ShaderNodeRGBCurve
     mapping?: {
       data: {
@@ -123,6 +127,7 @@ export type NormalizedNode = {
   inputs: NormalizedSocket[]
   outputs: NormalizedSocket[]
   floatCurve?: FloatCurveData
+  properties?: Record<string, string>
 }
 
 export type NormalizedLink = {
@@ -259,6 +264,22 @@ function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket
   }
 }
 
+function extractNodeProperties(node: BlenderNode): Record<string, string> | undefined {
+  if (node.data.bl_idname === 'FunctionNodeCompare') {
+    const props: Record<string, string> = {}
+    if (node.data.data_type) props.data_type = node.data.data_type
+    if (node.data.operation) props.operation = node.data.operation
+    return Object.keys(props).length > 0 ? props : undefined
+  }
+  if (node.data.bl_idname === 'ShaderNodeMath') {
+    const props: Record<string, string> = {}
+    if (node.data.operation) props.operation = node.data.operation
+    if (node.data.use_clamp) props.use_clamp = 'true'
+    return Object.keys(props).length > 0 ? props : undefined
+  }
+  return undefined
+}
+
 export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
   if (!raw || typeof raw !== 'object') {
     throw new Error('JSON root must be an object.')
@@ -321,6 +342,8 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
           ? parseFloatCurve(node)
           : undefined
 
+      const properties = extractNodeProperties(node)
+
       return {
         id: String(node.id),
         type: node.data.bl_idname,
@@ -334,6 +357,7 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         inputs,
         outputs,
         floatCurve,
+        ...(properties ? { properties } : {}),
       }
     }),
     links: tree.data.links.data.items.map((link, li) => {
@@ -374,6 +398,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     inputs: node.inputs.map((socket) => toInputSocket(node.id, socket)),
     outputs: node.outputs.map((socket) => toOutputSocket(node.id, socket)),
     floatCurve: node.floatCurve,
+    properties: node.properties,
   }))
 
   const socketToNode = new Map<string, string>()

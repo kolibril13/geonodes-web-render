@@ -1,0 +1,454 @@
+{
+    "blender_version": "5.1.0",
+    "tree_clipper_version": "0.1.6",
+    "node_trees": [
+        {
+            "id": 0,
+            "data": {
+                "name": "Add",
+                "use_fake_user": false,
+                "use_extra_user": true,
+                "is_runtime_data": false,
+                "tag": false,
+                "color_tag": "CONVERTER",
+                "default_group_node_width": 140,
+                "description": "",
+                "bl_use_group_interface": true,
+                "interface": {
+                    "id": 1,
+                    "data": {
+                        "active_index": 0,
+                        "items_tree": {
+                            "id": 2,
+                            "data": {
+                                "items": [
+                                    {
+                                        "id": 3,
+                                        "data": {
+                                            "name": "Value",
+                                            "description": "",
+                                            "socket_type": "NodeSocketFloat",
+                                            "hide_value": false,
+                                            "hide_in_modifier": false,
+                                            "force_non_field": false,
+                                            "is_inspect_output": false,
+                                            "is_panel_toggle": false,
+                                            "layer_selection_field": false,
+                                            "menu_expanded": false,
+                                            "optional_label": false,
+                                            "select": false,
+                                            "attribute_domain": "POINT",
+                                            "default_attribute_name": "",
+                                            "structure_type": "AUTO",
+                                            "default_input": "VALUE",
+                                            "in_out": "OUTPUT",
+                                            "item_type": "SOCKET",
+                                            "subtype": "NONE",
+                                            "default_value": 0.0,
+                                            "min_value": -3.4028234663852886e+38,
+                                            "max_value": 3.4028234663852886e+38
+                                        }
+                                    },
+                                    {
+                                        "id": 4,
+                                        "data": {
+                                            "name": "Value",
+                                            "description": "",
+                                            "socket_type": "NodeSocketFloat",
+                                            "hide_value": false,
+                                            "hide_in_modifier": false,
+                                            "force_non_field": false,
+                                            "is_inspect_output": false,
+                                            "is_panel_toggle": false,
+                                            "layer_selection_field": false,
+                                            "menu_expanded": false,
+                                            "optional_label": false,
+                                            "select": false,
+                                            "attribute_domain": "POINT",
+                                            "default_attribute_name": "",
+                                            "structure_type": "AUTO",
+                                            "default_input": "VALUE",
+                                            "in_out": "INPUT",
+                                            "item_type": "SOCKET",
+                                            "subtype": "NONE",
+                                            "default_value": 0.5,
+                                            "min_value": -10000.0,
+                                            "max_value": 10000.0
+                                        }
+                                    },
+                                    {
+                                        "id": 5,
+                                        "data": {
+                                            "name": "Value",
+                                            "description": "",
+                                            "socket_type": "NodeSocketFloat",
+                                            "hide_value": false,
+                                            "hide_in_modifier": false,
+                                            "force_non_field": false,
+                                            "is_inspect_output": false,
+                                            "is_panel_toggle": false,
+                                            "layer_selection_field": false,
+                                            "menu_expanded": false,
+                                            "optional_label": false,
+                                            "select": false,
+                                            "attribute_domain": "POINT",
+                                            "default_attribute_name": "",
+                                            "structure_type": "AUTO",
+                                            "default_input": "VALUE",
+                                            "in_out": "INPUT",
+                                            "item_type": "SOCKET",
+                                            "subtype": "NONE",
+                                            "default_value": 0.5,
+                                            "min_value": -10000.0,
+                                            "max_value": 10000.0
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "nodes": {
+                    "id": 6,
+                    "data": {
+                        "active": 7,
+                        "items": [
+                            {
+                                "id": 7,
+                                "data": {
+                                    "location": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "location_absolute": [
+                                        0.0,
+                                        0.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Math",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 8,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 9,
+                                                    "data": {
+                                                        "name": "Value",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.5
+                                                    }
+                                                },
+                                                {
+                                                    "id": 10,
+                                                    "data": {
+                                                        "name": "Value",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.5
+                                                    }
+                                                },
+                                                {
+                                                    "id": 11,
+                                                    "data": {
+                                                        "name": "Value",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": false,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.5
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 12,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 13,
+                                                    "data": {
+                                                        "name": "Value",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "bl_idname": "ShaderNodeMath",
+                                    "parent": null,
+                                    "operation": "ADD",
+                                    "use_clamp": false
+                                }
+                            },
+                            {
+                                "id": 14,
+                                "data": {
+                                    "location": [
+                                        190.0,
+                                        0.0
+                                    ],
+                                    "location_absolute": [
+                                        190.0,
+                                        0.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Group Output",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 15,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 16,
+                                                    "data": {
+                                                        "name": "Value",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 17,
+                                                    "data": {
+                                                        "name": "",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "CUSTOM",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 18,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "NodeGroupOutput",
+                                    "parent": null,
+                                    "is_active_output": true
+                                }
+                            },
+                            {
+                                "id": 19,
+                                "data": {
+                                    "location": [
+                                        -200.0,
+                                        0.0
+                                    ],
+                                    "location_absolute": [
+                                        -200.0,
+                                        0.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Group Input",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 20,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 21,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 22,
+                                                    "data": {
+                                                        "name": "Value",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.5
+                                                    }
+                                                },
+                                                {
+                                                    "id": 23,
+                                                    "data": {
+                                                        "name": "Value",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.5
+                                                    }
+                                                },
+                                                {
+                                                    "id": 24,
+                                                    "data": {
+                                                        "name": "",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "CUSTOM",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "bl_idname": "NodeGroupInput",
+                                    "parent": null
+                                }
+                            }
+                        ]
+                    }
+                },
+                "bl_idname": "GeometryNodeTree",
+                "annotation": null,
+                "links": {
+                    "id": 25,
+                    "data": {
+                        "items": [
+                            {
+                                "id": 26,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 13,
+                                    "to_socket": 16
+                                }
+                            },
+                            {
+                                "id": 27,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 22,
+                                    "to_socket": 9
+                                }
+                            },
+                            {
+                                "id": 28,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 23,
+                                    "to_socket": 10
+                                }
+                            }
+                        ]
+                    }
+                },
+                "is_tool": false,
+                "node_tool_idname": "",
+                "is_modifier": false,
+                "is_mode_object": false,
+                "is_mode_edit": false,
+                "is_mode_sculpt": false,
+                "is_mode_paint": false,
+                "is_type_mesh": false,
+                "is_type_curve": false,
+                "is_type_pointcloud": false,
+                "use_wait_for_click": false,
+                "is_type_grease_pencil": false,
+                "show_modifier_manage_panel": true
+            }
+        }
+    ],
+    "external": {},
+    "scenes": {}
+}

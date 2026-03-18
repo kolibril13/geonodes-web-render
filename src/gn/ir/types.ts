@@ -46,6 +46,8 @@ export type NodeIR = {
   inputs: SocketIR[]
   outputs: SocketIR[]
   floatCurve?: FloatCurveData
+  /** Node-type-specific enum properties (e.g. operation, data_type for Compare) */
+  properties?: Record<string, string>
 }
 
 export type EdgeIR = {

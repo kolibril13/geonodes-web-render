@@ -10,6 +10,7 @@ export type GNFlowNodeData = {
   outputs: SocketIR[]
   connectedInputIds: string[]
   floatCurve?: FloatCurveData
+  properties?: Record<string, string>
 }
 
 export type GNRerouteNodeData = {
@@ -62,6 +63,7 @@ function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
         .filter((s) => connectedTargetIds.has(s.id))
         .map((s) => s.id),
       floatCurve: node.floatCurve,
+      properties: node.properties,
     } as GNFlowNodeData,
   }
 }
