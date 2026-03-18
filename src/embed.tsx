@@ -19,7 +19,7 @@ export type GraphViewEmbedOptions = {
 }
 
 export function GraphView(props: GraphViewEmbedOptions) {
-  const { payload, onClose } = props
+  const { payload } = props
   const [jsonText, setJsonText] = useState<string>('')
   const [decodeError, setDecodeError] = useState<string | null>(null)
   const [decoding, setDecoding] = useState(true)
