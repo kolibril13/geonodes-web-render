@@ -6,6 +6,9 @@ A browser-based viewer for Blender node trees exported via the [Tree Clipper](ht
 
 Paste or load a Tree Clipper JSON export and the app displays the node graph with accurate socket colors, node header colors, reroute nodes, float curves, and simulation zones — all matching Blender's visual style.
 
+<img width="2260" height="1642" alt="image" src="https://github.com/user-attachments/assets/510b1c3e-9382-4f99-97b2-08a496745c13" />
+
+
 **Data flow:**
 
 ```
