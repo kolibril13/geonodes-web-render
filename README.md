@@ -1,74 +1,68 @@
-# React + TypeScript + Vite
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# geonodes-web-render
 
-Currently, two official plugins are available:
+A browser-based viewer for Blender node trees exported via the [Tree Clipper](https://extensions.blender.org/add-ons/tree-clipper/) add-on. It renders the exported JSON as a read-only, Blender-styled node graph using React Flow.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What it does
 
-## React Compiler
+Paste or load a Tree Clipper JSON export and the app displays the node graph with accurate socket colors, node header colors, reroute nodes, float curves, and simulation zones — all matching Blender's visual style.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+**Data flow:**
 
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+Tree Clipper JSON / base64 payload
+  → normalizeBlenderGraph   (flatten nodes, flip Y axis, assign colors)
+  → toGraphIR               (socket-centric edges, resolve links)
+  → mapGraphIRToFlow        (React Flow nodes/edges, simulation zone frames)
+  → read-only React Flow canvas
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **10 built-in examples** — real Tree Clipper exports loadable from tabs
+- **Custom JSON input** — paste JSON directly into the built-in CodeMirror editor
+- **Clipboard import** — decode a `TreeClipper::` base64/gzip payload from clipboard
+- **Simulation zones** — automatically detects and frames nodes between simulation input/output pairs using graph reachability
+- **Blender fidelity** — socket and header colors sourced from Blender's own tables; Math/Compare nodes show human-readable operation labels
+- **Embeddable** — ships a separate `embed` entry point for use as a library
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Usage
+
+### Standalone app
+
+```bash
+npm install
+npm run dev
 ```
+
+Open `http://localhost:5173/geonodes-web-render/` and pick an example or paste your own JSON.
+
+### Embed in another app
+
+```ts
+import { mountGraphView, unmountGraphView } from 'geonodes-web-render/embed'
+
+// payload can be a raw JSON string or a TreeClipper:: base64 encoded string
+mountGraphView(container, payload)
+
+// later
+unmountGraphView(container)
+```
+
+Or use the React component directly:
+
+```tsx
+import { GraphView } from 'geonodes-web-render/embed'
+
+<GraphView payload="TreeClipper::H4sI..." />
+```
+
+## Tech stack
+
+- **React 19** + **TypeScript**
+- **Vite** (with React Compiler enabled)
+- **@xyflow/react** (React Flow v12) — graph rendering
+- **@uiw/react-codemirror** — JSON editor with one-dark theme
+
+## Deployment
+
+The app is configured with `base: "/geonodes-web-render/"` for hosting on a subpath (e.g. GitHub Pages). Adjust `vite.config.ts` if deploying to a root path.
