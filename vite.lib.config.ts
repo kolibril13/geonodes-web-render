@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
+import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
+
+const reactExternalRegex = /^react(-dom)?(\/|$)/
 
 export default defineConfig({
   publicDir: false,
   plugins: [
     react(),
-    babel({ presets: [reactCompilerPreset()] }),
     dts({
       include: ['src/embed.tsx', 'src/**/*.ts', 'src/**/*.tsx'],
       exclude: ['src/main.tsx', 'src/App.tsx', 'src/components/**'],
@@ -17,6 +17,13 @@ export default defineConfig({
       tsconfigPath: './tsconfig.app.json',
     }),
   ],
+  resolve: {
+    conditions: ['import', 'module', 'browser', 'default'],
+    alias: [
+      { find: /^use-sync-external-store\/shim\/with-selector(\.js)?$/, replacement: resolve(__dirname, 'src/shims/use-sync-external-store-shim-with-selector.ts') },
+      { find: /^use-sync-external-store\/shim(\/index)?(\.js)?$/, replacement: resolve(__dirname, 'src/shims/use-sync-external-store-shim.ts') },
+    ],
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/embed.tsx'),
@@ -25,7 +32,7 @@ export default defineConfig({
       fileName: 'embed',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: (id) => reactExternalRegex.test(id),
       output: {
         globals: {
           react: 'React',

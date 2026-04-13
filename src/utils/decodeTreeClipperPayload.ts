@@ -16,9 +16,13 @@ async function decompressGzip(bytes: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(buf)
 }
 
-/** Decode Tree Clipper asset data (optional "TreeClipper::" prefix + base64, optionally gzipped) to JSON string. */
+/** Decode Tree Clipper asset data (optional "TreeClipper::" prefix + base64, optionally gzipped) to JSON string.
+ *  Also accepts raw JSON strings (starting with '{' or '[') which are returned as-is. */
 export async function decodeTreeClipperPayload(raw: string): Promise<string> {
   const trimmed = raw.trim()
+  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+    return trimmed
+  }
   const base64 = trimmed.startsWith(TREE_CLIPPER_PREFIX)
     ? trimmed.slice(TREE_CLIPPER_PREFIX.length)
     : trimmed
