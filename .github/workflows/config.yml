@@ -1,10 +1,11 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Deploys main to the site root and nodebpy-export to /nodebpy-export/.
+# GitHub Pages serves one site per repo, so both branches are built into a
+# single combined artifact on every deploy.
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ['main']
+    branches: ['main', 'nodebpy-export']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -21,31 +22,51 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v6
+        with:
+          ref: main
+          path: main
+      - name: Checkout nodebpy-export
+        uses: actions/checkout@v6
+        with:
+          ref: nodebpy-export
+          path: nodebpy-export
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
+          cache-dependency-path: |
+            main/package-lock.json
+            nodebpy-export/package-lock.json
+      - name: Build main
+        working-directory: main
+        run: |
+          npm ci
+          npm run build
+      - name: Build nodebpy-export
+        working-directory: nodebpy-export
+        run: |
+          npm ci
+          npm run build -- --base=/geonodes-web-render/nodebpy-export/
+      - name: Combine into one site
+        run: |
+          mkdir -p site/nodebpy-export
+          cp -r main/dist/. site/
+          cp -r nodebpy-export/dist/. site/nodebpy-export/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          # Upload dist folder
-          path: './dist'
+          path: './site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
