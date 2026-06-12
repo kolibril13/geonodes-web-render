@@ -1,6 +1,6 @@
 {
   "name": "geonodes-web-render",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Browser-based viewer for Blender Geometry Nodes exported via Tree Clipper. Renders node trees as a read-only, Blender-styled graph.",
   "type": "module",
   "exports": {
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kolibril13/geonodes-web-render"
+    "url": "git+https://github.com/kolibril13/geonodes-web-render.git"
   },
   "license": "MIT",
   "keywords": [
