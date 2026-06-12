@@ -65,7 +65,8 @@ export function JsonEditorTabs(props: {
 }) {
   const { value, onChange } = props
   const [activeTab, setActiveTab] = useState<TabId>('example1')
-  const [viewMode, setViewMode] = useState<'json' | 'nodebpy'>('json')
+  // Python (nodebpy) is the primary view; JSON remains available for editing.
+  const [viewMode, setViewMode] = useState<'json' | 'nodebpy'>('nodebpy')
   const [loadState, setLoadState] = useState<
     { kind: 'idle' } | { kind: 'loading' } | { kind: 'error'; message: string }
   >({ kind: 'idle' })
@@ -182,18 +183,19 @@ export function JsonEditorTabs(props: {
         <div className="view-toggle" role="group" aria-label="Editor view">
           <button
             type="button"
-            className={`view-toggle__option ${viewMode === 'json' ? 'active' : ''}`}
-            onClick={() => setViewMode('json')}
-          >
-            JSON
-          </button>
-          <button
-            type="button"
             className={`view-toggle__option ${viewMode === 'nodebpy' ? 'active' : ''}`}
             onClick={() => setViewMode('nodebpy')}
             title="Show this tree as nodebpy Python code"
           >
             nodebpy
+          </button>
+          <button
+            type="button"
+            className={`view-toggle__option ${viewMode === 'json' ? 'active' : ''}`}
+            onClick={() => setViewMode('json')}
+            title="Show and edit the Tree Clipper JSON"
+          >
+            JSON
           </button>
         </div>
         <div className="panel-actions">
