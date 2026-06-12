@@ -3,7 +3,7 @@
   min-height: 100svh;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(300px, 28vw) 1fr minmax(300px, 26vw);
+  grid-template-columns: var(--left-w, 28%) 6px minmax(0, 1fr) 6px var(--right-w, 26%);
   gap: 0;
 }
 
@@ -11,14 +11,53 @@
 .center-pane,
 .right-pane {
   min-height: 0;
+  min-width: 0;
 }
 
-.left-pane {
-  border-right: 1px solid var(--border);
+/* Draggable column splitters */
+.pane-divider {
+  position: relative;
+  cursor: col-resize;
+  touch-action: none;
 }
 
-.right-pane {
-  border-left: 1px solid var(--border);
+.pane-divider::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: 0 auto;
+  width: 1px;
+  background: var(--border);
+  transition: width 0.1s ease, background 0.1s ease;
+}
+
+.pane-divider:hover::after,
+body.is-resizing .pane-divider::after {
+  width: 3px;
+  background: var(--accent);
+}
+
+body.is-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* Keep drags smooth over the canvas/editors */
+body.is-resizing .left-pane,
+body.is-resizing .center-pane,
+body.is-resizing .right-pane {
+  pointer-events: none;
+}
+
+/* Breathing room inside the code editors */
+.panel-body .cm-content {
+  padding: 10px 14px 24px;
+}
+
+/* Slightly larger nodebpy code on the right */
+.right-pane .cm-content,
+.right-pane .cm-gutters {
+  font-size: 15px;
 }
 
 .panel {
@@ -579,13 +618,15 @@
     grid-template-rows: 40svh 1fr 30svh;
   }
 
+  .pane-divider {
+    display: none;
+  }
+
   .left-pane {
-    border-right: none;
     border-bottom: 1px solid var(--border);
   }
 
   .right-pane {
-    border-left: none;
     border-top: 1px solid var(--border);
   }
 }
