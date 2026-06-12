@@ -166,6 +166,32 @@ export function GeometryNodesFlow(props: {
 
   const navContextValue = useMemo(() => ({ openGroup }), [openGroup])
 
+  // Tab and Escape go one level up the group hierarchy (Blender-style Tab-out).
+  useEffect(() => {
+    if (path.length <= 1) return
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'Tab' && e.key !== 'Escape') return
+      if (e.ctrlKey || e.metaKey || e.altKey) return
+      // Leave typing/navigation inside the editor and form fields alone.
+      const target = e.target as HTMLElement | null
+      if (
+        target &&
+        (target.isContentEditable ||
+          target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.closest('.cm-editor'))
+      ) {
+        return
+      }
+      e.preventDefault()
+      setNav({ json: jsonText, ids: path.slice(1, -1) })
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [path, jsonText])
+
   const breadcrumbs: Breadcrumb[] = parsed?.views
     ? path.map((id) => ({ id, label: parsed.views![id].graph.label }))
     : []

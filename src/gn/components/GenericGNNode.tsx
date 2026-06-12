@@ -238,39 +238,40 @@ function showVec(socket: SocketData, suppressDefault: boolean) {
   return !suppressDefault && !socket.hideValue && socket.defaultValue?.kind === 'vec'
 }
 
-// Blender-style group selector row: shows the referenced tree's name and
-// drills into it on click (like Tab-ing into a group in Blender).
-function GroupTreeRow(props: { treeId: string; treeName: string }) {
-  const nav = useGroupNav()
+// Blender-style stacked-cards indicator below group nodes, hinting at the
+// nested tree behind them. The whole node is the click target for entering it.
+function GroupStack() {
   return (
-    <button
-      type="button"
-      className="gn-node__group-row nodrag"
-      onClick={() => nav?.openGroup(props.treeId)}
-      disabled={!nav}
-      title={`Open group "${props.treeName}"`}
-    >
-      <span className="gn-node__group-name">{props.treeName}</span>
-      <span className="gn-node__group-open" aria-hidden="true">⤢</span>
-    </button>
+    <div className="gn-node__stack" aria-hidden="true">
+      <div className="gn-node__stack-bar" />
+      <div className="gn-node__stack-bar" />
+      <div className="gn-node__stack-bar" />
+    </div>
   )
 }
 
 export function GenericGNNode(props: NodeProps) {
   const data = props.data as GNFlowNodeData
+  const nav = useGroupNav()
   const connectedIds = new Set(data.connectedInputIds ?? [])
   const outputs = data.outputs.filter((s) => s.enabled)
   const inputs = data.inputs.filter((s) => s.enabled)
 
+  const groupTreeId = data.groupTreeId
+  const isOpenableGroup = groupTreeId !== undefined && data.groupTreeName !== undefined && !!nav
+
   return (
-    <div className="gn-node">
+    <div
+      className={`gn-node${isOpenableGroup ? ' gn-node--group nodrag' : ''}`}
+      onClick={isOpenableGroup ? () => nav.openGroup(groupTreeId!) : undefined}
+      role={isOpenableGroup ? 'button' : undefined}
+      title={isOpenableGroup ? `Open group "${data.groupTreeName}"` : undefined}
+    >
       <div className="gn-node__header" style={{ background: data.headerColor }}>
         <div className="gn-node__title">{data.label}</div>
       </div>
 
-      {data.groupTreeId !== undefined && data.groupTreeName !== undefined && (
-        <GroupTreeRow treeId={data.groupTreeId} treeName={data.groupTreeName} />
-      )}
+      {isOpenableGroup && <GroupStack />}
 
       {data.properties && <NodePropsBlock properties={data.properties} />}
 

@@ -291,47 +291,62 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Group node: Blender-style nested-tree selector row */
-.gn-node__group-row {
-  appearance: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 3px 10px;
-  font-size: 10px;
-  text-align: left;
-  color: var(--text-h);
-  background: color-mix(in srgb, var(--bg) 75%, #000 25%);
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  cursor: pointer;
+/* Group node: clicking anywhere on it enters the nested tree */
+.gn-node--group {
+  position: relative;
   pointer-events: all;
+  cursor: pointer;
+  border-color: var(--accent-border);
+  box-shadow:
+    0 0 0 1px var(--accent-border),
+    0 0 16px 3px color-mix(in srgb, var(--accent) 25%, transparent),
+    var(--shadow);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
-.gn-node__group-row:hover {
-  background: color-mix(in srgb, var(--bg) 60%, #000 40%);
+.gn-node--group:hover {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1.5px var(--accent),
+    0 0 24px 6px color-mix(in srgb, var(--accent) 40%, transparent),
+    var(--shadow);
 }
 
-.gn-node__group-row:hover .gn-node__group-open {
-  color: var(--accent);
+/* Blender-style stacked cards peeking out below a group node */
+.gn-node__stack {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding-top: 2px;
 }
 
-.gn-node__group-name {
-  flex: 1 1 0;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-style: italic;
+.gn-node__stack-bar {
+  height: 6px;
+  border-radius: 0 0 6px 6px;
+  background: color-mix(in srgb, var(--text) 22%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--text) 45%, var(--bg));
+  border-top: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
-.gn-node__group-open {
-  flex-shrink: 0;
-  font-size: 11px;
-  line-height: 1;
-  color: var(--text);
+.gn-node__stack-bar:nth-child(1) {
+  width: 90%;
+  opacity: 1;
+}
+
+.gn-node__stack-bar:nth-child(2) {
+  width: 78%;
+  opacity: 0.7;
+}
+
+.gn-node__stack-bar:nth-child(3) {
+  width: 66%;
+  opacity: 0.45;
 }
 
 .gn-node__body {

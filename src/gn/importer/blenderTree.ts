@@ -224,6 +224,11 @@ function remapColorChannelNames(
   })
 }
 
+// Blender appends ".001", ".002", … to keep duplicate node names unique.
+function stripDuplicateSuffix(name: string): string {
+  return name.replace(/\.\d{3}$/, '')
+}
+
 function normalizeRerouteNode(node: BlenderNode, location: [number, number]): NormalizedNode {
   const dataType = socketTypeFromIdname(node.data.socket_idname ?? '')
   const color = socketColor(dataType)
@@ -354,7 +359,7 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
       return {
         id: String(node.id),
         type: node.data.bl_idname,
-        label: node.data.label || node.data.name,
+        label: node.data.label || stripDuplicateSuffix(node.data.name),
         position: {
           x: location[0],
           y: -location[1],
