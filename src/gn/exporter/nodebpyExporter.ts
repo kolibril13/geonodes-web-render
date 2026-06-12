@@ -597,6 +597,74 @@ function convertTreeBody(ctx: TreeContext, indent: string): string[] {
   return lines
 }
 
+// ── Selection filtering ─────────────────────────────────────────────────────
+
+/**
+ * Reduce a Tree Clipper export to a subset of nodes (by raw node id), keeping
+ * only links whose two endpoints both survive. Group trees instantiated by a
+ * surviving group node are kept complete (transitively); trees left with no
+ * nodes are dropped. Returns the input unchanged when nothing matches.
+ */
+export function filterExportToSelection(
+  raw: RawExport,
+  selected: ReadonlySet<number>,
+): RawExport {
+  const trees = raw.node_trees
+  if (!Array.isArray(trees) || selected.size === 0) return raw
+
+  const treeById = new Map(trees.map((t) => [t.id, t]))
+
+  // Trees referenced by a selected group node must stay complete, including
+  // the groups they instantiate themselves.
+  const keepWhole = new Set<number>()
+  const queue: number[] = []
+  for (const t of trees) {
+    for (const n of t.data.nodes.data.items) {
+      const ref = n.data.node_tree
+      if (selected.has(n.id) && ref != null && treeById.has(ref)) queue.push(ref)
+    }
+  }
+  while (queue.length > 0) {
+    const id = queue.pop()!
+    if (keepWhole.has(id)) continue
+    keepWhole.add(id)
+    for (const n of treeById.get(id)!.data.nodes.data.items) {
+      const ref = n.data.node_tree
+      if (ref != null && treeById.has(ref)) queue.push(ref)
+    }
+  }
+
+  const out: RawTree[] = []
+  for (const t of trees) {
+    if (keepWhole.has(t.id)) {
+      out.push(t)
+      continue
+    }
+    const nodes = t.data.nodes.data.items.filter((n) => selected.has(n.id))
+    if (nodes.length === 0) continue
+
+    const socketIds = new Set<number>()
+    for (const n of nodes) {
+      for (const s of n.data.inputs?.data.items ?? []) socketIds.add(s.id)
+      for (const s of n.data.outputs?.data.items ?? []) socketIds.add(s.id)
+    }
+    const links = t.data.links.data.items.filter(
+      (l) => socketIds.has(l.data.from_socket) && socketIds.has(l.data.to_socket),
+    )
+    out.push({
+      ...t,
+      data: {
+        ...t.data,
+        nodes: { ...t.data.nodes, data: { ...t.data.nodes.data, items: nodes } },
+        links: { ...t.data.links, data: { ...t.data.links.data, items: links } },
+      },
+    })
+  }
+
+  if (out.length === 0) return raw
+  return { ...raw, node_trees: out }
+}
+
 // ── Whole-export conversion ─────────────────────────────────────────────────
 
 export function exportToNodebpy(raw: RawExport): string {

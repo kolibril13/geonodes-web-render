@@ -5,9 +5,13 @@ import {
   Panel,
   ReactFlow,
   ReactFlowProvider,
+  SelectionMode,
+  useEdgesState,
+  useNodesState,
   useReactFlow,
   type Edge,
   type Node,
+  type OnSelectionChangeParams,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import {
@@ -37,32 +41,54 @@ function FlowCanvas(props: {
   edges: Edge[]
   breadcrumbs: Breadcrumb[]
   onNavigate: (index: number) => void
+  onSelectionIds?: (ids: string[]) => void
 }) {
-  const { nodes, edges, breadcrumbs, onNavigate } = props
+  const { nodes, edges, breadcrumbs, onNavigate, onSelectionIds } = props
   const { fitView } = useReactFlow()
+  // Local copies so React Flow can apply selection changes (box select / click).
+  const [localNodes, setLocalNodes, onNodesChange] = useNodesState(nodes)
+  const [localEdges, setLocalEdges, onEdgesChange] = useEdgesState(edges)
 
   useEffect(() => {
     // Re-fit whenever the node set changes (tab switch, new JSON, group drill-down, etc.)
+    // Replacing the node set also resets any selection.
+    setLocalNodes(nodes)
+    onSelectionIds?.([])
     fitView(FIT_VIEW_OPTIONS)
-  }, [nodes, fitView])
+  }, [nodes, setLocalNodes, onSelectionIds, fitView])
+
+  useEffect(() => {
+    setLocalEdges(edges)
+  }, [edges, setLocalEdges])
+
+  const onSelectionChange = useCallback(
+    ({ nodes: selected }: OnSelectionChangeParams) => {
+      onSelectionIds?.(selected.map((n) => n.id))
+    },
+    [onSelectionIds],
+  )
 
   return (
     <ReactFlow
-      nodes={nodes}
-      edges={edges}
+      nodes={localNodes}
+      edges={localEdges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onSelectionChange={onSelectionChange}
       nodeTypes={nodeTypes}
       fitView
       fitViewOptions={FIT_VIEW_OPTIONS}
       minZoom={0.2}
       nodesDraggable={false}
       nodesConnectable={false}
-      elementsSelectable={false}
+      elementsSelectable
       nodesFocusable={false}
       edgesFocusable={false}
       selectNodesOnDrag={false}
-      selectionOnDrag={false}
+      selectionOnDrag
+      selectionMode={SelectionMode.Partial}
       connectOnClick={false}
-      panOnDrag
+      panOnDrag={[1, 2]}
       panOnScroll={false}
       zoomOnScroll
       zoomOnDoubleClick={false}
@@ -116,8 +142,10 @@ export function GeometryNodesFlow(props: {
   jsonText: string
   /** When false, hide the panel header ("Geometry Nodes Graph" and node count). Default true. */
   showHeader?: boolean
+  /** Reports the currently selected node ids (raw Tree Clipper node ids as strings). */
+  onSelectionChange?: (nodeIds: string[]) => void
 }) {
-  const { jsonText, showHeader = true } = props
+  const { jsonText, showHeader = true, onSelectionChange } = props
 
   // Trail of opened groups below the root tree (tree ids). The stack is tied
   // to the JSON it was built from: new JSON means new tree ids, so a stack
@@ -223,6 +251,7 @@ export function GeometryNodesFlow(props: {
                 edges={current.flow.edges}
                 breadcrumbs={breadcrumbs}
                 onNavigate={(index) => setNav({ json: jsonText, ids: path.slice(1, index + 1) })}
+                onSelectionIds={onSelectionChange}
               />
             </ReactFlowProvider>
           </GroupNavContext.Provider>

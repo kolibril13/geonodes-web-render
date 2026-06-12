@@ -60,6 +60,18 @@ body.is-resizing .right-pane {
   font-size: 15px;
 }
 
+/* Selected nodes drive the nodebpy output — make them stand out */
+.flow-panel__body .react-flow__node.selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.flow-panel__body .react-flow__selection {
+  border: 1px solid var(--accent);
+  background: var(--accent-bg);
+}
+
 .panel {
   height: 100%;
   min-height: 0;

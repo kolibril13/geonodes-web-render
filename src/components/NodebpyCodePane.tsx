@@ -3,10 +3,17 @@ import CodeMirror from '@uiw/react-codemirror'
 import { python } from '@codemirror/lang-python'
 import { EditorView } from '@codemirror/view'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { exportToNodebpy } from '../gn/exporter/nodebpyExporter'
+import {
+  exportToNodebpy,
+  filterExportToSelection,
+} from '../gn/exporter/nodebpyExporter'
 
-export function NodebpyCodePane(props: { jsonText: string }) {
-  const { jsonText } = props
+export function NodebpyCodePane(props: {
+  jsonText: string
+  /** Raw Tree Clipper node ids (as strings) to scope the code to. Empty = whole tree. */
+  selectedNodeIds?: string[]
+}) {
+  const { jsonText, selectedNodeIds = [] } = props
   const [prefersDark, setPrefersDark] = useState<boolean>(() =>
     window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false,
   )
@@ -20,15 +27,28 @@ export function NodebpyCodePane(props: { jsonText: string }) {
     return () => mq.removeEventListener('change', onChangeMq)
   }, [])
 
-  const nodebpy = useMemo((): { code: string } | { error: string } => {
+  const selectedIds = useMemo(() => {
+    const ids = selectedNodeIds.map(Number).filter(Number.isFinite)
+    return new Set(ids)
+  }, [selectedNodeIds])
+
+  const nodebpy = useMemo(():
+    | { code: string; selectionCount: number }
+    | { error: string } => {
     const trimmed = jsonText.trim()
     if (trimmed.length === 0) return { error: 'No JSON loaded yet.' }
     try {
-      return { code: exportToNodebpy(JSON.parse(jsonText)) }
+      const raw = JSON.parse(jsonText)
+      const scoped =
+        selectedIds.size > 0 ? filterExportToSelection(raw, selectedIds) : raw
+      return {
+        code: exportToNodebpy(scoped),
+        selectionCount: selectedIds.size,
+      }
     } catch (e) {
       return { error: e instanceof Error ? e.message : 'Conversion failed' }
     }
-  }, [jsonText])
+  }, [jsonText, selectedIds])
 
   const [copied, setCopied] = useState(false)
   async function copyNodebpy() {
@@ -82,7 +102,9 @@ export function NodebpyCodePane(props: { jsonText: string }) {
       <div className="panel-footer">
         <div className={`json-status ${'code' in nodebpy ? 'ok' : 'bad'}`}>
           {'code' in nodebpy
-            ? 'nodebpy code generated from the Tree Clipper JSON — paste into Blender'
+            ? nodebpy.selectionCount > 0
+              ? `nodebpy for ${nodebpy.selectionCount} selected node${nodebpy.selectionCount === 1 ? '' : 's'} — drag on the canvas to change, click empty space to clear`
+              : 'nodebpy code generated from the Tree Clipper JSON — paste into Blender'
             : `Conversion error: ${nodebpy.error}`}
         </div>
       </div>

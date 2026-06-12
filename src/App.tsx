@@ -10,6 +10,7 @@ function clamp(v: number, min: number, max: number) {
 
 function App() {
   const [jsonText, setJsonText] = useState('')
+  const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>([])
   const [leftPct, setLeftPct] = useState(28)
   const [rightPct, setRightPct] = useState(26)
   const layoutRef = useRef<HTMLDivElement>(null)
@@ -58,7 +59,10 @@ function App() {
         onPointerDown={startDrag('left')}
       />
       <div className="center-pane">
-        <GeometryNodesFlow jsonText={jsonText} />
+        <GeometryNodesFlow
+          jsonText={jsonText}
+          onSelectionChange={setSelectedNodeIds}
+        />
       </div>
       <div
         className="pane-divider"
@@ -67,7 +71,7 @@ function App() {
         onPointerDown={startDrag('right')}
       />
       <div className="right-pane">
-        <NodebpyCodePane jsonText={jsonText} />
+        <NodebpyCodePane jsonText={jsonText} selectedNodeIds={selectedNodeIds} />
       </div>
     </div>
   )
