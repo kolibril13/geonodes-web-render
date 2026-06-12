@@ -3,17 +3,22 @@
   min-height: 100svh;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(320px, 34vw) 1fr;
+  grid-template-columns: minmax(300px, 28vw) 1fr minmax(300px, 26vw);
   gap: 0;
 }
 
 .left-pane,
+.center-pane,
 .right-pane {
   min-height: 0;
 }
 
 .left-pane {
   border-right: 1px solid var(--border);
+}
+
+.right-pane {
+  border-left: 1px solid var(--border);
 }
 
 .panel {
@@ -571,12 +576,17 @@
 @media (max-width: 980px) {
   .app-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: 55svh 1fr;
+    grid-template-rows: 40svh 1fr 30svh;
   }
 
   .left-pane {
     border-right: none;
     border-bottom: 1px solid var(--border);
+  }
+
+  .right-pane {
+    border-left: none;
+    border-top: 1px solid var(--border);
   }
 }
 
