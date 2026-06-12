@@ -28,15 +28,56 @@ def literal_repr(node: ast.expr | None) -> str | None:
         return None
 
 
-def socket_attr_names(cls: ast.ClassDef, accessor_name: str) -> list[str]:
-    """Annotation attribute names of a nested _Inputs/_Outputs class, in order."""
+def annotation_name(node: ast.expr) -> str:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Subscript):  # e.g. Socket[...] generics
+        return annotation_name(node.value)
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    return ""
+
+
+def unsnake(attr: str) -> str:
+    return " ".join(w.capitalize() for w in attr.split("_") if w)
+
+
+def socket_accessors(cls: ast.ClassDef, accessor_name: str) -> list[dict]:
+    """Sockets of a nested _Inputs/_Outputs class, in order.
+
+    Each entry has the python attribute name, the builder socket class
+    (FloatSocket, GeometrySocket, ...) and the display label taken from the
+    docstring that follows the annotation (falling back to the un-snaked
+    attribute name).
+    """
     for stmt in cls.body:
-        if isinstance(stmt, ast.ClassDef) and stmt.name == accessor_name:
-            return [
-                s.target.id
-                for s in stmt.body
-                if isinstance(s, ast.AnnAssign) and isinstance(s.target, ast.Name)
-            ]
+        if not (isinstance(stmt, ast.ClassDef) and stmt.name == accessor_name):
+            continue
+        out: list[dict] = []
+        body = stmt.body
+        for i, s in enumerate(body):
+            if not (isinstance(s, ast.AnnAssign) and isinstance(s.target, ast.Name)):
+                continue
+            label = unsnake(s.target.id)
+            if (
+                i + 1 < len(body)
+                and isinstance(body[i + 1], ast.Expr)
+                and isinstance(body[i + 1].value, ast.Constant)
+                and isinstance(body[i + 1].value.value, str)
+            ):
+                doc = body[i + 1].value.value.strip()
+                # Docstrings are usually the bare socket label; longer texts
+                # are descriptions, so only short ones are trusted as labels.
+                if 0 < len(doc) <= 40 and "\n" not in doc and not doc.endswith("."):
+                    label = doc
+            out.append(
+                {
+                    "attr": s.target.id,
+                    "type": annotation_name(s.annotation),
+                    "label": label,
+                }
+            )
+        return out
     return []
 
 
@@ -73,8 +114,8 @@ def parse_class(cls: ast.ClassDef) -> tuple[str, dict] | None:
         "class": cls.name,
         "params": params,
         "props": props,
-        "inputs": socket_attr_names(cls, "_Inputs"),
-        "outputs": socket_attr_names(cls, "_Outputs"),
+        "inputs": socket_accessors(cls, "_Inputs"),
+        "outputs": socket_accessors(cls, "_Outputs"),
     }
 
 

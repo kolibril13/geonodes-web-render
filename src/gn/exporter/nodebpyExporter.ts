@@ -10,16 +10,21 @@
 import rawSpec from './nodebpySpec.json'
 
 type SpecParam = { name: string; default: string | null }
-type SpecEntry = {
+export type SpecSocket = { attr: string; type: string; label: string }
+export type SpecEntry = {
   class: string
   params: SpecParam[]
   props: SpecParam[]
-  inputs: string[]
-  outputs: string[]
+  inputs: SpecSocket[]
+  outputs: SpecSocket[]
 }
-type SpecDb = Record<string, Record<string, SpecEntry>>
+export type SpecDb = Record<string, Record<string, SpecEntry>>
 
 const spec = rawSpec as SpecDb
+
+export function getNodebpySpec(): SpecDb {
+  return spec
+}
 
 // ── Raw Tree Clipper JSON shapes (loose on purpose) ─────────────────────────
 
@@ -484,7 +489,9 @@ function convertTreeBody(ctx: TreeContext, indent: string): string[] {
     // expose dynamic accessors named after the socket (`.i.a` serves every
     // "A" variant), so prefer a name match against the spec's accessor list;
     // otherwise fall back to Blender-identifier-style deduplication.
-    const specAttrs = new Set(entry.inputs.filter((n) => !n.startsWith('_')))
+    const specAttrs = new Set(
+      entry.inputs.map((i) => i.attr).filter((n) => !n.startsWith('_')),
+    )
     const seenNames = new Map<string, number>()
     const iAttr = ins.map((s) => {
       const plain = snake(s.data.name)
@@ -557,7 +564,7 @@ function convertTreeBody(ctx: TreeContext, indent: string): string[] {
       seenOut.set(s.data.name, count + 1)
       const fallback =
         count === 0 ? snake(s.data.name) : `${snake(s.data.name)}_${String(count).padStart(3, '0')}`
-      sourceExpr.set(s.id, `${varName}.o.${entry.outputs[idx] ?? fallback}`)
+      sourceExpr.set(s.id, `${varName}.o.${entry.outputs[idx]?.attr ?? fallback}`)
     }
   }
 

@@ -5,6 +5,19 @@ import { python } from '@codemirror/lang-python'
 import { EditorView } from '@codemirror/view'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { exportToNodebpy } from '../gn/exporter/nodebpyExporter'
+import { parseNodebpy } from '../gn/importer/nodebpyParser'
+
+const PYTHON_STARTER = `from nodebpy import geometry as g
+
+with g.tree("My Tree") as tree:
+    geometry = tree.inputs.geometry("Geometry")
+    out = tree.outputs.geometry("Geometry")
+
+    cube = g.Cube(size=(1, 1, 1))
+    instances = g.InstanceOnPoints(points=geometry, instance=cube.o.mesh)
+
+    instances.o.instances >> out
+`
 
 type TabId =
   | 'example1'
@@ -125,6 +138,28 @@ export function JsonEditorTabs(props: {
 
   const [base64ImportError, setBase64ImportError] = useState<string | null>(null)
 
+  // Custom tab + nodebpy view: an *editable* Python editor that drives the
+  // graph by parsing nodebpy code into a synthesized Tree Clipper export.
+  const isCustomPython = activeTab === 'custom' && viewMode === 'nodebpy'
+  const [customPython, setCustomPython] = useState(PYTHON_STARTER)
+  const [pythonError, setPythonError] = useState<string | null>(null)
+
+  function runPython(code: string) {
+    try {
+      const synthesized = parseNodebpy(code)
+      onChange(JSON.stringify(synthesized, null, 2))
+      setPythonError(null)
+    } catch (e) {
+      // Keep the last good render; just surface the error.
+      setPythonError(e instanceof Error ? e.message : 'Parse failed')
+    }
+  }
+
+  function onPythonChange(next: string) {
+    setCustomPython(next)
+    runPython(next)
+  }
+
   // Live nodebpy conversion of the current JSON for the "nodebpy" view.
   const nodebpy = useMemo((): { code: string } | { error: string } => {
     const trimmed = value.trim()
@@ -138,8 +173,9 @@ export function JsonEditorTabs(props: {
 
   const [copied, setCopied] = useState(false)
   async function copyNodebpy() {
-    if (!('code' in nodebpy)) return
-    await navigator.clipboard.writeText(nodebpy.code)
+    const code = isCustomPython ? customPython : 'code' in nodebpy ? nodebpy.code : null
+    if (code === null) return
+    await navigator.clipboard.writeText(code)
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
   }
@@ -172,7 +208,10 @@ export function JsonEditorTabs(props: {
               role="tab"
               aria-selected={t.id === activeTab}
               onClick={() => {
-                if (t.id === 'custom') onChange('')
+                if (t.id === 'custom') {
+                  if (viewMode === 'nodebpy') runPython(customPython)
+                  else onChange('')
+                }
                 setActiveTab(t.id)
               }}
             >
@@ -184,7 +223,10 @@ export function JsonEditorTabs(props: {
           <button
             type="button"
             className={`view-toggle__option ${viewMode === 'nodebpy' ? 'active' : ''}`}
-            onClick={() => setViewMode('nodebpy')}
+            onClick={() => {
+              setViewMode('nodebpy')
+              if (activeTab === 'custom') runPython(customPython)
+            }}
             title="Show this tree as nodebpy Python code"
           >
             nodebpy
@@ -227,7 +269,7 @@ export function JsonEditorTabs(props: {
               type="button"
               className="action-button"
               onClick={copyNodebpy}
-              disabled={!('code' in nodebpy)}
+              disabled={!isCustomPython && !('code' in nodebpy)}
               title="Copy nodebpy code to clipboard"
             >
               {copied ? 'Copied!' : 'Copy code'}
@@ -244,9 +286,17 @@ export function JsonEditorTabs(props: {
       <div className="panel-body">
         <CodeMirror
           className="cm-editor"
-          value={viewMode === 'json' ? value : 'code' in nodebpy ? nodebpy.code : `# ${nodebpy.error}`}
+          value={
+            viewMode === 'json'
+              ? value
+              : isCustomPython
+                ? customPython
+                : 'code' in nodebpy
+                  ? nodebpy.code
+                  : `# ${nodebpy.error}`
+          }
           height="100%"
-          readOnly={viewMode === 'nodebpy'}
+          readOnly={viewMode === 'nodebpy' && !isCustomPython}
           basicSetup={{
             lineNumbers: true,
             foldGutter: true,
@@ -264,6 +314,7 @@ export function JsonEditorTabs(props: {
           theme={prefersDark ? oneDark : undefined}
           onChange={(next) => {
             if (viewMode === 'json') onChange(next)
+            else if (isCustomPython) onPythonChange(next)
           }}
         />
       </div>
@@ -272,6 +323,12 @@ export function JsonEditorTabs(props: {
         {viewMode === 'json' ? (
           <div className={`json-status ${parseError ? 'bad' : 'ok'}`}>
             {parseError ? `JSON error: ${parseError}` : 'JSON OK'}
+          </div>
+        ) : isCustomPython ? (
+          <div className={`json-status ${pythonError ? 'bad' : 'ok'}`}>
+            {pythonError
+              ? `Python: ${pythonError} (showing last good render)`
+              : 'Python OK — rendering live'}
           </div>
         ) : (
           <div className={`json-status ${'code' in nodebpy ? 'ok' : 'bad'}`}>
