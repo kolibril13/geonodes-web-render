@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { json } from '@codemirror/lang-json'
+import { python } from '@codemirror/lang-python'
 import { EditorView } from '@codemirror/view'
 import { oneDark } from '@codemirror/theme-one-dark'
+import { exportToNodebpy } from '../gn/exporter/nodebpyExporter'
 
 type TabId =
   | 'example1'
@@ -63,6 +65,7 @@ export function JsonEditorTabs(props: {
 }) {
   const { value, onChange } = props
   const [activeTab, setActiveTab] = useState<TabId>('example1')
+  const [viewMode, setViewMode] = useState<'json' | 'nodebpy'>('json')
   const [loadState, setLoadState] = useState<
     { kind: 'idle' } | { kind: 'loading' } | { kind: 'error'; message: string }
   >({ kind: 'idle' })
@@ -121,6 +124,25 @@ export function JsonEditorTabs(props: {
 
   const [base64ImportError, setBase64ImportError] = useState<string | null>(null)
 
+  // Live nodebpy conversion of the current JSON for the "nodebpy" view.
+  const nodebpy = useMemo((): { code: string } | { error: string } => {
+    const trimmed = value.trim()
+    if (trimmed.length === 0) return { error: 'No JSON loaded yet.' }
+    try {
+      return { code: exportToNodebpy(JSON.parse(value)) }
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : 'Conversion failed' }
+    }
+  }, [value])
+
+  const [copied, setCopied] = useState(false)
+  async function copyNodebpy() {
+    if (!('code' in nodebpy)) return
+    await navigator.clipboard.writeText(nodebpy.code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
   async function importBase64FromClipboard() {
     setBase64ImportError(null)
     try {
@@ -157,27 +179,58 @@ export function JsonEditorTabs(props: {
             </button>
           ))}
         </div>
+        <div className="view-toggle" role="group" aria-label="Editor view">
+          <button
+            type="button"
+            className={`view-toggle__option ${viewMode === 'json' ? 'active' : ''}`}
+            onClick={() => setViewMode('json')}
+          >
+            JSON
+          </button>
+          <button
+            type="button"
+            className={`view-toggle__option ${viewMode === 'nodebpy' ? 'active' : ''}`}
+            onClick={() => setViewMode('nodebpy')}
+            title="Show this tree as nodebpy Python code"
+          >
+            nodebpy
+          </button>
+        </div>
         <div className="panel-actions">
-          <button
-            type="button"
-            className="action-button"
-            onClick={importBase64FromClipboard}
-            title="Decode base64 from clipboard and paste JSON into editor"
-          >
-            Import base64 from clipboard
-          </button>
-          <button
-            type="button"
-            className="action-button"
-            onClick={() => {
-              const res = formatJson(value)
-              if (res.ok) onChange(res.formatted)
-            }}
-            disabled={value.trim().length === 0 || !!parseError}
-            title={parseError ? 'Fix JSON errors to format' : 'Format JSON'}
-          >
-            Format
-          </button>
+          {viewMode === 'json' ? (
+            <>
+              <button
+                type="button"
+                className="action-button"
+                onClick={importBase64FromClipboard}
+                title="Decode base64 from clipboard and paste JSON into editor"
+              >
+                Import base64 from clipboard
+              </button>
+              <button
+                type="button"
+                className="action-button"
+                onClick={() => {
+                  const res = formatJson(value)
+                  if (res.ok) onChange(res.formatted)
+                }}
+                disabled={value.trim().length === 0 || !!parseError}
+                title={parseError ? 'Fix JSON errors to format' : 'Format JSON'}
+              >
+                Format
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              className="action-button"
+              onClick={copyNodebpy}
+              disabled={!('code' in nodebpy)}
+              title="Copy nodebpy code to clipboard"
+            >
+              {copied ? 'Copied!' : 'Copy code'}
+            </button>
+          )}
         </div>
         <div className="panel-status" aria-live="polite">
           {loadState.kind === 'loading' ? 'Loading…' : null}
@@ -189,8 +242,9 @@ export function JsonEditorTabs(props: {
       <div className="panel-body">
         <CodeMirror
           className="cm-editor"
-          value={value}
+          value={viewMode === 'json' ? value : 'code' in nodebpy ? nodebpy.code : `# ${nodebpy.error}`}
           height="100%"
+          readOnly={viewMode === 'nodebpy'}
           basicSetup={{
             lineNumbers: true,
             foldGutter: true,
@@ -198,7 +252,7 @@ export function JsonEditorTabs(props: {
             highlightSelectionMatches: true,
           }}
           extensions={[
-            json(),
+            viewMode === 'json' ? json() : python(),
             EditorView.lineWrapping,
             EditorView.theme({
               '&': { height: '100%' },
@@ -206,14 +260,24 @@ export function JsonEditorTabs(props: {
             }),
           ]}
           theme={prefersDark ? oneDark : undefined}
-          onChange={(next) => onChange(next)}
+          onChange={(next) => {
+            if (viewMode === 'json') onChange(next)
+          }}
         />
       </div>
 
       <div className="panel-footer">
-        <div className={`json-status ${parseError ? 'bad' : 'ok'}`}>
-          {parseError ? `JSON error: ${parseError}` : 'JSON OK'}
-        </div>
+        {viewMode === 'json' ? (
+          <div className={`json-status ${parseError ? 'bad' : 'ok'}`}>
+            {parseError ? `JSON error: ${parseError}` : 'JSON OK'}
+          </div>
+        ) : (
+          <div className={`json-status ${'code' in nodebpy ? 'ok' : 'bad'}`}>
+            {'code' in nodebpy
+              ? 'nodebpy code generated from the current JSON (read-only)'
+              : `Conversion error: ${nodebpy.error}`}
+          </div>
+        )}
       </div>
     </div>
   )

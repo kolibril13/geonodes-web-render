@@ -87,6 +87,38 @@
   gap: 8px;
 }
 
+/* JSON / nodebpy segmented view toggle */
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view-toggle__option {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.view-toggle__option + .view-toggle__option {
+  border-left: 1px solid var(--border);
+}
+
+.view-toggle__option.active {
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+.view-toggle__option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
 .action-button {
   appearance: none;
   border: 1px solid var(--border);
