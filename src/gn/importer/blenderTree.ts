@@ -40,6 +40,8 @@ type BlenderNode = {
     single_output?: number
     // FunctionNodeInputVector
     vector?: number[]
+    // GeometryNodeGroup (and other group nodes): id of the referenced tree
+    node_tree?: number | null
     // ShaderNodeCombineColor / ShaderNodeSeparateColor
     mode?: string
     // FunctionNodeCompare / ShaderNodeMath
@@ -83,23 +85,26 @@ type BlenderLink = {
   }
 }
 
-export type BlenderTreeExport = {
-  node_trees: Array<{
-    id: number
-    data: {
-      name: string
-      nodes: {
-        data: {
-          items: BlenderNode[]
-        }
-      }
-      links: {
-        data: {
-          items: BlenderLink[]
-        }
+type BlenderTree = {
+  id: number
+  data: {
+    name: string
+    is_modifier?: boolean
+    nodes: {
+      data: {
+        items: BlenderNode[]
       }
     }
-  }>
+    links: {
+      data: {
+        items: BlenderLink[]
+      }
+    }
+  }
+}
+
+export type BlenderTreeExport = {
+  node_trees: BlenderTree[]
 }
 
 export type NormalizedSocket = {
@@ -128,6 +133,9 @@ export type NormalizedNode = {
   outputs: NormalizedSocket[]
   floatCurve?: FloatCurveData
   properties?: Record<string, string>
+  /** For group nodes: id/name of the referenced node tree (if present in the export). */
+  groupTreeId?: string
+  groupTreeName?: string
 }
 
 export type NormalizedLink = {
@@ -141,6 +149,13 @@ export type NormalizedGraph = {
   label: string
   nodes: NormalizedNode[]
   links: NormalizedLink[]
+}
+
+export type NormalizedExport = {
+  /** Id of the top-level tree (the one not referenced by any group node). */
+  rootId: string
+  /** All trees in the export, keyed by tree id. */
+  trees: Record<string, NormalizedGraph>
 }
 
 const SOCKET_IDNAME_TO_TYPE: Record<string, string> = {
@@ -280,23 +295,15 @@ function extractNodeProperties(node: BlenderNode): Record<string, string> | unde
   return undefined
 }
 
-export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
-  if (!raw || typeof raw !== 'object') {
-    throw new Error('JSON root must be an object.')
-  }
-  if (!Array.isArray(raw.node_trees) || raw.node_trees.length === 0) {
-    throw new Error('Expected "node_trees" array with at least one entry.')
-  }
-
-  const tree = raw.node_trees[0]
+function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
   if (!tree?.data) {
-    throw new Error('"node_trees[0].data" is missing.')
+    throw new Error(`"node_trees[${treeIndex}].data" is missing.`)
   }
   if (!tree.data.nodes?.data?.items) {
-    throw new Error('"node_trees[0].data.nodes.data.items" is missing.')
+    throw new Error(`"node_trees[${treeIndex}].data.nodes.data.items" is missing.`)
   }
   if (!tree.data.links?.data?.items) {
-    throw new Error('"node_trees[0].data.links.data.items" is missing.')
+    throw new Error(`"node_trees[${treeIndex}].data.links.data.items" is missing.`)
   }
 
   return {
@@ -358,6 +365,8 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
         outputs,
         floatCurve,
         ...(properties ? { properties } : {}),
+        // node_tree can legitimately be 0, so compare against null/undefined.
+        ...(node.data.node_tree != null ? { groupTreeId: String(node.data.node_tree) } : {}),
       }
     }),
     links: tree.data.links.data.items.map((link, li) => {
@@ -369,6 +378,52 @@ export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
       }
     }),
   }
+}
+
+export function normalizeBlenderExport(raw: BlenderTreeExport): NormalizedExport {
+  if (!raw || typeof raw !== 'object') {
+    throw new Error('JSON root must be an object.')
+  }
+  if (!Array.isArray(raw.node_trees) || raw.node_trees.length === 0) {
+    throw new Error('Expected "node_trees" array with at least one entry.')
+  }
+
+  const trees: Record<string, NormalizedGraph> = {}
+  for (let i = 0; i < raw.node_trees.length; i++) {
+    const graph = normalizeTree(raw.node_trees[i], i)
+    trees[graph.id] = graph
+  }
+
+  // Drop group references to trees missing from the export, and resolve the
+  // referenced tree's name so group nodes can display it.
+  const referencedTreeIds = new Set<string>()
+  for (const graph of Object.values(trees)) {
+    for (const node of graph.nodes) {
+      if (node.groupTreeId === undefined) continue
+      const target = trees[node.groupTreeId]
+      if (!target) {
+        delete node.groupTreeId
+        continue
+      }
+      node.groupTreeName = target.label
+      referencedTreeIds.add(target.id)
+    }
+  }
+
+  // The root tree is the one no group node points at; prefer the modifier
+  // tree when ambiguous, and fall back to the first tree (legacy behavior).
+  const rootCandidates = raw.node_trees.filter((t) => !referencedTreeIds.has(String(t.id)))
+  const rootTree =
+    rootCandidates.find((t) => t.data?.is_modifier) ??
+    rootCandidates[0] ??
+    raw.node_trees[0]
+
+  return { rootId: String(rootTree.id), trees }
+}
+
+export function normalizeBlenderGraph(raw: BlenderTreeExport): NormalizedGraph {
+  const { rootId, trees } = normalizeBlenderExport(raw)
+  return trees[rootId]
 }
 
 function toInputSocket(nodeId: string, socket: NormalizedSocket): SocketIR {
@@ -399,6 +454,8 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     outputs: node.outputs.map((socket) => toOutputSocket(node.id, socket)),
     floatCurve: node.floatCurve,
     properties: node.properties,
+    groupTreeId: node.groupTreeId,
+    groupTreeName: node.groupTreeName,
   }))
 
   const socketToNode = new Map<string, string>()

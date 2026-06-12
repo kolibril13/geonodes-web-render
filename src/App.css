@@ -291,6 +291,49 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Group node: Blender-style nested-tree selector row */
+.gn-node__group-row {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 3px 10px;
+  font-size: 10px;
+  text-align: left;
+  color: var(--text-h);
+  background: color-mix(in srgb, var(--bg) 75%, #000 25%);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.gn-node__group-row:hover {
+  background: color-mix(in srgb, var(--bg) 60%, #000 40%);
+}
+
+.gn-node__group-row:hover .gn-node__group-open {
+  color: var(--accent);
+}
+
+.gn-node__group-name {
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+
+.gn-node__group-open {
+  flex-shrink: 0;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--text);
+}
+
 .gn-node__body {
   padding: 6px 0;
   background: color-mix(in srgb, var(--bg) 90%, #111827 10%);
@@ -527,6 +570,54 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
+}
+
+/* Breadcrumb trail for nested node groups */
+.gn-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg) 85%, #000 15%);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  pointer-events: all;
+}
+
+.gn-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.gn-breadcrumbs__sep {
+  color: var(--text);
+  opacity: 0.6;
+  padding: 0 2px;
+}
+
+.gn-breadcrumbs__link {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.gn-breadcrumbs__link:hover {
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.gn-breadcrumbs__current {
+  padding: 2px 4px;
+  color: var(--text-h);
+  font-weight: 600;
 }
 
 /* Tree Clipper attribution badge */

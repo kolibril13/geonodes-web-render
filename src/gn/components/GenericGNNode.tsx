@@ -2,6 +2,7 @@ import { Handle, Position, type NodeProps } from '@xyflow/react'
 import type { FloatCurveData } from '../ir/types'
 import { buildCurvePaths } from '../ir/curvePath'
 import type { GNFlowNodeData } from '../xyflow/mapGraphIRToFlow'
+import { useGroupNav } from './groupNavContext'
 
 const VEC_LABELS = ['X', 'Y', 'Z', 'W']
 
@@ -237,6 +238,24 @@ function showVec(socket: SocketData, suppressDefault: boolean) {
   return !suppressDefault && !socket.hideValue && socket.defaultValue?.kind === 'vec'
 }
 
+// Blender-style group selector row: shows the referenced tree's name and
+// drills into it on click (like Tab-ing into a group in Blender).
+function GroupTreeRow(props: { treeId: string; treeName: string }) {
+  const nav = useGroupNav()
+  return (
+    <button
+      type="button"
+      className="gn-node__group-row nodrag"
+      onClick={() => nav?.openGroup(props.treeId)}
+      disabled={!nav}
+      title={`Open group "${props.treeName}"`}
+    >
+      <span className="gn-node__group-name">{props.treeName}</span>
+      <span className="gn-node__group-open" aria-hidden="true">⤢</span>
+    </button>
+  )
+}
+
 export function GenericGNNode(props: NodeProps) {
   const data = props.data as GNFlowNodeData
   const connectedIds = new Set(data.connectedInputIds ?? [])
@@ -248,6 +267,10 @@ export function GenericGNNode(props: NodeProps) {
       <div className="gn-node__header" style={{ background: data.headerColor }}>
         <div className="gn-node__title">{data.label}</div>
       </div>
+
+      {data.groupTreeId !== undefined && data.groupTreeName !== undefined && (
+        <GroupTreeRow treeId={data.groupTreeId} treeName={data.groupTreeName} />
+      )}
 
       {data.properties && <NodePropsBlock properties={data.properties} />}
 

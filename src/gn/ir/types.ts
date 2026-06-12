@@ -48,6 +48,9 @@ export type NodeIR = {
   floatCurve?: FloatCurveData
   /** Node-type-specific enum properties (e.g. operation, data_type for Compare) */
   properties?: Record<string, string>
+  /** For group nodes: id/name of the referenced node tree within the export */
+  groupTreeId?: string
+  groupTreeName?: string
 }
 
 export type EdgeIR = {

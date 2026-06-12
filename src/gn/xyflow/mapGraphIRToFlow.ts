@@ -11,6 +11,8 @@ export type GNFlowNodeData = {
   connectedInputIds: string[]
   floatCurve?: FloatCurveData
   properties?: Record<string, string>
+  groupTreeId?: string
+  groupTreeName?: string
 }
 
 export type GNRerouteNodeData = {
@@ -64,6 +66,8 @@ function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
         .map((s) => s.id),
       floatCurve: node.floatCurve,
       properties: node.properties,
+      groupTreeId: node.groupTreeId,
+      groupTreeName: node.groupTreeName,
     } as GNFlowNodeData,
   }
 }
