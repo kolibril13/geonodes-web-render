@@ -64,38 +64,49 @@ export function GraphView(props: GraphViewEmbedOptions) {
   )
 }
 
-let embedRoot: Root | null = null
+// One React root per container, so several graphs can live on the same page
+// (e.g. a docs page with many examples). Mounting into a container replaces
+// only that container's graph, never the others.
+const roots = new Map<HTMLElement, Root>()
+let lastContainer: HTMLElement | null = null
 
 /**
- * Mount the graph view into a DOM container. Call unmountGraphView() to remove.
+ * Mount the graph view into a DOM container. Returns a function that unmounts
+ * this graph; you can also call unmountGraphView(container).
  */
 export function mountGraphView(
   container: HTMLElement,
   options: GraphViewEmbedOptions
 ): () => void {
-  if (embedRoot) {
-    embedRoot.unmount()
-    embedRoot = null
-  }
-  embedRoot = createRoot(container)
+  roots.get(container)?.unmount()
+
+  const root = createRoot(container)
+  roots.set(container, root)
+  lastContainer = container
+
   const onClose = options.onClose
-  embedRoot.render(
+  root.render(
     createElement(GraphView, {
       ...options,
       onClose: onClose
         ? () => {
-            unmountGraphView()
+            unmountGraphView(container)
             onClose()
           }
         : undefined,
     })
   )
-  return unmountGraphView
+  return () => unmountGraphView(container)
 }
 
-export function unmountGraphView(): void {
-  if (embedRoot) {
-    embedRoot.unmount()
-    embedRoot = null
-  }
+/**
+ * Unmount a previously mounted graph. With no argument, unmounts the most
+ * recently mounted one (kept for backwards compatibility).
+ */
+export function unmountGraphView(container?: HTMLElement): void {
+  const target = container ?? lastContainer
+  if (!target) return
+  roots.get(target)?.unmount()
+  roots.delete(target)
+  if (target === lastContainer) lastContainer = null
 }
