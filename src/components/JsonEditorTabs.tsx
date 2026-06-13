@@ -206,7 +206,7 @@ export function JsonEditorTabs(props: {
             }),
           ]}
           theme={prefersDark ? oneDark : undefined}
-          onChange={(next) => onChange(next)}
+          onChange={onChange}
         />
       </div>
 
@@ -218,4 +218,3 @@ export function JsonEditorTabs(props: {
     </div>
   )
 }
-

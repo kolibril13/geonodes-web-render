@@ -1,6 +1,6 @@
 {
   "name": "geonodes-web-render",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Browser-based viewer for Blender Geometry Nodes exported via Tree Clipper. Renders node trees as a read-only, Blender-styled graph.",
   "type": "module",
   "exports": {
@@ -32,10 +32,12 @@
     "build:lib": "vite build --config vite.lib.config.ts",
     "lint": "eslint .",
     "preview": "vite preview",
+    "convert:nodebpy": "rolldown scripts/convertExamples.ts --format esm --file node_modules/.tmp/convertExamples.mjs --external node:fs --external node:path && node node_modules/.tmp/convertExamples.mjs",
     "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
     "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/lang-python": "^6.2.1",
     "@codemirror/state": "^6.6.0",
     "@codemirror/theme-one-dark": "^6.1.3",
     "@codemirror/view": "^6.40.0",

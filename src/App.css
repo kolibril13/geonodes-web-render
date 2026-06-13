@@ -3,17 +3,81 @@
   min-height: 100svh;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(320px, 34vw) 1fr;
+  grid-template-columns: var(--left-w, 28%) 6px minmax(0, 1fr) 6px var(--right-w, 26%);
   gap: 0;
 }
 
 .left-pane,
+.center-pane,
 .right-pane {
   min-height: 0;
+  min-width: 0;
 }
 
-.left-pane {
-  border-right: 1px solid var(--border);
+/* Draggable column splitters */
+.pane-divider {
+  position: relative;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.pane-divider::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: 0 auto;
+  width: 1px;
+  background: var(--border);
+  transition: width 0.1s ease, background 0.1s ease;
+}
+
+.pane-divider:hover::after,
+body.is-resizing .pane-divider::after {
+  width: 3px;
+  background: var(--accent);
+}
+
+body.is-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* Keep drags smooth over the canvas/editors */
+body.is-resizing .left-pane,
+body.is-resizing .center-pane,
+body.is-resizing .right-pane {
+  pointer-events: none;
+}
+
+/* Breathing room inside the code editors */
+.panel-body .cm-content {
+  padding: 10px 14px 24px;
+}
+
+/* Slightly larger nodebpy code on the right */
+.right-pane .cm-content,
+.right-pane .cm-gutters {
+  font-size: 15px;
+}
+
+/* Selected nodes drive the nodebpy output — make them stand out */
+.flow-panel__body .react-flow__node.selected:not(:has(.gn-reroute)) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Reroutes are tiny circles: a centered ring reads better than a square outline */
+.flow-panel__body .react-flow__node.selected .gn-reroute {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 0 0 3px var(--bg),
+    0 0 0 5px var(--accent);
+}
+
+.flow-panel__body .react-flow__selection {
+  border: 1px solid var(--accent);
+  background: var(--accent-bg);
 }
 
 .panel {
@@ -85,6 +149,38 @@
 .panel-actions {
   display: inline-flex;
   gap: 8px;
+}
+
+/* JSON / nodebpy segmented view toggle */
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view-toggle__option {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.view-toggle__option + .view-toggle__option {
+  border-left: 1px solid var(--border);
+}
+
+.view-toggle__option.active {
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+.view-toggle__option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .action-button {
@@ -208,6 +304,7 @@
 /* ── Reroute node ──────────────────────────────────────────────── */
 
 .gn-reroute {
+  box-sizing: border-box;
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -539,12 +636,19 @@
 @media (max-width: 980px) {
   .app-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: 55svh 1fr;
+    grid-template-rows: 40svh 1fr 30svh;
+  }
+
+  .pane-divider {
+    display: none;
   }
 
   .left-pane {
-    border-right: none;
     border-bottom: 1px solid var(--border);
+  }
+
+  .right-pane {
+    border-top: 1px solid var(--border);
   }
 }
 
