@@ -23,6 +23,17 @@ export function GraphView(props: GraphViewEmbedOptions) {
   const [jsonText, setJsonText] = useState<string>('')
   const [decodeError, setDecodeError] = useState<string | null>(null)
   const [decoding, setDecoding] = useState(true)
+  const [copied, setCopied] = useState(false)
+
+  const copyPayload = async () => {
+    try {
+      await navigator.clipboard.writeText(payload)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // Clipboard can be blocked (no gesture / insecure context); ignore.
+    }
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -57,11 +68,21 @@ export function GraphView(props: GraphViewEmbedOptions) {
             <span>{decodeError}</span>
           </div>
         ) : (
-          <GeometryNodesFlow
-            jsonText={jsonText}
-            showHeader={false}
-            zoomOnScroll={false}
-          />
+          <>
+            <GeometryNodesFlow
+              jsonText={jsonText}
+              showHeader={false}
+              zoomOnScroll={false}
+            />
+            <button
+              type="button"
+              className="gnwr-copy-button"
+              onClick={copyPayload}
+              title="Copy the Tree Clipper data — paste into Blender with the Tree Clipper add-on"
+            >
+              {copied ? 'Copied!' : 'Copy for Blender'}
+            </button>
+          </>
         )}
       </div>
     </div>

@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.4] - 2026-06-13
+
+### Added
+
+- The embed (`GraphView` / `mountGraphView`) now shows a "Copy for Blender"
+  button on the graph that copies the original Tree Clipper payload to the
+  clipboard, so a reader can paste it straight into Blender via the Tree Clipper
+  add-on.
+
 ## [0.3.3] - 2026-06-13
 
 ### Fixed
@@ -74,6 +83,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   via Tree Clipper as a Blender-styled graph, plus the embeddable `GraphView` /
   `mountGraphView` API.
 
+[0.3.4]: https://github.com/kolibril13/geonodes-web-render/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/kolibril13/geonodes-web-render/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/kolibril13/geonodes-web-render/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/kolibril13/geonodes-web-render/compare/v0.3.0...v0.3.1
