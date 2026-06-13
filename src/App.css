@@ -61,10 +61,18 @@ body.is-resizing .right-pane {
 }
 
 /* Selected nodes drive the nodebpy output — make them stand out */
-.flow-panel__body .react-flow__node.selected {
+.flow-panel__body .react-flow__node.selected:not(:has(.gn-reroute)) {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 6px;
+}
+
+/* Reroutes are tiny circles: a centered ring reads better than a square outline */
+.flow-panel__body .react-flow__node.selected .gn-reroute {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 0 0 3px var(--bg),
+    0 0 0 5px var(--accent);
 }
 
 .flow-panel__body .react-flow__selection {
@@ -296,6 +304,7 @@ body.is-resizing .right-pane {
 /* ── Reroute node ──────────────────────────────────────────────── */
 
 .gn-reroute {
+  box-sizing: border-box;
   width: 12px;
   height: 12px;
   border-radius: 50%;
