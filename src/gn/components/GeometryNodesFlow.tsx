@@ -117,6 +117,8 @@ function FlowCanvas(props: {
       panOnDrag={[1, 2]}
       panOnScroll={false}
       zoomOnScroll={zoomOnScroll}
+      // When zoom is off (embed), don't swallow the wheel — let it scroll the page.
+      preventScrolling={zoomOnScroll}
       zoomOnDoubleClick={false}
     >
       <Background gap={20} size={1} />
