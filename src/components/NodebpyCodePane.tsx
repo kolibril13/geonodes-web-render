@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { python } from '@codemirror/lang-python'
+import { json } from '@codemirror/lang-json'
 import { EditorView } from '@codemirror/view'
 import { oneDark } from '@codemirror/theme-one-dark'
 import {
@@ -8,12 +9,15 @@ import {
   filterExportToSelection,
 } from '../gn/exporter/nodebpyExporter'
 
+type OutputMode = 'nodebpy' | 'treeclipper'
+
 export function NodebpyCodePane(props: {
   jsonText: string
   /** Raw Tree Clipper node ids (as strings) to scope the code to. Empty = whole tree. */
   selectedNodeIds?: string[]
 }) {
   const { jsonText, selectedNodeIds = [] } = props
+  const [mode, setMode] = useState<OutputMode>('nodebpy')
   const [prefersDark, setPrefersDark] = useState<boolean>(() =>
     window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false,
   )
@@ -32,7 +36,7 @@ export function NodebpyCodePane(props: {
     return new Set(ids)
   }, [selectedNodeIds])
 
-  const nodebpy = useMemo(():
+  const output = useMemo(():
     | { code: string; selectionCount: number }
     | { error: string } => {
     const trimmed = jsonText.trim()
@@ -41,34 +45,70 @@ export function NodebpyCodePane(props: {
       const raw = JSON.parse(jsonText)
       const scoped =
         selectedIds.size > 0 ? filterExportToSelection(raw, selectedIds) : raw
-      return {
-        code: exportToNodebpy(scoped),
-        selectionCount: selectedIds.size,
-      }
+      const code =
+        mode === 'nodebpy'
+          ? exportToNodebpy(scoped)
+          : `${JSON.stringify(scoped, null, 2)}\n`
+      return { code, selectionCount: selectedIds.size }
     } catch (e) {
       return { error: e instanceof Error ? e.message : 'Conversion failed' }
     }
-  }, [jsonText, selectedIds])
+  }, [jsonText, selectedIds, mode])
 
   const [copied, setCopied] = useState(false)
-  async function copyNodebpy() {
-    if (!('code' in nodebpy)) return
-    await navigator.clipboard.writeText(nodebpy.code)
+  async function copyOutput() {
+    if (!('code' in output)) return
+    await navigator.clipboard.writeText(output.code)
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
   }
 
+  const isNodebpy = mode === 'nodebpy'
+  const langExt = isNodebpy ? python() : json()
+  const errorPrefix = isNodebpy ? '# ' : '// '
+
+  const selectionCount = 'code' in output ? output.selectionCount : 0
+  const scopeLabel =
+    selectionCount > 0
+      ? `${selectionCount} selected node${selectionCount === 1 ? '' : 's'} — drag on the canvas to change, click empty space to clear`
+      : isNodebpy
+        ? 'nodebpy code generated from the Tree Clipper JSON — paste into Blender'
+        : 'Tree Clipper JSON — drag on the canvas to scope to selected nodes'
+
   return (
     <div className="panel">
       <div className="panel-header">
-        <div className="panel-title">nodebpy</div>
+        <div
+          className="view-toggle"
+          role="tablist"
+          aria-label="Output format"
+        >
+          <button
+            type="button"
+            className={`view-toggle__option ${isNodebpy ? 'active' : ''}`}
+            role="tab"
+            aria-selected={isNodebpy}
+            onClick={() => setMode('nodebpy')}
+          >
+            nodebpy
+          </button>
+          <button
+            type="button"
+            className={`view-toggle__option ${!isNodebpy ? 'active' : ''}`}
+            role="tab"
+            aria-selected={!isNodebpy}
+            onClick={() => setMode('treeclipper')}
+          >
+            Tree Clipper
+          </button>
+        </div>
         <div className="panel-actions">
           <button
             type="button"
             className="action-button"
-            onClick={copyNodebpy}
-            disabled={!('code' in nodebpy)}
-            title="Copy nodebpy code to clipboard"
+            onClick={copyOutput}
+            disabled={!('code' in output)}
+            title={`Copy ${isNodebpy ? 'nodebpy code' : 'Tree Clipper JSON'} to clipboard`}
           >
             {copied ? 'Copied!' : 'Copy code'}
           </button>
@@ -78,7 +118,7 @@ export function NodebpyCodePane(props: {
       <div className="panel-body">
         <CodeMirror
           className="cm-editor"
-          value={'code' in nodebpy ? nodebpy.code : `# ${nodebpy.error}`}
+          value={'code' in output ? output.code : `${errorPrefix}${output.error}`}
           height="100%"
           readOnly
           basicSetup={{
@@ -88,7 +128,7 @@ export function NodebpyCodePane(props: {
             highlightSelectionMatches: true,
           }}
           extensions={[
-            python(),
+            langExt,
             EditorView.lineWrapping,
             EditorView.theme({
               '&': { height: '100%' },
@@ -100,12 +140,10 @@ export function NodebpyCodePane(props: {
       </div>
 
       <div className="panel-footer">
-        <div className={`json-status ${'code' in nodebpy ? 'ok' : 'bad'}`}>
-          {'code' in nodebpy
-            ? nodebpy.selectionCount > 0
-              ? `nodebpy for ${nodebpy.selectionCount} selected node${nodebpy.selectionCount === 1 ? '' : 's'} — drag on the canvas to change, click empty space to clear`
-              : 'nodebpy code generated from the Tree Clipper JSON — paste into Blender'
-            : `Conversion error: ${nodebpy.error}`}
+        <div className={`json-status ${'code' in output ? 'ok' : 'bad'}`}>
+          {'code' in output
+            ? scopeLabel
+            : `Conversion error: ${output.error}`}
         </div>
       </div>
     </div>
