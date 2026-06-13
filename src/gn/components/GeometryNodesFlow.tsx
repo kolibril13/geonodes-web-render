@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Background,
   Controls,
@@ -45,6 +45,9 @@ function FlowCanvas(props: {
 }) {
   const { nodes, edges, breadcrumbs, onNavigate, onSelectionIds } = props
   const { fitView } = useReactFlow()
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  // Once the user pans/zooms, stop auto-fitting so we don't fight them.
+  const userMovedRef = useRef(false)
   // Local copies so React Flow can apply selection changes (box select / click).
   const [localNodes, setLocalNodes, onNodesChange] = useNodesState(nodes)
   const [localEdges, setLocalEdges, onEdgesChange] = useEdgesState(edges)
@@ -54,12 +57,32 @@ function FlowCanvas(props: {
     // Replacing the node set also resets any selection.
     setLocalNodes(nodes)
     onSelectionIds?.([])
+    userMovedRef.current = false
     fitView(FIT_VIEW_OPTIONS)
   }, [nodes, setLocalNodes, onSelectionIds, fitView])
 
   useEffect(() => {
     setLocalEdges(edges)
   }, [edges, setLocalEdges])
+
+  // Re-fit when the canvas actually gets (or changes) its size. In an embed the
+  // stylesheet can load after mount, so the initial `fitView` runs against a
+  // wrongly-sized container; observing the size catches up once layout settles.
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el) return
+    const observer = new ResizeObserver(() => {
+      if (!userMovedRef.current) fitView(FIT_VIEW_OPTIONS)
+    })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [fitView])
+
+  // React Flow passes a null event for programmatic moves (our own fitView) and
+  // a real event for user pan/zoom — only the latter should lock auto-fit.
+  const onMoveStart = useCallback((event: MouseEvent | TouchEvent | null) => {
+    if (event) userMovedRef.current = true
+  }, [])
 
   const onSelectionChange = useCallback(
     ({ nodes: selected }: OnSelectionChangeParams) => {
@@ -69,12 +92,14 @@ function FlowCanvas(props: {
   )
 
   return (
+    <div ref={wrapperRef} style={{ width: '100%', height: '100%' }}>
     <ReactFlow
       nodes={localNodes}
       edges={localEdges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onSelectionChange={onSelectionChange}
+      onMoveStart={onMoveStart}
       nodeTypes={nodeTypes}
       fitView
       fitViewOptions={FIT_VIEW_OPTIONS}
@@ -133,6 +158,7 @@ function FlowCanvas(props: {
         </a>
       </Panel>
     </ReactFlow>
+    </div>
   )
 }
 
