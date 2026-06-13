@@ -8,6 +8,7 @@ import {
   exportToNodebpy,
   filterExportToSelection,
 } from '../gn/exporter/nodebpyExporter'
+import { formatTreeClipperJson } from '../utils/formatTreeClipperJson'
 
 type OutputMode = 'nodebpy' | 'treeclipper'
 
@@ -48,7 +49,7 @@ export function NodebpyCodePane(props: {
       const code =
         mode === 'nodebpy'
           ? exportToNodebpy(scoped)
-          : `${JSON.stringify(scoped, null, 2)}\n`
+          : formatTreeClipperJson(scoped)
       return { code, selectionCount: selectedIds.size }
     } catch (e) {
       return { error: e instanceof Error ? e.message : 'Conversion failed' }
@@ -129,7 +130,9 @@ export function NodebpyCodePane(props: {
           }}
           extensions={[
             langExt,
-            EditorView.lineWrapping,
+            // nodebpy wraps; Tree Clipper JSON scrolls so each entity stays on
+            // its own row and the line count reads as an entity count.
+            ...(isNodebpy ? [EditorView.lineWrapping] : []),
             EditorView.theme({
               '&': { height: '100%' },
               '.cm-scroller': { overflow: 'auto' },
