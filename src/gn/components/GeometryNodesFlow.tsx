@@ -42,8 +42,9 @@ function FlowCanvas(props: {
   breadcrumbs: Breadcrumb[]
   onNavigate: (index: number) => void
   onSelectionIds?: (ids: string[]) => void
+  zoomOnScroll?: boolean
 }) {
-  const { nodes, edges, breadcrumbs, onNavigate, onSelectionIds } = props
+  const { nodes, edges, breadcrumbs, onNavigate, onSelectionIds, zoomOnScroll = true } = props
   const { fitView } = useReactFlow()
   const wrapperRef = useRef<HTMLDivElement>(null)
   // Once the user pans/zooms, stop auto-fitting so we don't fight them.
@@ -115,7 +116,7 @@ function FlowCanvas(props: {
       connectOnClick={false}
       panOnDrag={[1, 2]}
       panOnScroll={false}
-      zoomOnScroll
+      zoomOnScroll={zoomOnScroll}
       zoomOnDoubleClick={false}
     >
       <Background gap={20} size={1} />
@@ -170,8 +171,11 @@ export function GeometryNodesFlow(props: {
   showHeader?: boolean
   /** Reports the currently selected node ids (raw Tree Clipper node ids as strings). */
   onSelectionChange?: (nodeIds: string[]) => void
+  /** Zoom the canvas on mouse-wheel. Default true; set false (e.g. in an embed)
+   *  so the wheel scrolls the host page instead of the node tree. */
+  zoomOnScroll?: boolean
 }) {
-  const { jsonText, showHeader = true, onSelectionChange } = props
+  const { jsonText, showHeader = true, onSelectionChange, zoomOnScroll = true } = props
 
   // Trail of opened groups below the root tree (tree ids). The stack is tied
   // to the JSON it was built from: new JSON means new tree ids, so a stack
@@ -278,6 +282,7 @@ export function GeometryNodesFlow(props: {
                 breadcrumbs={breadcrumbs}
                 onNavigate={(index) => setNav({ json: jsonText, ids: path.slice(1, index + 1) })}
                 onSelectionIds={onSelectionChange}
+                zoomOnScroll={zoomOnScroll}
               />
             </ReactFlowProvider>
           </GroupNavContext.Provider>

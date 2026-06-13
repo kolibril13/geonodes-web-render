@@ -57,7 +57,11 @@ export function GraphView(props: GraphViewEmbedOptions) {
             <span>{decodeError}</span>
           </div>
         ) : (
-          <GeometryNodesFlow jsonText={jsonText} showHeader={false} />
+          <GeometryNodesFlow
+            jsonText={jsonText}
+            showHeader={false}
+            zoomOnScroll={false}
+          />
         )}
       </div>
     </div>
