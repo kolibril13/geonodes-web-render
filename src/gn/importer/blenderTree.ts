@@ -1,4 +1,5 @@
 import type {
+  ColorRampData,
   EdgeIR,
   FloatCurveData,
   GraphIR,
@@ -153,6 +154,7 @@ export type NormalizedNode = {
   inputs: NormalizedSocket[]
   outputs: NormalizedSocket[]
   floatCurve?: FloatCurveData
+  colorRamp?: ColorRampData
   properties?: Record<string, string>
   /** For group nodes: id/name of the referenced node tree (if present in the export). */
   groupTreeId?: string
@@ -231,6 +233,31 @@ function parseFloatCurve(node: BlenderNode): FloatCurveData | undefined {
     clipMaxY: m.clip_max_y ?? 1,
     extend: m.extend ?? 'EXTRAPOLATED',
     points,
+  }
+}
+
+function parseColorRamp(node: BlenderNode): ColorRampData | undefined {
+  const cr = node.data.color_ramp?.data
+  if (!cr) return undefined
+  const items = cr.elements?.data?.items ?? []
+  const stops = items.map((item) => {
+    const c = item.data.color
+    return {
+      position: item.data.position,
+      // Use the element's explicit alpha when present (color[3] mirrors it).
+      color: [c[0], c[1], c[2], item.data.alpha ?? c[3] ?? 1] as [
+        number,
+        number,
+        number,
+        number,
+      ],
+    }
+  })
+  return {
+    interpolation: cr.interpolation ?? 'LINEAR',
+    colorMode: cr.color_mode ?? 'RGB',
+    hueInterpolation: cr.hue_interpolation ?? 'NEAR',
+    stops,
   }
 }
 
@@ -378,6 +405,11 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
           ? parseFloatCurve(node)
           : undefined
 
+      const colorRamp =
+        node.data.bl_idname === 'ShaderNodeValToRGB'
+          ? parseColorRamp(node)
+          : undefined
+
       const properties = extractNodeProperties(node)
 
       return {
@@ -393,6 +425,7 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
         inputs,
         outputs,
         floatCurve,
+        colorRamp,
         ...(properties ? { properties } : {}),
         // node_tree can legitimately be 0, so compare against null/undefined.
         ...(node.data.node_tree != null ? { groupTreeId: String(node.data.node_tree) } : {}),
@@ -483,6 +516,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     inputs: node.inputs.map((socket) => toInputSocket(node.id, socket)),
     outputs: node.outputs.map((socket) => toOutputSocket(node.id, socket)),
     floatCurve: node.floatCurve,
+    colorRamp: node.colorRamp,
     properties: node.properties,
     groupTreeId: node.groupTreeId,
     groupTreeName: node.groupTreeName,

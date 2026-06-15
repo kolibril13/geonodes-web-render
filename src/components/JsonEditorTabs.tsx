@@ -17,6 +17,7 @@ type TabId =
   | 'example10'
   | 'example11'
   | 'example12'
+  | 'example13'
   | 'custom'
 
 type Tab = {
@@ -45,6 +46,7 @@ const tabs: Tab[] = [
   { id: 'example10', label: 'Example 10', assetPath: 'assets/example10.json' },
   { id: 'example11', label: 'Example 11', assetPath: 'assets/example11.json' },
   { id: 'example12', label: 'Example 12', assetPath: 'assets/example12.json' },
+  { id: 'example13', label: 'Example 13', assetPath: 'assets/example13.json' },
   { id: 'custom', label: 'Custom' },
 ]
 

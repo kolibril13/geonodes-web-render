@@ -630,6 +630,84 @@ body.is-resizing .right-pane {
   stroke-width: 1;
 }
 
+/* Color Ramp (ShaderNodeValToRGB) widget */
+.gn-color-ramp {
+  box-sizing: border-box;
+  padding: 6px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gn-color-ramp__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gn-color-ramp__select {
+  flex: 1 1 0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--node-field-bg, #4b4b4b);
+  color: var(--node-field-text, #e6e6e6);
+  font-size: 11px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.gn-color-ramp__bar-wrap {
+  position: relative;
+  height: 22px;
+}
+
+/* Checkerboard behind the gradient so alpha reads correctly. */
+.gn-color-ramp__checker {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background-color: #888;
+  background-blend-mode: normal;
+}
+
+.gn-color-ramp__stop {
+  position: absolute;
+  bottom: -3px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  background: #d0d0d0;
+  border: 1px solid #1a1a1a;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+.gn-color-ramp__stop.is-active {
+  background: #fff;
+  border-color: #000;
+}
+
+.gn-color-ramp__active {
+  justify-content: space-between;
+}
+
+.gn-color-ramp__pos {
+  flex: 1 1 0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--node-field-bg, #4b4b4b);
+  color: var(--node-field-text, #e6e6e6);
+  font-size: 11px;
+}
+
+.gn-color-ramp__swatch {
+  flex: 1 1 0;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
 .gn-node__vec-block {
   margin: 1px 8px 4px 18px;
   border-radius: 4px;

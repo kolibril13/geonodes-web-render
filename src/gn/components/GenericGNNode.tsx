@@ -2,6 +2,7 @@ import { Handle, Position, type NodeProps } from '@xyflow/react'
 import type { FloatCurveData } from '../ir/types'
 import { buildCurvePaths } from '../ir/curvePath'
 import type { GNFlowNodeData } from '../xyflow/mapGraphIRToFlow'
+import { ColorRampViz } from './ColorRampViz'
 import { useGroupNav } from './groupNavContext'
 
 const VEC_LABELS = ['X', 'Y', 'Z', 'W']
@@ -290,6 +291,11 @@ export function GenericGNNode(props: NodeProps) {
             suppressDefault={true}
           />
         ))}
+
+        {/* Color Ramp widget sits between the Color/Alpha outputs and the Factor input. */}
+        {data.colorRamp && (
+          <ColorRampViz data={data.colorRamp} width={data.width} />
+        )}
 
         {inputs.map((socket) => {
           const suppress = connectedIds.has(socket.id)
