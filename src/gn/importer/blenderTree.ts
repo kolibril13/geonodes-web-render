@@ -31,6 +31,8 @@ type BlenderNode = {
     width?: number
     location?: [number, number]
     location_absolute?: [number, number]
+    // NodeFrame parent (id of the frame node this node is grouped under)
+    parent?: number | null
     // standard nodes
     inputs?: { data: { items: BlenderSocket[] } }
     outputs?: { data: { items: BlenderSocket[] } }
@@ -136,6 +138,8 @@ export type NormalizedNode = {
   /** For group nodes: id/name of the referenced node tree (if present in the export). */
   groupTreeId?: string
   groupTreeName?: string
+  /** Id of the NodeFrame this node is parented to (Blender "parent"), if any. */
+  parentFrameId?: string
 }
 
 export type NormalizedLink = {
@@ -256,6 +260,7 @@ function normalizeRerouteNode(node: BlenderNode, location: [number, number]): No
     headerColor: '',
     inputs: [rerouteSocket(inputId)],
     outputs: [rerouteSocket(outputId)],
+    ...(node.data.parent != null ? { parentFrameId: String(node.data.parent) } : {}),
   }
 }
 
@@ -372,6 +377,7 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
         ...(properties ? { properties } : {}),
         // node_tree can legitimately be 0, so compare against null/undefined.
         ...(node.data.node_tree != null ? { groupTreeId: String(node.data.node_tree) } : {}),
+        ...(node.data.parent != null ? { parentFrameId: String(node.data.parent) } : {}),
       }
     }),
     links: tree.data.links.data.items.map((link, li) => {
@@ -461,6 +467,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     properties: node.properties,
     groupTreeId: node.groupTreeId,
     groupTreeName: node.groupTreeName,
+    parentFrameId: node.parentFrameId,
   }))
 
   const socketToNode = new Map<string, string>()

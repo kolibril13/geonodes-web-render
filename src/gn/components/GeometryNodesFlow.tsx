@@ -26,6 +26,7 @@ import { encodeTreeClipperPayload } from '../../utils/encodeTreeClipperPayload'
 import { GenericGNNode } from './GenericGNNode'
 import { RerouteNode } from './RerouteNode'
 import { SimulationZoneFrame } from './SimulationZoneFrame.tsx'
+import { NodeFrame } from './NodeFrame'
 import { GroupNavContext } from './groupNavContext'
 import type { GraphIR } from '../ir/types'
 
@@ -33,6 +34,7 @@ const nodeTypes = {
   gnNode: GenericGNNode,
   rerouteNode: RerouteNode,
   simulationZone: SimulationZoneFrame,
+  nodeFrame: NodeFrame,
 }
 
 const FIT_VIEW_OPTIONS = { padding: 0.08 }

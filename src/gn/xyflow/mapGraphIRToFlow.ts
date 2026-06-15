@@ -25,10 +25,74 @@ export type SimulationZoneNodeData = {
   label: string
 }
 
+export type NodeFrameData = {
+  label: string
+}
+
 function estimateNodeHeight(node: NodeIR): number {
   // Rough sizing approximation: header + rows for max socket count + padding.
   const rows = Math.max(node.inputs.length, node.outputs.length)
   return Math.max(60, 32 + rows * 18 + 16)
+}
+
+function estimateNodeSize(node: NodeIR): { w: number; h: number } {
+  if (node.type === 'NodeReroute') return { w: 12, h: 12 }
+  return { w: node.width, h: estimateNodeHeight(node) }
+}
+
+// User-created NodeFrame nodes group other nodes; the frame auto-fits its
+// children (Blender shrinks frames to their contents). Build a background node
+// per frame sized to the bounding box of its parented children.
+function buildNodeFrames(graph: GraphIR): Node[] {
+  const frames = graph.nodes.filter((n) => n.type === 'NodeFrame')
+  if (frames.length === 0) return []
+
+  const childrenByFrame = new Map<string, NodeIR[]>()
+  for (const n of graph.nodes) {
+    if (!n.parentFrameId) continue
+    const arr = childrenByFrame.get(n.parentFrameId) ?? []
+    arr.push(n)
+    childrenByFrame.set(n.parentFrameId, arr)
+  }
+
+  const out: Node[] = []
+  for (const frame of frames) {
+    const children = childrenByFrame.get(frame.id) ?? []
+    if (children.length === 0) continue
+
+    let minX = Number.POSITIVE_INFINITY
+    let minY = Number.POSITIVE_INFINITY
+    let maxX = Number.NEGATIVE_INFINITY
+    let maxY = Number.NEGATIVE_INFINITY
+    for (const c of children) {
+      const { w, h } = estimateNodeSize(c)
+      minX = Math.min(minX, c.position.x)
+      minY = Math.min(minY, c.position.y)
+      maxX = Math.max(maxX, c.position.x + w)
+      maxY = Math.max(maxY, c.position.y + h)
+    }
+    if (!Number.isFinite(minX)) continue
+
+    // Extra top padding leaves room for the frame's label.
+    const padX = 28
+    const padBottom = 28
+    const padTop = 48
+    out.push({
+      id: `frame:${frame.id}`,
+      type: 'nodeFrame',
+      position: { x: minX - padX, y: minY - padTop },
+      draggable: false,
+      selectable: false,
+      connectable: false,
+      data: { label: frame.label } as NodeFrameData,
+      style: {
+        width: maxX - minX + padX * 2,
+        height: maxY - minY + padTop + padBottom,
+        zIndex: -8,
+      },
+    })
+  }
+  return out
 }
 
 function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
@@ -115,7 +179,12 @@ export function mapGraphIRToFlow(graph: GraphIR): {
 } {
   const connectedTargetIds = new Set(graph.edges.map((e) => e.targetSocketId))
 
-  const baseNodes = graph.nodes.map((node) => mapNode(node, connectedTargetIds))
+  const frameNodes = buildNodeFrames(graph)
+
+  // NodeFrame nodes are rendered as frame backgrounds (above), not as gn nodes.
+  const baseNodes = graph.nodes
+    .filter((node) => node.type !== 'NodeFrame')
+    .map((node) => mapNode(node, connectedTargetIds))
 
   // Simulation zone framing (Blender-style purple frame).
   const simInput = graph.nodes.find((n) => n.type === 'GeometryNodeSimulationInput')
@@ -180,7 +249,8 @@ export function mapGraphIRToFlow(graph: GraphIR): {
   }
 
   return {
-    nodes,
+    // Frame backgrounds first so they sit behind the nodes they contain.
+    nodes: [...frameNodes, ...nodes],
     edges: graph.edges.map((edge) => ({
       id: edge.id,
       source: edge.sourceNodeId,

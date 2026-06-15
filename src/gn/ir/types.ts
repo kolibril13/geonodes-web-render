@@ -51,6 +51,8 @@ export type NodeIR = {
   /** For group nodes: id/name of the referenced node tree within the export */
   groupTreeId?: string
   groupTreeName?: string
+  /** Id of the NodeFrame this node is parented to (Blender "parent"), if any. */
+  parentFrameId?: string
 }
 
 export type EdgeIR = {
