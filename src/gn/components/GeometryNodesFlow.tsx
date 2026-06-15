@@ -150,16 +150,6 @@ function FlowCanvas(props: {
           </nav>
         </Panel>
       ) : null}
-      <Panel position="bottom-right">
-        <a
-          href="https://extensions.blender.org/add-ons/tree-clipper/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="tree-clipper-badge"
-        >
-          Exported from Blender using Tree Clipper ↗
-        </a>
-      </Panel>
     </ReactFlow>
     </div>
   )

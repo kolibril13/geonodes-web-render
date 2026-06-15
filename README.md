@@ -59,6 +59,13 @@ import { GraphView } from 'geonodes-web-render/embed'
 <GraphView payload="TreeClipper::H4sI..." />
 ```
 
+> **Preview the embed locally.** The embed view (with the "Copy TreeClipper
+> Magic String" button and toast) isn't reachable from the standalone app, so a
+> dev-only harness page is included. Run `npm run dev` and open
+> `http://localhost:5173/geonodes-web-render/dev-embed.html` — it mounts
+> `GraphView` with a bundled example graph. The harness lives in `dev-embed.html`
+> + `src/dev-embed.tsx` and is excluded from the published package.
+
 ## Tech stack
 
 - **React 19** + **TypeScript**

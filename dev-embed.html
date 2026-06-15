@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Embed harness — GraphView</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #2b3245;
+      }
+      #embed {
+        /* Mimic a host page giving the embed a fixed box. */
+        width: 90vw;
+        max-width: 1200px;
+        height: 80vh;
+        margin: 5vh auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="embed"></div>
+    <script type="module" src="/src/dev-embed.tsx"></script>
+  </body>
+</html>

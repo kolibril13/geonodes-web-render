@@ -29,7 +29,7 @@ export function GraphView(props: GraphViewEmbedOptions) {
     try {
       await navigator.clipboard.writeText(payload)
       setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
+      setTimeout(() => setCopied(false), 3500)
     } catch {
       // Clipboard can be blocked (no gesture / insecure context); ignore.
     }
@@ -78,10 +78,24 @@ export function GraphView(props: GraphViewEmbedOptions) {
               type="button"
               className="gnwr-copy-button"
               onClick={copyPayload}
-              title="Copy the Tree Clipper data — paste into Blender with the Tree Clipper add-on"
+              title="Copy the Tree Clipper magic string — paste into Blender with the Tree Clipper add-on"
             >
-              {copied ? 'Copied!' : 'Copy for Blender'}
+              Copy TreeClipper Magic String
             </button>
+            {copied && (
+              <div className="gnwr-copy-toast" role="status">
+                Now, You Can Use This Magic String In Blender With The{' '}
+                <a
+                  href="https://extensions.blender.org/add-ons/tree-clipper/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gnwr-copy-toast__link"
+                >
+                  Tree Clipper Extension
+                </a>{' '}
+                Installed.
+              </div>
+            )}
           </>
         )}
       </div>
