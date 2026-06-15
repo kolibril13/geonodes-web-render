@@ -60,29 +60,19 @@ function formatJson(text: string): { ok: true; formatted: string } | { ok: false
 export function JsonEditorTabs(props: {
   value: string
   onChange: (next: string) => void
+  dark: boolean
+  onToggleTheme: () => void
 }) {
-  const { value, onChange } = props
+  const { value, onChange, dark, onToggleTheme } = props
   const [activeTab, setActiveTab] = useState<TabId>('example1')
   const [loadState, setLoadState] = useState<
     { kind: 'idle' } | { kind: 'loading' } | { kind: 'error'; message: string }
   >({ kind: 'idle' })
-  const [prefersDark, setPrefersDark] = useState<boolean>(() =>
-    window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false,
-  )
 
   const active = useMemo(
     () => tabs.find((t) => t.id === activeTab) ?? tabs[0],
     [activeTab],
   )
-
-  useEffect(() => {
-    const mq = window.matchMedia?.('(prefers-color-scheme: dark)')
-    if (!mq) return
-    const onChangeMq = () => setPrefersDark(mq.matches)
-    onChangeMq()
-    mq.addEventListener('change', onChangeMq)
-    return () => mq.removeEventListener('change', onChangeMq)
-  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -158,6 +148,25 @@ export function JsonEditorTabs(props: {
           ))}
         </div>
         <div className="panel-actions">
+          {import.meta.env.DEV ? (
+            <a
+              className="action-button action-button--dev"
+              href={withBaseUrl('dev-embed.html')}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open the embeddable GraphView preview (dev only)"
+            >
+              ▶ Embed preview
+            </a>
+          ) : null}
+          <button
+            type="button"
+            className="action-button"
+            onClick={onToggleTheme}
+            title="Toggle dark / light theme"
+          >
+            {dark ? '☾ Dark' : '☀ Light'}
+          </button>
           <button
             type="button"
             className="action-button"
@@ -205,7 +214,7 @@ export function JsonEditorTabs(props: {
               '.cm-scroller': { overflow: 'auto' },
             }),
           ]}
-          theme={prefersDark ? oneDark : undefined}
+          theme={dark ? oneDark : undefined}
           onChange={onChange}
         />
       </div>

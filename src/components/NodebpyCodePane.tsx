@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { python } from '@codemirror/lang-python'
 import { json } from '@codemirror/lang-json'
@@ -16,21 +16,10 @@ export function NodebpyCodePane(props: {
   jsonText: string
   /** Raw Tree Clipper node ids (as strings) to scope the code to. Empty = whole tree. */
   selectedNodeIds?: string[]
+  dark?: boolean
 }) {
-  const { jsonText, selectedNodeIds = [] } = props
+  const { jsonText, selectedNodeIds = [], dark = true } = props
   const [mode, setMode] = useState<OutputMode>('nodebpy')
-  const [prefersDark, setPrefersDark] = useState<boolean>(() =>
-    window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false,
-  )
-
-  useEffect(() => {
-    const mq = window.matchMedia?.('(prefers-color-scheme: dark)')
-    if (!mq) return
-    const onChangeMq = () => setPrefersDark(mq.matches)
-    onChangeMq()
-    mq.addEventListener('change', onChangeMq)
-    return () => mq.removeEventListener('change', onChangeMq)
-  }, [])
 
   const selectedIds = useMemo(() => {
     const ids = selectedNodeIds.map(Number).filter(Number.isFinite)
@@ -138,7 +127,7 @@ export function NodebpyCodePane(props: {
               '.cm-scroller': { overflow: 'auto' },
             }),
           ]}
-          theme={prefersDark ? oneDark : undefined}
+          theme={dark ? oneDark : undefined}
         />
       </div>
 

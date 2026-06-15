@@ -1,5 +1,5 @@
 import './App.css'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { JsonEditorTabs } from './components/JsonEditorTabs'
 import { NodebpyCodePane } from './components/NodebpyCodePane'
 import { GeometryNodesFlow } from './gn/components/GeometryNodesFlow'
@@ -8,12 +8,24 @@ function clamp(v: number, min: number, max: number) {
   return Math.min(max, Math.max(min, v))
 }
 
+type Theme = 'dark' | 'light'
+
 function App() {
   const [jsonText, setJsonText] = useState('')
   const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>([])
   const [leftPct, setLeftPct] = useState(28)
   const [rightPct, setRightPct] = useState(26)
   const layoutRef = useRef<HTMLDivElement>(null)
+
+  // Dark by default; the choice persists across reloads.
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem('gnwr-theme') as Theme | null) ?? 'dark',
+  )
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem('gnwr-theme', theme)
+  }, [theme])
+  const dark = theme === 'dark'
 
   const startDrag = useCallback(
     (side: 'left' | 'right') => (e: React.PointerEvent) => {
@@ -50,7 +62,12 @@ function App() {
       }
     >
       <div className="left-pane">
-        <JsonEditorTabs value={jsonText} onChange={setJsonText} />
+        <JsonEditorTabs
+          value={jsonText}
+          onChange={setJsonText}
+          dark={dark}
+          onToggleTheme={() => setTheme(dark ? 'light' : 'dark')}
+        />
       </div>
       <div
         className="pane-divider"
@@ -71,7 +88,7 @@ function App() {
         onPointerDown={startDrag('right')}
       />
       <div className="right-pane">
-        <NodebpyCodePane jsonText={jsonText} selectedNodeIds={selectedNodeIds} />
+        <NodebpyCodePane jsonText={jsonText} selectedNodeIds={selectedNodeIds} dark={dark} />
       </div>
     </div>
   )

@@ -249,7 +249,7 @@ function FlowCanvas(props: {
       preventScrolling={zoomOnScroll}
       zoomOnDoubleClick={false}
     >
-      <Background gap={20} size={1} />
+      <Background gap={20} size={1} color="var(--grid-dot, #3a3a3a)" />
       <Controls showInteractive={false} />
       <Panel position="top-left">
         <div className="gn-top-left">
