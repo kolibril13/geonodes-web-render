@@ -365,7 +365,7 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
           y: -location[1],
         },
         width: node.data.width ?? 140,
-        headerColor: nodeHeaderColor(node.data.bl_idname),
+        headerColor: nodeHeaderColor(node.data.bl_idname, node.data.data_type),
         inputs,
         outputs,
         floatCurve,

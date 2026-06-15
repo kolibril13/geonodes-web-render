@@ -12,7 +12,8 @@
 //   "Input" nodes                    → NODE_CLASS_INPUT
 //   "Attribute" nodes                → NODE_CLASS_ATTRIBUTE
 //   "Converter" nodes                → NODE_CLASS_CONVERTER
-//   ShaderNode*                      → NODE_CLASS_SHADER
+//   ShaderNode*                      → per-node nclass (see SHADER_NODE_CLASS)
+//   FunctionNodeInput*               → NODE_CLASS_INPUT
 //   FunctionNode*                    → NODE_CLASS_CONVERTER
 
 // All colors are the default Blender dark theme values (sRGB hex, as stored).
@@ -20,6 +21,7 @@ const NODE_CLASS_COLORS: Record<string, string> = {
   GEOMETRY:  '#1d725e', // ts->nodeclass_geometry
   INPUT:     '#82354c', // ts->syntaxn
   OUTPUT:    '#3e232a', // ts->nodeclass_output
+  COLOR:     '#6e6e23', // ts->syntaxb        (NODE_CLASS_OP_COLOR)
   ATTRIBUTE: '#1d2546', // ts->nodeclass_attribute
   CONVERTER: '#246283', // ts->syntaxv
   GROUP:     '#374725', // ts->syntaxc
@@ -32,6 +34,38 @@ const NODE_CLASS_COLORS: Record<string, string> = {
   DISTORT:   '#3e5a5b', // ts->syntaxd
   SCRIPT:    '#203c3c', // ts->nodeclass_script
   DEFAULT:   '#303030', // ts->syntaxl  (TH_NODE fallback)
+}
+
+// ShaderNode* nodes don't all share one class: node_draw.cc reads each node's
+// `nclass` to pick the theme color. Values verified against the registrations
+// (`ntype.nclass = NODE_CLASS_*`) in source/blender/nodes/shader/nodes/.
+// ShaderNodeMix and ShaderNodeMapRange are dynamic (ui_class by data_type) and
+// resolved in nodeHeaderColor instead. ShaderNodeTex* → TEXTURE (prefix rule).
+const SHADER_NODE_CLASS: Record<string, string> = {
+  // NODE_CLASS_OP_VECTOR
+  ShaderNodeVectorMath:      'VECTOR',
+  ShaderNodeVectorRotate:    'VECTOR',
+  ShaderNodeVectorCurve:     'VECTOR',
+  ShaderNodeVectorTransform: 'VECTOR',
+  ShaderNodeMapping:         'VECTOR',
+  // NODE_CLASS_OP_COLOR
+  ShaderNodeMixRGB:          'COLOR',
+  ShaderNodeRGBCurve:        'COLOR',
+  // NODE_CLASS_CONVERTER
+  ShaderNodeMath:            'CONVERTER',
+  ShaderNodeClamp:           'CONVERTER',
+  ShaderNodeValToRGB:        'CONVERTER',
+  ShaderNodeFloatCurve:      'CONVERTER',
+  ShaderNodeSeparateXYZ:     'CONVERTER',
+  ShaderNodeCombineXYZ:      'CONVERTER',
+  ShaderNodeSeparateColor:   'CONVERTER',
+  ShaderNodeCombineColor:    'CONVERTER',
+  ShaderNodeBlackbody:       'CONVERTER',
+  ShaderNodeWavelength:      'CONVERTER',
+  ShaderNodeRGBToBW:         'CONVERTER',
+  // NODE_CLASS_INPUT
+  ShaderNodeValue:           'INPUT',
+  ShaderNodeRGB:             'INPUT',
 }
 
 // Derive node class from bl_idname. Blender's bl_idnames for GN follow these
@@ -64,8 +98,14 @@ function nodeClassFromIdname(blIdname: string): string {
       blIdname.startsWith('GeometryNode')) {
     return 'GEOMETRY'
   }
-  if (blIdname.startsWith('ShaderNode')) return 'SHADER'
-  if (blIdname.startsWith('FunctionNode')) return 'CONVERTER'
+  if (blIdname.startsWith('ShaderNode')) {
+    if (blIdname in SHADER_NODE_CLASS) return SHADER_NODE_CLASS[blIdname]
+    if (blIdname.startsWith('ShaderNodeTex')) return 'TEXTURE'
+    return 'SHADER'
+  }
+  if (blIdname.startsWith('FunctionNode')) {
+    return blIdname.startsWith('FunctionNodeInput') ? 'INPUT' : 'CONVERTER'
+  }
   return 'DEFAULT'
 }
 
@@ -126,8 +166,25 @@ const IDNAME_CLASS_OVERRIDES: Record<string, string> = {
   GeometryNodeViewer:                   'OUTPUT',
 }
 
-export function nodeHeaderColor(blIdname: string): string {
-  const override = IDNAME_CLASS_OVERRIDES[blIdname]
-  const cls = override ?? nodeClassFromIdname(blIdname)
+// ShaderNodeMix / ShaderNodeMapRange change class with their data_type
+// (node_draw.cc calls their ui_class callback). Mirror that when we know the
+// node's data_type, otherwise fall back to the FLOAT default (CONVERTER).
+function dynamicShaderClass(blIdname: string, dataType?: string): string | undefined {
+  if (blIdname === 'ShaderNodeMix') {
+    if (dataType === 'VECTOR') return 'VECTOR'
+    if (dataType === 'RGBA') return 'COLOR'
+    return 'CONVERTER'
+  }
+  if (blIdname === 'ShaderNodeMapRange') {
+    return dataType === 'FLOAT_VECTOR' ? 'VECTOR' : 'CONVERTER'
+  }
+  return undefined
+}
+
+export function nodeHeaderColor(blIdname: string, dataType?: string): string {
+  const cls =
+    dynamicShaderClass(blIdname, dataType) ??
+    IDNAME_CLASS_OVERRIDES[blIdname] ??
+    nodeClassFromIdname(blIdname)
   return NODE_CLASS_COLORS[cls] ?? NODE_CLASS_COLORS.DEFAULT
 }
