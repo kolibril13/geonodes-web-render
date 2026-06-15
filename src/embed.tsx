@@ -123,7 +123,7 @@ export function GraphView(props: GraphViewEmbedOptions) {
       <div className="geonodes-embed__body">
         {decoding ? (
           <div className="gnwr-loading" role="status" aria-live="polite">
-            <span className="gnwr-loading__spinner" aria-hidden="true" />
+            <TreeClipperLogo className="gnwr-loading__logo" />
             <span className="gnwr-loading__label">Loading graph…</span>
           </div>
         ) : decodeError ? (
