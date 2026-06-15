@@ -80,12 +80,34 @@ export function GraphView(props: GraphViewEmbedOptions) {
             />
             <button
               type="button"
-              className="gnwr-copy-button"
+              className={`gnwr-copy-button${copied ? ' gnwr-copy-button--copied' : ''}`}
               onClick={copyPayload}
               title="Copy the Tree Clipper magic string — paste into Blender with the Tree Clipper add-on"
             >
-              <TreeClipperLogo className="gnwr-copy-button__logo" />
-              <span>Copy TreeClipper Magic String</span>
+              {copied ? (
+                <>
+                  <svg
+                    className="gnwr-copy-button__check"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M20 6L9 17l-5-5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>Copied!</span>
+                </>
+              ) : (
+                <>
+                  <TreeClipperLogo className="gnwr-copy-button__logo" />
+                  <span>Copy TreeClipper Magic String</span>
+                </>
+              )}
             </button>
             {copied && (
               <div className="gnwr-copy-toast" role="status">

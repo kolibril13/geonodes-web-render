@@ -807,6 +807,32 @@ body.is-resizing .right-pane {
   outline-offset: 2px;
 }
 
+/* Brief "Copied!" confirmation state on the button itself. */
+.gnwr-copy-button--copied {
+  opacity: 1;
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.gnwr-copy-button__check {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  color: var(--accent);
+  animation: gnwr-check-pop 0.25s ease-out;
+}
+
+@keyframes gnwr-check-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* Confirmation toast shown after copying the magic string (top-right, under the button). */
 .gnwr-copy-toast {
   position: absolute;
