@@ -871,6 +871,18 @@ body.is-resizing .right-pane {
   }
 }
 
+/* Shared fade-out for confirmation messages (0.5s). `forwards` holds the final
+   transparent frame until the element unmounts. */
+.gnwr-leaving {
+  animation: gnwr-fade-out 0.5s ease forwards;
+}
+
+@keyframes gnwr-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
 /* Custom right-click context menu on the canvas. */
 .gn-context-menu {
   position: fixed;

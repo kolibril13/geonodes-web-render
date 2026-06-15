@@ -90,9 +90,10 @@ function FlowCanvas(props: {
   breadcrumbs: Breadcrumb[]
   onNavigate: (index: number) => void
   onSelectionIds?: (ids: string[]) => void
+  onCopiedMagicString?: () => void
   zoomOnScroll?: boolean
 }) {
-  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, zoomOnScroll = true } = props
+  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, zoomOnScroll = true } = props
   const { fitView } = useReactFlow()
   const wrapperRef = useRef<HTMLDivElement>(null)
   // Once the user pans/zooms, stop auto-fitting so we don't fight them.
@@ -101,7 +102,10 @@ function FlowCanvas(props: {
   const selectedIdsRef = useRef<string[]>([])
   // Custom context menu position (viewport coords), or null when closed.
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
+  // Standalone confirmation toast: `copied` shows it, `leaving` fades it out.
   const [copied, setCopied] = useState(false)
+  const [leaving, setLeaving] = useState(false)
+  const toastTimersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   // Local copies so React Flow can apply selection changes (box select / click).
   const [localNodes, setLocalNodes, onNodesChange] = useNodesState(nodes)
   const [localEdges, setLocalEdges, onEdgesChange] = useEdgesState(edges)
@@ -169,12 +173,30 @@ function FlowCanvas(props: {
       const scoped = ids.size > 0 ? filterExportToSelection(raw, ids) : raw
       const magic = await encodeTreeClipperPayload(JSON.stringify(scoped))
       await navigator.clipboard.writeText(magic)
+      if (onCopiedMagicString) {
+        // In the embed, reuse the top-right button's confirmation toast.
+        onCopiedMagicString()
+        return
+      }
+      // Standalone: show our own toast, then fade it out over 0.5s.
+      toastTimersRef.current.forEach(clearTimeout)
+      setLeaving(false)
       setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
+      toastTimersRef.current = [
+        setTimeout(() => setLeaving(true), 2500),
+        setTimeout(() => {
+          setCopied(false)
+          setLeaving(false)
+        }, 3000),
+      ]
     } catch {
       // Clipboard blocked or JSON parse failed; ignore.
     }
-  }, [jsonText])
+  }, [jsonText, onCopiedMagicString])
+
+  useEffect(() => {
+    return () => toastTimersRef.current.forEach(clearTimeout)
+  }, [])
 
   // Dismiss the menu on any outside interaction.
   useEffect(() => {
@@ -278,8 +300,11 @@ function FlowCanvas(props: {
         </button>
       </div>
     ) : null}
-    {copied ? (
-      <div className="gn-context-toast" role="status">
+    {copied || leaving ? (
+      <div
+        className={`gn-context-toast${leaving ? ' gnwr-leaving' : ''}`}
+        role="status"
+      >
         Copied Tree Clipper magic string
       </div>
     ) : null}
@@ -295,11 +320,14 @@ export function GeometryNodesFlow(props: {
   showHeader?: boolean
   /** Reports the currently selected node ids (raw Tree Clipper node ids as strings). */
   onSelectionChange?: (nodeIds: string[]) => void
+  /** Called when the user copies a magic string via the right-click menu. When
+   *  provided, the canvas skips its own toast so the host can show one instead. */
+  onCopiedMagicString?: () => void
   /** Zoom the canvas on mouse-wheel. Default true; set false (e.g. in an embed)
    *  so the wheel scrolls the host page instead of the node tree. */
   zoomOnScroll?: boolean
 }) {
-  const { jsonText, showHeader = true, onSelectionChange, zoomOnScroll = true } = props
+  const { jsonText, showHeader = true, onSelectionChange, onCopiedMagicString, zoomOnScroll = true } = props
 
   // Trail of opened groups below the root tree (tree ids). The stack is tied
   // to the JSON it was built from: new JSON means new tree ids, so a stack
@@ -407,6 +435,7 @@ export function GeometryNodesFlow(props: {
                 breadcrumbs={breadcrumbs}
                 onNavigate={(index) => setNav({ json: jsonText, ids: path.slice(1, index + 1) })}
                 onSelectionIds={onSelectionChange}
+                onCopiedMagicString={onCopiedMagicString}
                 zoomOnScroll={zoomOnScroll}
               />
             </ReactFlowProvider>
