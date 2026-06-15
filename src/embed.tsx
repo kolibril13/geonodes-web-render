@@ -9,6 +9,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { useEffect, useState } from 'react'
 import { decodeTreeClipperPayload } from './utils/decodeTreeClipperPayload'
 import { GeometryNodesFlow } from './gn/components/GeometryNodesFlow'
+import { TreeClipperLogo } from './components/TreeClipperLogo'
 import './App.css'
 
 export type GraphViewEmbedOptions = {
@@ -83,11 +84,12 @@ export function GraphView(props: GraphViewEmbedOptions) {
               onClick={copyPayload}
               title="Copy the Tree Clipper magic string — paste into Blender with the Tree Clipper add-on"
             >
-              Copy TreeClipper Magic String
+              <TreeClipperLogo className="gnwr-copy-button__logo" />
+              <span>Copy TreeClipper Magic String</span>
             </button>
             {copied && (
               <div className="gnwr-copy-toast" role="status">
-                Now, You Can Use This Magic String In Blender With The{' '}
+                Now, you can use this magic string in Blender with the{' '}
                 <a
                   href="https://extensions.blender.org/add-ons/tree-clipper/"
                   target="_blank"
@@ -96,7 +98,7 @@ export function GraphView(props: GraphViewEmbedOptions) {
                 >
                   Tree Clipper Extension
                 </a>{' '}
-                Installed.
+                installed.
               </div>
             )}
           </>
