@@ -7,6 +7,7 @@ import {
   ReactFlowProvider,
   SelectionMode,
   useEdgesState,
+  useNodesInitialized,
   useNodesState,
   useReactFlow,
   type Edge,
@@ -36,52 +37,7 @@ const nodeTypes = {
 
 const FIT_VIEW_OPTIONS = { padding: 0.08 }
 
-// Breathing room (flow units) around the node bounds that panning may reach.
-// Small on purpose: the viewport stays locked to where nodes actually are.
-const PAN_PADDING = 120
-
 type Breadcrumb = { id: string; label: string }
-
-// Best-effort height for a flow node. gnNode height isn't fixed in style (React
-// Flow measures it after render), so mirror the mapper's estimate from socket
-// rows; reroutes and framed zones carry explicit style dimensions.
-function estimateFlowNodeHeight(node: Node): number {
-  const styleH = node.style?.height
-  if (typeof styleH === 'number') return styleH
-  const data = node.data as { inputs?: unknown[]; outputs?: unknown[] } | undefined
-  const rows = Math.max(data?.inputs?.length ?? 0, data?.outputs?.length ?? 0)
-  return Math.max(60, 32 + rows * 18 + 16)
-}
-
-// Bounding box of all nodes, padded, in the form React Flow's translateExtent
-// wants. Nodes parented to a frame use parent-relative coords, so the enclosing
-// frame node already covers their area — skip them to keep the box accurate.
-function computeTranslateExtent(nodes: Node[]): [[number, number], [number, number]] {
-  let minX = Infinity
-  let minY = Infinity
-  let maxX = -Infinity
-  let maxY = -Infinity
-  for (const node of nodes) {
-    if (node.parentId) continue
-    const width = (node.style?.width as number | undefined) ?? node.width ?? 200
-    const height = estimateFlowNodeHeight(node)
-    minX = Math.min(minX, node.position.x)
-    minY = Math.min(minY, node.position.y)
-    maxX = Math.max(maxX, node.position.x + width)
-    maxY = Math.max(maxY, node.position.y + height)
-  }
-  if (!Number.isFinite(minX)) {
-    // No nodes — don't constrain.
-    return [
-      [-Infinity, -Infinity],
-      [Infinity, Infinity],
-    ]
-  }
-  return [
-    [minX - PAN_PADDING, minY - PAN_PADDING],
-    [maxX + PAN_PADDING, maxY + PAN_PADDING],
-  ]
-}
 
 function FlowCanvas(props: {
   nodes: Node[]
@@ -94,7 +50,8 @@ function FlowCanvas(props: {
   zoomOnScroll?: boolean
 }) {
   const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, zoomOnScroll = true } = props
-  const { fitView } = useReactFlow()
+  const { fitView, getNodes, getNodesBounds } = useReactFlow()
+  const nodesInitialized = useNodesInitialized()
   const wrapperRef = useRef<HTMLDivElement>(null)
   // Once the user pans/zooms, stop auto-fitting so we don't fight them.
   const userMovedRef = useRef(false)
@@ -110,10 +67,22 @@ function FlowCanvas(props: {
   const [localNodes, setLocalNodes, onNodesChange] = useNodesState(nodes)
   const [localEdges, setLocalEdges, onEdgesChange] = useEdgesState(edges)
 
-  // Keep panning locked to where the nodes are: you can pan within their
-  // (padded) bounding box but not out into empty canvas. When zoomed out far
-  // enough that everything fits, this also prevents panning entirely.
-  const translateExtent = useMemo(() => computeTranslateExtent(nodes), [nodes])
+  // Lock panning to the exact node bounding box, measured by React Flow (so it
+  // accounts for property panels, curves, parented zone nodes, etc.). At fit-view
+  // the content plus its fit margin is larger than this box, so panning is locked;
+  // panning only unlocks once zoomed in past fit, and then stays within the nodes.
+  const [translateExtent, setTranslateExtent] = useState<
+    [[number, number], [number, number]] | undefined
+  >(undefined)
+
+  useEffect(() => {
+    if (!nodesInitialized) return
+    const b = getNodesBounds(getNodes())
+    setTranslateExtent([
+      [b.x, b.y],
+      [b.x + b.width, b.y + b.height],
+    ])
+  }, [nodesInitialized, nodes, getNodes, getNodesBounds])
 
   useEffect(() => {
     // Re-fit whenever the node set changes (tab switch, new JSON, group drill-down, etc.)
