@@ -123,6 +123,9 @@ function FlowCanvas(props: {
     >
       <Background gap={20} size={1} />
       <Controls showInteractive={false} />
+      <Panel position="top-right">
+        <span className="gn-version-badge">web-render v{__WEB_RENDER_VERSION__}</span>
+      </Panel>
       {breadcrumbs.length > 1 ? (
         <Panel position="top-left">
           <nav className="gn-breadcrumbs" aria-label="Node group path">

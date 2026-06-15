@@ -695,10 +695,25 @@ body.is-resizing .right-pane {
   overflow: hidden;
 }
 
-/* "Copy TreeClipper magic string" button overlaid on the embedded graph (top-right). */
+/* Small package-version label in the canvas corner (top-right). */
+.gn-version-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg) 85%, #000 15%);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11px;
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* "Copy TreeClipper Magic String" button overlaid on the embedded graph (top-right). */
 .gnwr-copy-button {
   position: absolute;
-  top: 10px;
+  top: 44px;
   right: 10px;
   z-index: 10;
   appearance: none;
@@ -727,7 +742,7 @@ body.is-resizing .right-pane {
 /* Confirmation toast shown after copying the magic string (top-right, under the button). */
 .gnwr-copy-toast {
   position: absolute;
-  top: 48px;
+  top: 82px;
   right: 10px;
   z-index: 10;
   max-width: 260px;

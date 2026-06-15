@@ -2,11 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
+import { version } from './package.json'
 
 const reactExternalRegex = /^react(-dom)?(\/|$)/
 
 export default defineConfig({
   publicDir: false,
+  define: {
+    __WEB_RENDER_VERSION__: JSON.stringify(version),
+  },
   plugins: [
     react(),
     dts({
