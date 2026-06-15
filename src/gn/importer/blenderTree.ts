@@ -76,6 +76,25 @@ type BlenderNode = {
         }
       }
     }
+    // ShaderNodeValToRGB (Color Ramp)
+    color_ramp?: {
+      data: {
+        interpolation?: string
+        hue_interpolation?: string
+        color_mode?: string
+        elements: {
+          data: {
+            items: Array<{
+              data: {
+                color: [number, number, number, number]
+                alpha?: number
+                position: number
+              }
+            }>
+          }
+        }
+      }
+    }
   }
 }
 

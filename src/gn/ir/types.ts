@@ -13,6 +13,22 @@ export type FloatCurveData = {
   extend: string
   points: FloatCurvePoint[]
 }
+
+export type ColorRampStop = {
+  position: number
+  /** Scene-linear RGBA, as stored by Blender. */
+  color: [number, number, number, number]
+}
+
+export type ColorRampData = {
+  /** LINEAR | EASE | CONSTANT | B_SPLINE | CARDINAL */
+  interpolation: string
+  /** RGB | HSV | HSL */
+  colorMode: string
+  /** NEAR | FAR | CW | CCW */
+  hueInterpolation: string
+  stops: ColorRampStop[]
+}
 export type SocketDisplayShape = 'CIRCLE' | 'DIAMOND' | 'LINE' | 'LIST' | 'VOLUME_GRID'
 
 export type SocketDefaultValue =
@@ -46,6 +62,7 @@ export type NodeIR = {
   inputs: SocketIR[]
   outputs: SocketIR[]
   floatCurve?: FloatCurveData
+  colorRamp?: ColorRampData
   /** Node-type-specific enum properties (e.g. operation, data_type for Compare) */
   properties?: Record<string, string>
   /** For group nodes: id/name of the referenced node tree within the export */

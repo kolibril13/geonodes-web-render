@@ -32,7 +32,6 @@
     "build:lib": "vite build --config vite.lib.config.ts",
     "lint": "eslint .",
     "preview": "vite preview",
-    "convert:nodebpy": "rolldown scripts/convertExamples.ts --format esm --file node_modules/.tmp/convertExamples.mjs --external node:fs --external node:path && node node_modules/.tmp/convertExamples.mjs",
     "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
