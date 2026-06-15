@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
 import {
   Background,
   Controls,
@@ -20,6 +20,8 @@ import {
   type BlenderTreeExport,
 } from '../importer/blenderTree'
 import { mapGraphIRToFlow } from '../xyflow/mapGraphIRToFlow'
+import { filterExportToSelection } from '../exporter/nodebpyExporter'
+import { encodeTreeClipperPayload } from '../../utils/encodeTreeClipperPayload'
 import { GenericGNNode } from './GenericGNNode'
 import { RerouteNode } from './RerouteNode'
 import { SimulationZoneFrame } from './SimulationZoneFrame.tsx'
@@ -39,16 +41,22 @@ type Breadcrumb = { id: string; label: string }
 function FlowCanvas(props: {
   nodes: Node[]
   edges: Edge[]
+  jsonText: string
   breadcrumbs: Breadcrumb[]
   onNavigate: (index: number) => void
   onSelectionIds?: (ids: string[]) => void
   zoomOnScroll?: boolean
 }) {
-  const { nodes, edges, breadcrumbs, onNavigate, onSelectionIds, zoomOnScroll = true } = props
+  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, zoomOnScroll = true } = props
   const { fitView } = useReactFlow()
   const wrapperRef = useRef<HTMLDivElement>(null)
   // Once the user pans/zooms, stop auto-fitting so we don't fight them.
   const userMovedRef = useRef(false)
+  // Latest selected node ids, for the right-click "copy magic string" action.
+  const selectedIdsRef = useRef<string[]>([])
+  // Custom context menu position (viewport coords), or null when closed.
+  const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
+  const [copied, setCopied] = useState(false)
   // Local copies so React Flow can apply selection changes (box select / click).
   const [localNodes, setLocalNodes, onNodesChange] = useNodesState(nodes)
   const [localEdges, setLocalEdges, onEdgesChange] = useEdgesState(edges)
@@ -87,13 +95,60 @@ function FlowCanvas(props: {
 
   const onSelectionChange = useCallback(
     ({ nodes: selected }: OnSelectionChangeParams) => {
-      onSelectionIds?.(selected.map((n) => n.id))
+      const ids = selected.map((n) => n.id)
+      selectedIdsRef.current = ids
+      onSelectionIds?.(ids)
     },
     [onSelectionIds],
   )
 
+  const onContextMenu = useCallback((e: ReactMouseEvent) => {
+    e.preventDefault()
+    setMenu({ x: e.clientX, y: e.clientY })
+  }, [])
+
+  // Copy the selected nodes (or the whole tree when nothing is selected) as a
+  // Tree Clipper magic string.
+  const copySelectionAsMagicString = useCallback(async () => {
+    setMenu(null)
+    try {
+      const raw = JSON.parse(jsonText)
+      const ids = new Set(
+        selectedIdsRef.current.map(Number).filter(Number.isFinite),
+      )
+      const scoped = ids.size > 0 ? filterExportToSelection(raw, ids) : raw
+      const magic = await encodeTreeClipperPayload(JSON.stringify(scoped))
+      await navigator.clipboard.writeText(magic)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    } catch {
+      // Clipboard blocked or JSON parse failed; ignore.
+    }
+  }, [jsonText])
+
+  // Dismiss the menu on any outside interaction.
+  useEffect(() => {
+    if (!menu) return
+    const close = () => setMenu(null)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenu(null)
+    }
+    window.addEventListener('click', close)
+    window.addEventListener('scroll', close, true)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('click', close)
+      window.removeEventListener('scroll', close, true)
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [menu])
+
   return (
-    <div ref={wrapperRef} style={{ width: '100%', height: '100%' }}>
+    <div
+      ref={wrapperRef}
+      style={{ width: '100%', height: '100%', position: 'relative' }}
+      onContextMenu={onContextMenu}
+    >
     <ReactFlow
       nodes={localNodes}
       edges={localEdges}
@@ -123,37 +178,60 @@ function FlowCanvas(props: {
     >
       <Background gap={20} size={1} />
       <Controls showInteractive={false} />
-      <Panel position="top-right">
-        <span className="gn-version-badge">web-render v{__WEB_RENDER_VERSION__}</span>
+      <Panel position="top-left">
+        <div className="gn-top-left">
+          <span className="gn-version-badge">node-web-render v{__WEB_RENDER_VERSION__}</span>
+          {breadcrumbs.length > 1 ? (
+            <nav className="gn-breadcrumbs" aria-label="Node group path">
+              {breadcrumbs.map((crumb, i) => {
+                const isLast = i === breadcrumbs.length - 1
+                return (
+                  <span key={`${crumb.id}-${i}`} className="gn-breadcrumbs__item">
+                    {i > 0 ? <span className="gn-breadcrumbs__sep" aria-hidden="true">›</span> : null}
+                    {isLast ? (
+                      <span className="gn-breadcrumbs__current" aria-current="page">
+                        {crumb.label}
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        className="gn-breadcrumbs__link"
+                        onClick={() => onNavigate(i)}
+                      >
+                        {crumb.label}
+                      </button>
+                    )}
+                  </span>
+                )
+              })}
+            </nav>
+          ) : null}
+        </div>
       </Panel>
-      {breadcrumbs.length > 1 ? (
-        <Panel position="top-left">
-          <nav className="gn-breadcrumbs" aria-label="Node group path">
-            {breadcrumbs.map((crumb, i) => {
-              const isLast = i === breadcrumbs.length - 1
-              return (
-                <span key={`${crumb.id}-${i}`} className="gn-breadcrumbs__item">
-                  {i > 0 ? <span className="gn-breadcrumbs__sep" aria-hidden="true">›</span> : null}
-                  {isLast ? (
-                    <span className="gn-breadcrumbs__current" aria-current="page">
-                      {crumb.label}
-                    </span>
-                  ) : (
-                    <button
-                      type="button"
-                      className="gn-breadcrumbs__link"
-                      onClick={() => onNavigate(i)}
-                    >
-                      {crumb.label}
-                    </button>
-                  )}
-                </span>
-              )
-            })}
-          </nav>
-        </Panel>
-      ) : null}
     </ReactFlow>
+    {menu ? (
+      <div
+        className="gn-context-menu"
+        style={{ left: menu.x, top: menu.y }}
+        // Keep the menu open when clicking inside it; the item handles its own click.
+        onClick={(e) => e.stopPropagation()}
+        role="menu"
+      >
+        <button
+          type="button"
+          className="gn-context-menu__item"
+          role="menuitem"
+          onClick={copySelectionAsMagicString}
+        >
+          Copy selected nodes to Tree Clipper magic string
+        </button>
+      </div>
+    ) : null}
+    {copied ? (
+      <div className="gn-context-toast" role="status">
+        Copied Tree Clipper magic string
+      </div>
+    ) : null}
     </div>
   )
 }
@@ -274,6 +352,7 @@ export function GeometryNodesFlow(props: {
               <FlowCanvas
                 nodes={current.flow.nodes}
                 edges={current.flow.edges}
+                jsonText={jsonText}
                 breadcrumbs={breadcrumbs}
                 onNavigate={(index) => setNav({ json: jsonText, ids: path.slice(1, index + 1) })}
                 onSelectionIds={onSelectionChange}

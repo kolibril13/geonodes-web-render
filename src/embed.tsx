@@ -61,7 +61,10 @@ export function GraphView(props: GraphViewEmbedOptions) {
     <div className="geonodes-embed geonodes-embed--dark">
       <div className="geonodes-embed__body">
         {decoding ? (
-          <div className="flow-empty">Decoding…</div>
+          <div className="gnwr-loading" role="status" aria-live="polite">
+            <span className="gnwr-loading__spinner" aria-hidden="true" />
+            <span className="gnwr-loading__label">Loading graph…</span>
+          </div>
         ) : decodeError ? (
           <div className="flow-error" role="alert">
             <strong>Decode error</strong>
