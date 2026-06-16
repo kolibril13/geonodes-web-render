@@ -122,6 +122,14 @@ body.is-resizing .right-pane {
   border-radius: 10px;
 }
 
+/* The graph is read-only, so the multi-selection overlay never needs to capture
+   the pointer. Left interactive (it carries the `nopan` class) it would swallow
+   middle-button panning that starts over selected nodes — make it visual only. */
+.flow-panel__body .react-flow__nodesselection,
+.flow-panel__body .react-flow__nodesselection-rect {
+  pointer-events: none;
+}
+
 .panel {
   height: 100%;
   min-height: 0;

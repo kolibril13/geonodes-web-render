@@ -4,6 +4,24 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.18] - 2026-06-16
+
+### Added
+
+- Trackpad two-finger drag now pans the canvas (pinch still zooms), matching
+  Blender's Mac-trackpad navigation. The input device is detected per wheel
+  event so a mouse wheel keeps zooming while a trackpad pans.
+
+### Fixed
+
+- The mouse wheel zooms the canvas again. 0.3.17's trackpad-pan change routed
+  all scroll through panning; the wheel handler now classifies mouse vs trackpad
+  and steers React Flow between zoom-on-scroll and pan-on-scroll accordingly.
+- Middle-button panning now works when it starts over selected nodes. React
+  Flow's multi-selection overlay (`.react-flow__nodesselection-rect`, which
+  carries the `nopan` class) was swallowing the gesture; since the graph is
+  read-only the overlay is now `pointer-events: none`.
+
 ## [0.3.17] - 2026-06-16
 
 ### Changed

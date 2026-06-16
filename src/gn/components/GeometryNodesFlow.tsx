@@ -89,6 +89,10 @@ function FlowCanvas(props: {
   // hybrid canvas (their scroll passes through to the page, as intended).
   const [showHint, setShowHint] = useState(false)
   const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // A mouse wheel zooms; a trackpad two-finger drag pans. They're the same kind
+  // of event, so we classify each wheel and steer React Flow's scroll behavior.
+  // Default to mouse so wheel-zoom works on the first tick.
+  const [pointerDevice, setPointerDevice] = useState<'mouse' | 'trackpad'>('mouse')
   // Standalone confirmation toast: `copied` shows it, `leaving` fades it out.
   const [copied, setCopied] = useState(false)
   const [leaving, setLeaving] = useState(false)
@@ -209,8 +213,13 @@ function FlowCanvas(props: {
   }, [])
 
   const isHybrid = interaction === 'hybrid'
-  // The wheel zooms in the standalone app, or in an engaged hybrid canvas.
-  const wheelZoom = interaction === 'always' || (isHybrid && engaged)
+  // The canvas captures scroll (to pan/zoom) in the standalone app, or in an
+  // engaged hybrid canvas; otherwise the wheel scrolls the host page.
+  const canvasActive = interaction === 'always' || (isHybrid && engaged)
+  // A mouse wheel zooms; a trackpad two-finger drag pans. Pinch (ctrlKey) zooms
+  // in both via React Flow's zoomOnPinch default.
+  const zoomOnScroll = canvasActive && pointerDevice === 'mouse'
+  const panOnScroll = canvasActive && pointerDevice === 'trackpad'
   // Blender-style mouse map (both standalone and embed): left-drag box-selects,
   // middle-drag pans, right-click opens the context menu (right is never in
   // panOnDrag). With no middle button, hold Space to pan with the left button
@@ -218,14 +227,28 @@ function FlowCanvas(props: {
   const panOnDrag = [1]
   const selectionOnDrag = true
 
-  // Flash the "click to interact" hint when the user wheels over a resting
-  // hybrid canvas. Skip it while ctrl/pinch-zooming, which already works.
   const onWrapperWheel = useCallback(
     (e: ReactWheelEvent) => {
-      if (!isHybrid || engaged || e.ctrlKey) return
-      setShowHint(true)
-      if (hintTimerRef.current) clearTimeout(hintTimerRef.current)
-      hintTimerRef.current = setTimeout(() => setShowHint(false), 1600)
+      // Classify the input device so the wheel zooms (mouse) or pans (trackpad).
+      // Pinch arrives as a ctrlKey wheel — zoom in either mode, so don't let it
+      // flip the device. Trackpads scroll in pixel mode with a horizontal
+      // component or small/fractional deltas; mouse wheels are large, vertical,
+      // integer steps.
+      if (!e.ctrlKey) {
+        const device =
+          e.deltaMode === 0 &&
+          (e.deltaX !== 0 || !Number.isInteger(e.deltaY) || Math.abs(e.deltaY) < 40)
+            ? 'trackpad'
+            : 'mouse'
+        setPointerDevice((prev) => (prev === device ? prev : device))
+      }
+      // Resting hybrid: the wheel passes through to scroll the host page — flash
+      // the "click to interact" hint (skip it while pinch-zooming).
+      if (isHybrid && !engaged && !e.ctrlKey) {
+        setShowHint(true)
+        if (hintTimerRef.current) clearTimeout(hintTimerRef.current)
+        hintTimerRef.current = setTimeout(() => setShowHint(false), 1600)
+      }
     },
     [isHybrid, engaged],
   )
@@ -293,11 +316,12 @@ function FlowCanvas(props: {
       selectionMode={SelectionMode.Partial}
       connectOnClick={false}
       panOnDrag={panOnDrag}
-      panOnScroll={false}
-      zoomOnScroll={wheelZoom}
-      // While the wheel isn't zooming (resting hybrid embed), don't swallow it —
-      // let it scroll the host page. Ctrl+wheel / pinch still zoom regardless.
-      preventScrolling={wheelZoom}
+      // Mouse wheel zooms, trackpad two-finger drag pans (see onWrapperWheel);
+      // pinch zooms in both. When resting (a hybrid embed) neither is active, so
+      // the wheel passes through to scroll the host page.
+      zoomOnScroll={zoomOnScroll}
+      panOnScroll={panOnScroll}
+      preventScrolling={canvasActive}
       zoomOnDoubleClick={false}
     >
       <Background gap={20} size={1} color="var(--grid-dot, #3a3a3a)" />
@@ -305,7 +329,7 @@ function FlowCanvas(props: {
       {isHybrid && showHint ? (
         <Panel position="bottom-center">
           <div className="gn-zoom-hint" role="status">
-            Click to zoom
+            Click to pan &amp; zoom
           </div>
         </Panel>
       ) : null}
