@@ -1,24 +1,25 @@
 // Socket colors sourced directly from Blender's std_node_socket_colors table in
 // source/blender/editors/space_node/drawnode.cc.
-// Values are stored as linear-light floats [0,1] in Blender; converted here to sRGB hex.
-// Conversion: sRGB ≈ linearToSrgb(x) = x <= 0.0031308 ? 12.92*x : 1.055*x^(1/2.4) - 0.055
-
-function lin(x: number): number {
-  return x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055
-}
+// These are display-space (theme) values: Blender draws them straight to the
+// framebuffer without a colour transform, so we map them directly to 8-bit
+// (×255). Verified against screen captures: GEOMETRY (0,0.84,0.64) renders as
+// (0,214,163) and FLOAT (0.63) as ~(160,160,160), matching the direct mapping —
+// an extra linear→sRGB step would make every socket too bright.
 
 function toHex(r: number, g: number, b: number): string {
   const ch = (v: number) =>
-    Math.round(Math.min(1, Math.max(0, lin(v))) * 255)
+    Math.round(Math.min(1, Math.max(0, v)) * 255)
       .toString(16)
       .padStart(2, '0')
   return `#${ch(r)}${ch(g)}${ch(b)}`
 }
 
-// Maps the JSON `type` string to an sRGB hex color.
-// Type strings come from Blender's RNA enum (e.g. "FLOAT", "VECTOR", "GEOMETRY").
+// Maps the JSON `type` string to an sRGB hex color. Type strings come from
+// Blender's runtime socket enum (e.g. "VALUE", "VECTOR", "GEOMETRY") — note the
+// runtime name for a float socket is "VALUE", not "FLOAT".
 export const SOCKET_COLORS: Record<string, string> = {
   FLOAT:      toHex(0.63, 0.63, 0.63), // grey
+  VALUE:      toHex(0.63, 0.63, 0.63), // grey (runtime alias for FLOAT)
   VECTOR:     toHex(0.39, 0.39, 0.78), // blue-purple
   RGBA:       toHex(0.78, 0.78, 0.16), // yellow
   SHADER:     toHex(0.39, 0.78, 0.39), // green

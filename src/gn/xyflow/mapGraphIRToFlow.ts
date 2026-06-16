@@ -198,30 +198,36 @@ export function mapGraphIRToFlow(graph: GraphIR): {
     if (memberIds.size > 0) {
       const byId = new Map(graph.nodes.map((n) => [n.id, n]))
 
-      let minX = Number.POSITIVE_INFINITY
+      // Vertical extent: bound every member (incl. the boundary nodes) with a
+      // little padding above and below.
       let minY = Number.POSITIVE_INFINITY
-      let maxX = Number.NEGATIVE_INFINITY
       let maxY = Number.NEGATIVE_INFINITY
-
       for (const id of memberIds) {
         const n = byId.get(id)
         if (!n) continue
-        const w = n.width
-        const h = estimateNodeHeight(n)
-        minX = Math.min(minX, n.position.x)
         minY = Math.min(minY, n.position.y)
-        maxX = Math.max(maxX, n.position.x + w)
-        maxY = Math.max(maxY, n.position.y + h)
+        maxY = Math.max(maxY, n.position.y + estimateNodeHeight(n))
       }
 
-      if (Number.isFinite(minX) && Number.isFinite(minY) && Number.isFinite(maxX) && Number.isFinite(maxY)) {
-        const pad = 64
-        const frameX = minX - pad
-        const frameY = minY - pad
-        const frameW = (maxX - minX) + pad * 2
-        const frameH = (maxY - minY) + pad * 2
+      // Horizontal extent: in Blender the zone boundary runs *through* the
+      // Simulation Input and Output nodes (their outer halves spill outside the
+      // frame), rather than surrounding them. Anchor the left/right edges at the
+      // horizontal centres of the two boundary nodes.
+      const inX = simInput.position.x + simInput.width / 2
+      const outX = simOutput.position.x + simOutput.width / 2
+      const left = Math.min(inX, outX)
+      const right = Math.max(inX, outX)
+
+      if (Number.isFinite(minY) && Number.isFinite(maxY) && Number.isFinite(left) && Number.isFinite(right)) {
+        const vpad = 26
+        const frameX = left
+        const frameY = minY - vpad
+        const frameW = right - left
+        const frameH = (maxY - minY) + vpad * 2
         const frameId = `zone:simulation:${simInput.id}`
 
+        // A non-interactive background rectangle behind the nodes. It is not a
+        // parent of the member nodes, so they are free to straddle its edges.
         const frameNode: Node = {
           id: frameId,
           type: 'simulationZone',
@@ -229,23 +235,11 @@ export function mapGraphIRToFlow(graph: GraphIR): {
           draggable: false,
           selectable: false,
           connectable: false,
-          data: { label: 'Simulation' } as SimulationZoneNodeData,
+          data: {} as SimulationZoneNodeData,
           style: { width: frameW, height: frameH, zIndex: -10 },
         }
 
-        nodes = [
-          frameNode,
-          ...baseNodes.map((n) => {
-            if (!memberIds.has(n.id)) return n
-            // Children are positioned relative to their parent.
-            return {
-              ...n,
-              parentId: frameId,
-              extent: 'parent' as const,
-              position: { x: n.position.x - frameX, y: n.position.y - frameY },
-            }
-          }),
-        ]
+        nodes = [frameNode, ...baseNodes]
       }
     }
   }
