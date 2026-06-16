@@ -1,6 +1,10 @@
 # geonodes-web-render
 
+[![npm](https://img.shields.io/npm/v/geonodes-web-render)](https://www.npmjs.com/package/geonodes-web-render?activeTab=readme)
+
 A browser-based viewer for Blender node trees exported via the [Tree Clipper](https://extensions.blender.org/add-ons/tree-clipper/) add-on. It renders the exported JSON as a read-only, Blender-styled node graph using React Flow.
+
+📦 **npm:** [geonodes-web-render](https://www.npmjs.com/package/geonodes-web-render?activeTab=readme)
 
 ## What it does
 

@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.21] - 2026-06-16
+
+### Fixed
+
+- The mouse wheel now always zooms. The device heuristic treated small or
+  fractional `deltaY` as a trackpad, so some mice panned instead of zooming; it
+  now keys off the horizontal component (a mouse wheel is strictly vertical)
+  with a short hold so a trackpad drag doesn't flicker between pan and zoom.
+
+### Added
+
+- README: npm package link/badge.
+
 ## [0.3.20] - 2026-06-16
 
 ### Added

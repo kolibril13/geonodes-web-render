@@ -93,6 +93,9 @@ function FlowCanvas(props: {
   // of event, so we classify each wheel and steer React Flow's scroll behavior.
   // Default to mouse so wheel-zoom works on the first tick.
   const [pointerDevice, setPointerDevice] = useState<'mouse' | 'trackpad'>('mouse')
+  // Timestamp of the last wheel event with a horizontal component — our trackpad
+  // tell. Held briefly so a mostly-vertical trackpad drag stays "trackpad".
+  const lastTrackpadAtRef = useRef(-Infinity)
   // Standalone confirmation toast: `copied` shows it, `leaving` fades it out.
   const [copied, setCopied] = useState(false)
   const [leaving, setLeaving] = useState(false)
@@ -231,15 +234,13 @@ function FlowCanvas(props: {
     (e: ReactWheelEvent) => {
       // Classify the input device so the wheel zooms (mouse) or pans (trackpad).
       // Pinch arrives as a ctrlKey wheel — zoom in either mode, so don't let it
-      // flip the device. Trackpads scroll in pixel mode with a horizontal
-      // component or small/fractional deltas; mouse wheels are large, vertical,
-      // integer steps.
+      // flip the device. A mouse wheel is strictly vertical, so any horizontal
+      // component means a trackpad two-finger drag. Hold that verdict for a
+      // moment so a mostly-vertical trackpad drag doesn't flicker back to mouse
+      // mid-gesture; a real mouse never sets it, so the wheel always zooms.
       if (!e.ctrlKey) {
-        const device =
-          e.deltaMode === 0 &&
-          (e.deltaX !== 0 || !Number.isInteger(e.deltaY) || Math.abs(e.deltaY) < 40)
-            ? 'trackpad'
-            : 'mouse'
+        if (e.deltaX !== 0) lastTrackpadAtRef.current = e.timeStamp
+        const device = e.timeStamp - lastTrackpadAtRef.current < 400 ? 'trackpad' : 'mouse'
         setPointerDevice((prev) => (prev === device ? prev : device))
       }
       // Resting hybrid: the wheel passes through to scroll the host page — flash
