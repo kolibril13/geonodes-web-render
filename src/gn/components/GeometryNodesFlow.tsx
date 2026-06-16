@@ -6,7 +6,6 @@ import {
   useState,
   type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
-  type WheelEvent as ReactWheelEvent,
 } from 'react'
 import {
   Background,
@@ -230,14 +229,18 @@ function FlowCanvas(props: {
   const panOnDrag = [1]
   const selectionOnDrag = true
 
-  const onWrapperWheel = useCallback(
-    (e: ReactWheelEvent) => {
-      // Classify the input device so the wheel zooms (mouse) or pans (trackpad).
-      // Pinch arrives as a ctrlKey wheel — zoom in either mode, so don't let it
-      // flip the device. A mouse wheel is strictly vertical, so any horizontal
-      // component means a trackpad two-finger drag. Hold that verdict for a
-      // moment so a mostly-vertical trackpad drag doesn't flicker back to mouse
-      // mid-gesture; a real mouse never sets it, so the wheel always zooms.
+  // Classify the input device (and flash the resting hint) on every wheel event.
+  // This MUST run in the capture phase: React Flow's pan-on-scroll handler calls
+  // stopImmediatePropagation, so a bubble-phase listener stops firing once we're
+  // in trackpad/pan mode — and we'd never detect the switch back to a mouse.
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el) return
+    const onWheelCapture = (e: WheelEvent) => {
+      // A mouse wheel is strictly vertical; any horizontal component means a
+      // trackpad. Hold that verdict briefly so a mostly-vertical trackpad drag
+      // doesn't flicker to mouse. Pinch (ctrlKey) zooms in both, so it must not
+      // flip the device. A real mouse never sets it, so the wheel always zooms.
       if (!e.ctrlKey) {
         if (e.deltaX !== 0) lastTrackpadAtRef.current = e.timeStamp
         const device = e.timeStamp - lastTrackpadAtRef.current < 400 ? 'trackpad' : 'mouse'
@@ -250,9 +253,10 @@ function FlowCanvas(props: {
         if (hintTimerRef.current) clearTimeout(hintTimerRef.current)
         hintTimerRef.current = setTimeout(() => setShowHint(false), 1600)
       }
-    },
-    [isHybrid, engaged],
-  )
+    }
+    el.addEventListener('wheel', onWheelCapture, { capture: true, passive: true })
+    return () => el.removeEventListener('wheel', onWheelCapture, { capture: true })
+  }, [isHybrid, engaged])
 
   // A left click engages wheel-zoom; leaving the canvas disengages it again.
   const onWrapperPointerDown = useCallback(
@@ -293,7 +297,6 @@ function FlowCanvas(props: {
       onContextMenu={onContextMenu}
       onPointerDown={onWrapperPointerDown}
       onPointerLeave={onWrapperPointerLeave}
-      onWheel={onWrapperWheel}
     >
     <ReactFlow
       nodes={localNodes}

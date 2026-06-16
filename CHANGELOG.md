@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.23] - 2026-06-16
+
+### Fixed
+
+- Switching from trackpad back to mouse now correctly restores wheel-zoom. The
+  device classifier ran in the wheel event's bubble phase, but React Flow's
+  pan-on-scroll handler calls `stopImmediatePropagation`, so once in trackpad/pan
+  mode the classifier never fired again and the mouse stayed stuck panning. It
+  now runs in the capture phase, so it always re-detects the active device.
+
 ## [0.3.22] - 2026-06-16
 
 ### Fixed
