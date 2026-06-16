@@ -8,6 +8,8 @@ import { createElement } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { useEffect, useRef, useState } from 'react'
 import { decodeTreeClipperPayload } from './utils/decodeTreeClipperPayload'
+import { encodeTreeClipperPayload } from './utils/encodeTreeClipperPayload'
+import { filterExportToSelection } from './gn/exporter/nodebpyExporter'
 import { GeometryNodesFlow } from './gn/components/GeometryNodesFlow'
 import { TreeClipperLogo } from './components/TreeClipperLogo'
 import './App.css'
@@ -24,6 +26,9 @@ export function GraphView(props: GraphViewEmbedOptions) {
   const [jsonText, setJsonText] = useState<string>('')
   const [decodeError, setDecodeError] = useState<string | null>(null)
   const [decoding, setDecoding] = useState(true)
+  // Raw Tree Clipper node ids currently selected on the canvas (box-select /
+  // click). Drives the copy button's label and what it copies.
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
   // `copied` shows the confirmation; `leaving` plays the 0.5s fade-out before it
   // unmounts. Keep the confirmation up for at least 3s, and longer while the
   // pointer is still over it — only dismiss once the minimum has elapsed AND the
@@ -62,7 +67,15 @@ export function GraphView(props: GraphViewEmbedOptions) {
 
   const copyPayload = async () => {
     try {
-      await navigator.clipboard.writeText(payload)
+      // With nodes selected, copy just those (same as the right-click menu);
+      // otherwise copy the whole tree's original payload.
+      let text = payload
+      const ids = new Set(selectedIds.map(Number).filter(Number.isFinite))
+      if (ids.size > 0) {
+        const scoped = filterExportToSelection(JSON.parse(jsonText), ids)
+        text = await encodeTreeClipperPayload(JSON.stringify(scoped))
+      }
+      await navigator.clipboard.writeText(text)
       showConfirmation()
     } catch {
       // Clipboard can be blocked (no gesture / insecure context); ignore.
@@ -137,6 +150,7 @@ export function GraphView(props: GraphViewEmbedOptions) {
               jsonText={jsonText}
               showHeader={false}
               interaction="hybrid"
+              onSelectionChange={setSelectedIds}
               onCopiedMagicString={showConfirmation}
             />
             <button
@@ -168,7 +182,13 @@ export function GraphView(props: GraphViewEmbedOptions) {
               ) : (
                 <>
                   <TreeClipperLogo className="gnwr-copy-button__logo" />
-                  <span>Copy TreeClipper Magic String</span>
+                  <span>
+                    {selectedIds.length > 0
+                      ? `Copy Magic String of ${selectedIds.length} selected node${
+                          selectedIds.length === 1 ? '' : 's'
+                        }`
+                      : 'Copy TreeClipper Magic String'}
+                  </span>
                 </>
               )}
             </button>

@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.19] - 2026-06-16
+
+### Changed
+
+- The embed's top-right copy button now reflects the canvas selection: with
+  nodes selected it reads "Copy Magic String of N selected node(s)" and copies
+  just those nodes (same subset as the right-click menu); with nothing selected
+  it copies the whole tree as before.
+
 ## [0.3.18] - 2026-06-16
 
 ### Added
