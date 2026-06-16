@@ -164,6 +164,14 @@ const IDNAME_CLASS_OVERRIDES: Record<string, string> = {
   GeometryNodeEvaluateOnDomain:         'CONVERTER',
   GeometryNodeFieldVariance:            'CONVERTER',
   GeometryNodeViewer:                   'OUTPUT',
+  // Zone boundary nodes (simulation/repeat/foreach) are not drawn with the
+  // geometry-class colour — Blender gives them the default dark header.
+  GeometryNodeSimulationInput:          'DEFAULT',
+  GeometryNodeSimulationOutput:         'DEFAULT',
+  GeometryNodeRepeatInput:              'DEFAULT',
+  GeometryNodeRepeatOutput:             'DEFAULT',
+  GeometryNodeForeachGeometryElementInput:  'DEFAULT',
+  GeometryNodeForeachGeometryElementOutput: 'DEFAULT',
 }
 
 // ShaderNodeMix / ShaderNodeMapRange change class with their data_type
