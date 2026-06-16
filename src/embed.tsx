@@ -136,7 +136,7 @@ export function GraphView(props: GraphViewEmbedOptions) {
             <GeometryNodesFlow
               jsonText={jsonText}
               showHeader={false}
-              zoomOnScroll={false}
+              interaction="hybrid"
               onCopiedMagicString={showConfirmation}
             />
             <button

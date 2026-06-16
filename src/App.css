@@ -1018,7 +1018,7 @@ body.is-resizing .right-pane {
 
 /* Custom right-click context menu on the canvas. */
 .gn-context-menu {
-  position: fixed;
+  position: absolute;
   z-index: 1000;
   min-width: 200px;
   padding: 4px;
@@ -1065,6 +1065,30 @@ body.is-resizing .right-pane {
   font-size: 12px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   animation: gnwr-copy-toast-in 0.15s ease-out;
+}
+
+/* Hybrid embed: "click to interact" hint, flashed when the user wheels over a
+   resting canvas (their scroll passes through to the page). */
+.gn-zoom-hint {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 80%, #000 20%);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  animation: gnwr-copy-toast-in 0.12s ease-out;
+}
+
+/* Subtle ring while the hybrid canvas is engaged (wheel zooms). */
+.gn-canvas-wrapper--engaged {
+  outline: 1.5px solid var(--accent-border, color-mix(in srgb, var(--bg) 60%, #5a8fd6 40%));
+  outline-offset: -1.5px;
+  border-radius: inherit;
 }
 
 /* Breadcrumb trail for nested node groups */

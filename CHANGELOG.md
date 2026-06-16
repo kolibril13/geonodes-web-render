@@ -4,6 +4,26 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.16] - 2026-06-16
+
+### Changed
+
+- The embedded canvas now uses a "click to engage" wheel model instead of being
+  inert: the wheel scrolls the host page until the reader clicks the canvas, then
+  it zooms like the standalone app until the pointer leaves. `Ctrl`+wheel and
+  trackpad pinch zoom even while resting. A brief "Click to zoom & pan" hint
+  flashes when the wheel passes through to the page. Configured via a new
+  `interaction` prop (`'always' | 'hybrid' | 'none'`) replacing `zoomOnScroll`.
+- Right-click now always opens the context menu (Blender-style) and no longer
+  pans. Panning is on middle-drag everywhere, plus left-drag in the embed.
+
+### Fixed
+
+- The right-click context menu now appears directly at the cursor. It was
+  positioned with `position: fixed` against viewport coordinates, which lands in
+  the wrong place when the embed is scrolled down the host page or nested under a
+  transformed ancestor; it is now absolutely positioned within the canvas.
+
 ## [0.3.4] - 2026-06-13
 
 ### Added

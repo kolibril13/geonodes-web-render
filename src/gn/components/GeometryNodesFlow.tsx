@@ -1,4 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+  type PointerEvent as ReactPointerEvent,
+  type WheelEvent as ReactWheelEvent,
+} from 'react'
 import {
   Background,
   Controls,
@@ -39,6 +48,17 @@ const nodeTypes = {
 
 const FIT_VIEW_OPTIONS = { padding: 0.08 }
 
+/**
+ * How the canvas captures the mouse wheel:
+ * - `'always'`  — standalone app: wheel always zooms (and pans with middle drag,
+ *   box-selects with left drag).
+ * - `'hybrid'`  — embedded: the wheel scrolls the host page until the user clicks
+ *   the canvas to "engage"; then it zooms like the standalone app until the
+ *   pointer leaves. Ctrl+wheel / trackpad-pinch zoom even while resting.
+ * - `'none'`    — wheel always scrolls the page; pan via left/middle drag only.
+ */
+export type InteractionMode = 'always' | 'hybrid' | 'none'
+
 type Breadcrumb = { id: string; label: string }
 
 function FlowCanvas(props: {
@@ -49,9 +69,9 @@ function FlowCanvas(props: {
   onNavigate: (index: number) => void
   onSelectionIds?: (ids: string[]) => void
   onCopiedMagicString?: () => void
-  zoomOnScroll?: boolean
+  interaction?: InteractionMode
 }) {
-  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, zoomOnScroll = true } = props
+  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, interaction = 'always' } = props
   const { fitView, getNodes, getNodesBounds } = useReactFlow()
   const nodesInitialized = useNodesInitialized()
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -61,6 +81,14 @@ function FlowCanvas(props: {
   const selectedIdsRef = useRef<string[]>([])
   // Custom context menu position (viewport coords), or null when closed.
   const [menu, setMenu] = useState<{ x: number; y: number } | null>(null)
+  // Hybrid mode: the canvas only captures the wheel once the user clicks to
+  // "engage". Resting (false) lets the wheel scroll the host page; engaging
+  // (true) makes the wheel zoom, until the pointer leaves the canvas.
+  const [engaged, setEngaged] = useState(false)
+  // Briefly show a "click to interact" hint when the user wheels over a resting
+  // hybrid canvas (their scroll passes through to the page, as intended).
+  const [showHint, setShowHint] = useState(false)
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   // Standalone confirmation toast: `copied` shows it, `leaving` fades it out.
   const [copied, setCopied] = useState(false)
   const [leaving, setLeaving] = useState(false)
@@ -129,7 +157,11 @@ function FlowCanvas(props: {
 
   const onContextMenu = useCallback((e: ReactMouseEvent) => {
     e.preventDefault()
-    setMenu({ x: e.clientX, y: e.clientY })
+    // Position the menu relative to the canvas wrapper, not the viewport: the
+    // menu is absolutely positioned inside it, and a host page can offset, scroll,
+    // or transform the embed (a transformed ancestor would also break position:fixed).
+    const rect = wrapperRef.current?.getBoundingClientRect()
+    setMenu({ x: e.clientX - (rect?.left ?? 0), y: e.clientY - (rect?.top ?? 0) })
   }, [])
 
   // Copy the selected nodes (or the whole tree when nothing is selected) as a
@@ -169,6 +201,48 @@ function FlowCanvas(props: {
     return () => toastTimersRef.current.forEach(clearTimeout)
   }, [])
 
+  // Clean up the hint fade-out timer on unmount.
+  useEffect(() => {
+    return () => {
+      if (hintTimerRef.current) clearTimeout(hintTimerRef.current)
+    }
+  }, [])
+
+  const isHybrid = interaction === 'hybrid'
+  // The wheel zooms in the standalone app, or in an engaged hybrid canvas.
+  const wheelZoom = interaction === 'always' || (isHybrid && engaged)
+  // Standalone: left-drag box-selects, middle-drag pans. Embed: no box-select,
+  // so left- and middle-drag both pan (laptops/trackpads have no middle button).
+  // Right-button never pans in either mode — it's reserved for the context menu.
+  const panOnDrag = interaction === 'always' ? [1] : [0, 1]
+  const selectionOnDrag = interaction === 'always'
+
+  // Flash the "click to interact" hint when the user wheels over a resting
+  // hybrid canvas. Skip it while ctrl/pinch-zooming, which already works.
+  const onWrapperWheel = useCallback(
+    (e: ReactWheelEvent) => {
+      if (!isHybrid || engaged || e.ctrlKey) return
+      setShowHint(true)
+      if (hintTimerRef.current) clearTimeout(hintTimerRef.current)
+      hintTimerRef.current = setTimeout(() => setShowHint(false), 1600)
+    },
+    [isHybrid, engaged],
+  )
+
+  // A left click engages wheel-zoom; leaving the canvas disengages it again.
+  const onWrapperPointerDown = useCallback(
+    (e: ReactPointerEvent) => {
+      if (isHybrid && e.button === 0) {
+        setEngaged(true)
+        setShowHint(false)
+      }
+    },
+    [isHybrid],
+  )
+  const onWrapperPointerLeave = useCallback(() => {
+    if (isHybrid) setEngaged(false)
+  }, [isHybrid])
+
   // Dismiss the menu on any outside interaction.
   useEffect(() => {
     if (!menu) return
@@ -189,8 +263,12 @@ function FlowCanvas(props: {
   return (
     <div
       ref={wrapperRef}
+      className={`gn-canvas-wrapper${isHybrid && engaged ? ' gn-canvas-wrapper--engaged' : ''}`}
       style={{ width: '100%', height: '100%', position: 'relative' }}
       onContextMenu={onContextMenu}
+      onPointerDown={onWrapperPointerDown}
+      onPointerLeave={onWrapperPointerLeave}
+      onWheel={onWrapperWheel}
     >
     <ReactFlow
       nodes={localNodes}
@@ -210,18 +288,26 @@ function FlowCanvas(props: {
       nodesFocusable={false}
       edgesFocusable={false}
       selectNodesOnDrag={false}
-      selectionOnDrag
+      selectionOnDrag={selectionOnDrag}
       selectionMode={SelectionMode.Partial}
       connectOnClick={false}
-      panOnDrag={[1, 2]}
+      panOnDrag={panOnDrag}
       panOnScroll={false}
-      zoomOnScroll={zoomOnScroll}
-      // When zoom is off (embed), don't swallow the wheel — let it scroll the page.
-      preventScrolling={zoomOnScroll}
+      zoomOnScroll={wheelZoom}
+      // While the wheel isn't zooming (resting hybrid embed), don't swallow it —
+      // let it scroll the host page. Ctrl+wheel / pinch still zoom regardless.
+      preventScrolling={wheelZoom}
       zoomOnDoubleClick={false}
     >
       <Background gap={20} size={1} color="var(--grid-dot, #3a3a3a)" />
       <Controls showInteractive={false} />
+      {isHybrid && showHint ? (
+        <Panel position="bottom-center">
+          <div className="gn-zoom-hint" role="status">
+            Click to zoom &amp; pan
+          </div>
+        </Panel>
+      ) : null}
       <Panel position="top-left">
         <div className="gn-top-left">
           <span className="gn-version-badge">node-web-render v{__WEB_RENDER_VERSION__}</span>
@@ -294,11 +380,11 @@ export function GeometryNodesFlow(props: {
   /** Called when the user copies a magic string via the right-click menu. When
    *  provided, the canvas skips its own toast so the host can show one instead. */
   onCopiedMagicString?: () => void
-  /** Zoom the canvas on mouse-wheel. Default true; set false (e.g. in an embed)
-   *  so the wheel scrolls the host page instead of the node tree. */
-  zoomOnScroll?: boolean
+  /** How the wheel is captured. Default `'always'` (standalone). Use `'hybrid'`
+   *  in an embed so the wheel scrolls the host page until the canvas is clicked. */
+  interaction?: InteractionMode
 }) {
-  const { jsonText, showHeader = true, onSelectionChange, onCopiedMagicString, zoomOnScroll = true } = props
+  const { jsonText, showHeader = true, onSelectionChange, onCopiedMagicString, interaction = 'always' } = props
 
   // Trail of opened groups below the root tree (tree ids). The stack is tied
   // to the JSON it was built from: new JSON means new tree ids, so a stack
@@ -407,7 +493,7 @@ export function GeometryNodesFlow(props: {
                 onNavigate={(index) => setNav({ json: jsonText, ids: path.slice(1, index + 1) })}
                 onSelectionIds={onSelectionChange}
                 onCopiedMagicString={onCopiedMagicString}
-                zoomOnScroll={zoomOnScroll}
+                interaction={interaction}
               />
             </ReactFlowProvider>
           </GroupNavContext.Provider>
