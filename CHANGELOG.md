@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.22] - 2026-06-16
+
+### Fixed
+
+- The simulation-zone frame now uses Blender's exact default theme colour
+  (`node_zone_simulation` = `#664162` at alpha 0.2) instead of a slightly too
+  pink/saturated plum.
+
 ## [0.3.21] - 2026-06-16
 
 ### Fixed

@@ -8,11 +8,11 @@ export function SimulationZoneFrame() {
         width: '100%',
         height: '100%',
         borderRadius: 10,
-        // Blender's simulation-zone theme: a desaturated maroon/plum, not the
-        // bright purple we had. Fill ≈ (43,32,39) over the dark canvas; border
-        // is a muted plum (≈ #5e4259).
-        border: '1.5px solid rgba(150, 104, 140, 0.5)',
-        background: 'rgba(124, 58, 96, 0.16)',
+        // Blender's default theme `node_zone_simulation` = 0x66416233, i.e.
+        // #664162 (RGB 102,65,98) at alpha 0.2 — a muted plum. Fill uses the
+        // exact theme value; the border is the same hue, emphasized for legibility.
+        border: '1.5px solid rgba(102, 65, 98, 0.85)',
+        background: 'rgba(102, 65, 98, 0.2)',
         pointerEvents: 'none',
       }}
     />
