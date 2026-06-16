@@ -28,6 +28,18 @@ Tree Clipper JSON / base64 payload
 - **Blender fidelity** — socket and header colors sourced from Blender's own tables; Math/Compare nodes show human-readable operation labels
 - **Embeddable** — ships a separate `embed` entry point for use as a library
 
+## Controls
+
+| Action | Mouse | Trackpad |
+| --- | --- | --- |
+| Box-select | Left-drag | Left-drag |
+| Pan | Middle-drag | Two-finger drag |
+| Zoom | Wheel | Pinch |
+| Zoom (modifier) | `⌘`/`Ctrl` + wheel | `⌘`/`Ctrl` + two-finger |
+| Context menu | Right-click | Right-click |
+
+Mouse vs. trackpad is auto-detected per scroll, so wheel-zoom and two-finger-pan coexist. In an embed, scroll passes through to the page until you click the canvas to engage; moving the pointer off disengages.
+
 ## Usage
 
 ### Standalone app
