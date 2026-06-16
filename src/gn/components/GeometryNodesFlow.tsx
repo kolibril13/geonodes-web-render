@@ -55,7 +55,7 @@ const FIT_VIEW_OPTIONS = { padding: 0.08 }
  * - `'hybrid'`  — embedded: the wheel scrolls the host page until the user clicks
  *   the canvas to "engage"; then it zooms like the standalone app until the
  *   pointer leaves. Ctrl+wheel / trackpad-pinch zoom even while resting.
- * - `'none'`    — wheel always scrolls the page; pan via left/middle drag only.
+ * - `'none'`    — wheel always scrolls the page; pan via middle-drag only.
  */
 export type InteractionMode = 'always' | 'hybrid' | 'none'
 
@@ -211,11 +211,12 @@ function FlowCanvas(props: {
   const isHybrid = interaction === 'hybrid'
   // The wheel zooms in the standalone app, or in an engaged hybrid canvas.
   const wheelZoom = interaction === 'always' || (isHybrid && engaged)
-  // Standalone: left-drag box-selects, middle-drag pans. Embed: no box-select,
-  // so left- and middle-drag both pan (laptops/trackpads have no middle button).
-  // Right-button never pans in either mode — it's reserved for the context menu.
-  const panOnDrag = interaction === 'always' ? [1] : [0, 1]
-  const selectionOnDrag = interaction === 'always'
+  // Blender-style mouse map (both standalone and embed): left-drag box-selects,
+  // middle-drag pans, right-click opens the context menu (right is never in
+  // panOnDrag). With no middle button, hold Space to pan with the left button
+  // (React Flow's default panActivationKeyCode).
+  const panOnDrag = [1]
+  const selectionOnDrag = true
 
   // Flash the "click to interact" hint when the user wheels over a resting
   // hybrid canvas. Skip it while ctrl/pinch-zooming, which already works.
@@ -304,7 +305,7 @@ function FlowCanvas(props: {
       {isHybrid && showHint ? (
         <Panel position="bottom-center">
           <div className="gn-zoom-hint" role="status">
-            Click to zoom &amp; pan
+            Click to zoom
           </div>
         </Panel>
       ) : null}
