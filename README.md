@@ -61,7 +61,7 @@ Open `http://localhost:5173/geonodes-web-render/` and pick an example or paste y
 import { mountGraphView, unmountGraphView } from 'geonodes-web-render/embed'
 
 // payload can be a raw JSON string or a TreeClipper:: base64 encoded string
-mountGraphView(container, payload)
+mountGraphView(container, { payload })
 
 // later
 unmountGraphView(container)
@@ -74,6 +74,10 @@ import { GraphView } from 'geonodes-web-render/embed'
 
 <GraphView payload="TreeClipper::H4sI..." />
 ```
+
+Set `showCopyButton={false}` (or `{ payload, showCopyButton: false }` for
+`mountGraphView`) to hide the "Copy TreeClipper Magic String" button and disable
+the right-click copy action. Defaults to `true`.
 
 > **Preview the embed locally.** The embed view (with the "Copy TreeClipper
 > Magic String" button and toast) isn't reachable from the standalone app, so a

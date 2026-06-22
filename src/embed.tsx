@@ -19,10 +19,13 @@ export type GraphViewEmbedOptions = {
   payload: string
   /** Called when user requests close (e.g. modal close button). Use to unmount. */
   onClose?: () => void
+  /** When false, hide the "Copy TreeClipper Magic String" button and disable the
+   *  right-click copy action. Default true. */
+  showCopyButton?: boolean
 }
 
 export function GraphView(props: GraphViewEmbedOptions) {
-  const { payload } = props
+  const { payload, showCopyButton = true } = props
   const [jsonText, setJsonText] = useState<string>('')
   const [decodeError, setDecodeError] = useState<string | null>(null)
   const [decoding, setDecoding] = useState(true)
@@ -152,7 +155,10 @@ export function GraphView(props: GraphViewEmbedOptions) {
               interaction="hybrid"
               onSelectionChange={setSelectedIds}
               onCopiedMagicString={showConfirmation}
+              allowCopy={showCopyButton}
             />
+            {showCopyButton && (
+            <>
             <button
               type="button"
               className={`gnwr-copy-button${copied || leaving ? ' gnwr-copy-button--copied' : ''}`}
@@ -210,6 +216,8 @@ export function GraphView(props: GraphViewEmbedOptions) {
                 </a>{' '}
                 installed.
               </div>
+            )}
+            </>
             )}
           </>
         )}

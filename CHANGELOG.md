@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.24] - 2026-06-22
+
+### Added
+
+- `showCopyButton` option on the embed (`GraphView` prop / `mountGraphView`
+  option, default `true`). When `false`, the "Copy TreeClipper Magic String"
+  button and toast are hidden and the right-click copy action is disabled, so the
+  embed can be used as a pure read-only viewer.
+
 ## [0.3.23] - 2026-06-16
 
 ### Fixed
