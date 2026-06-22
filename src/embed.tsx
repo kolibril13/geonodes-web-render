@@ -22,10 +22,13 @@ export type GraphViewEmbedOptions = {
   /** When false, hide the "Copy TreeClipper Magic String" button and disable the
    *  right-click copy action. Default true. */
   showCopyButton?: boolean
+  /** When false, disable node selection; left-drag pans instead of box-selecting.
+   *  Default true. */
+  allowSelection?: boolean
 }
 
 export function GraphView(props: GraphViewEmbedOptions) {
-  const { payload, showCopyButton = true } = props
+  const { payload, showCopyButton = true, allowSelection = true } = props
   const [jsonText, setJsonText] = useState<string>('')
   const [decodeError, setDecodeError] = useState<string | null>(null)
   const [decoding, setDecoding] = useState(true)
@@ -156,6 +159,7 @@ export function GraphView(props: GraphViewEmbedOptions) {
               onSelectionChange={setSelectedIds}
               onCopiedMagicString={showConfirmation}
               allowCopy={showCopyButton}
+              allowSelection={allowSelection}
             />
             {showCopyButton && (
             <>

@@ -70,8 +70,9 @@ function FlowCanvas(props: {
   onCopiedMagicString?: () => void
   interaction?: InteractionMode
   allowCopy?: boolean
+  allowSelection?: boolean
 }) {
-  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, interaction = 'always', allowCopy = true } = props
+  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, interaction = 'always', allowCopy = true, allowSelection = true } = props
   const { fitView, getNodes, getNodesBounds } = useReactFlow()
   const nodesInitialized = useNodesInitialized()
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -229,8 +230,9 @@ function FlowCanvas(props: {
   // middle-drag pans, right-click opens the context menu (right is never in
   // panOnDrag). With no middle button, hold Space to pan with the left button
   // (React Flow's default panActivationKeyCode).
-  const panOnDrag = [1]
-  const selectionOnDrag = true
+  // With selection disabled there's nothing to box-select, so left-drag pans too.
+  const panOnDrag = allowSelection ? [1] : [0, 1]
+  const selectionOnDrag = allowSelection
 
   // Classify the input device (and flash the resting hint) on every wheel event.
   // This MUST run in the capture phase: React Flow's pan-on-scroll handler calls
@@ -315,7 +317,7 @@ function FlowCanvas(props: {
       translateExtent={translateExtent}
       nodesDraggable={false}
       nodesConnectable={false}
-      elementsSelectable
+      elementsSelectable={allowSelection}
       nodesFocusable={false}
       edgesFocusable={false}
       selectNodesOnDrag={false}
@@ -418,8 +420,11 @@ export function GeometryNodesFlow(props: {
   /** When false, disable copying to a Tree Clipper magic string (hides the
    *  right-click "copy" context menu). Default true. */
   allowCopy?: boolean
+  /** When false, disable node selection; left-drag pans instead of box-selecting.
+   *  Default true. */
+  allowSelection?: boolean
 }) {
-  const { jsonText, showHeader = true, onSelectionChange, onCopiedMagicString, interaction = 'always', allowCopy = true } = props
+  const { jsonText, showHeader = true, onSelectionChange, onCopiedMagicString, interaction = 'always', allowCopy = true, allowSelection = true } = props
 
   // Trail of opened groups below the root tree (tree ids). The stack is tied
   // to the JSON it was built from: new JSON means new tree ids, so a stack
@@ -530,6 +535,7 @@ export function GeometryNodesFlow(props: {
                 onCopiedMagicString={onCopiedMagicString}
                 interaction={interaction}
                 allowCopy={allowCopy}
+                allowSelection={allowSelection}
               />
             </ReactFlowProvider>
           </GroupNavContext.Provider>

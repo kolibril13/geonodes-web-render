@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.25] - 2026-06-22
+
+### Added
+
+- `allowSelection` option on the embed (`GraphView` prop / `mountGraphView`
+  option, default `true`). When `false`, node selection is disabled and left-drag
+  pans the canvas instead of box-selecting — pairs with `showCopyButton: false`
+  for a fully read-only pan/zoom viewer.
+
 ## [0.3.24] - 2026-06-22
 
 ### Added

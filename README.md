@@ -79,6 +79,14 @@ Set `showCopyButton={false}` (or `{ payload, showCopyButton: false }` for
 `mountGraphView`) to hide the "Copy TreeClipper Magic String" button and disable
 the right-click copy action. Defaults to `true`.
 
+Set `allowSelection={false}` to disable node selection (left-drag pans instead
+of box-selecting). Defaults to `true`. Combine both for a read-only pan/zoom
+viewer:
+
+```tsx
+<GraphView payload="TreeClipper::H4sI..." showCopyButton={false} allowSelection={false} />
+```
+
 > **Preview the embed locally.** The embed view (with the "Copy TreeClipper
 > Magic String" button and toast) isn't reachable from the standalone app, so a
 > dev-only harness page is included. Run `npm run dev` and open
