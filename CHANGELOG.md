@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.26] - 2026-06-25
+
+### Changed
+
+- Group Input nodes now hide interface sockets that aren't wired to anything,
+  rendering only the connected outputs. This declutters trees where a Group Input
+  exposes many inputs but a given instance only uses a few. Other node types are
+  unaffected.
+
 ## [0.3.25] - 2026-06-22
 
 ### Added
