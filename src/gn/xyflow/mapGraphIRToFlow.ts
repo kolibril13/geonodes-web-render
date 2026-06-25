@@ -96,7 +96,11 @@ function buildNodeFrames(graph: GraphIR): Node[] {
   return out
 }
 
-function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
+function mapNode(
+  node: NodeIR,
+  connectedTargetIds: Set<string>,
+  connectedSourceIds: Set<string>,
+): Node {
   if (node.type === 'NodeReroute') {
     const color = node.outputs[0]?.color ?? node.inputs[0]?.color ?? '#888888'
     return {
@@ -112,6 +116,14 @@ function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
     }
   }
 
+  // Group Input nodes expose every group interface input as an output socket.
+  // Blender shows them all, but for a cleaner read-only graph we hide the ones
+  // that aren't wired up to anything (matching the user's intent to declutter).
+  const outputs =
+    node.type === 'NodeGroupInput'
+      ? node.outputs.filter((s) => connectedSourceIds.has(s.id))
+      : node.outputs
+
   return {
     id: node.id,
     type: 'gnNode',
@@ -125,7 +137,7 @@ function mapNode(node: NodeIR, connectedTargetIds: Set<string>): Node {
       width: node.width,
       headerColor: node.headerColor,
       inputs: node.inputs,
-      outputs: node.outputs,
+      outputs,
       connectedInputIds: node.inputs
         .filter((s) => connectedTargetIds.has(s.id))
         .map((s) => s.id),
@@ -180,13 +192,14 @@ export function mapGraphIRToFlow(graph: GraphIR): {
   edges: Edge[]
 } {
   const connectedTargetIds = new Set(graph.edges.map((e) => e.targetSocketId))
+  const connectedSourceIds = new Set(graph.edges.map((e) => e.sourceSocketId))
 
   const frameNodes = buildNodeFrames(graph)
 
   // NodeFrame nodes are rendered as frame backgrounds (above), not as gn nodes.
   const baseNodes = graph.nodes
     .filter((node) => node.type !== 'NodeFrame')
-    .map((node) => mapNode(node, connectedTargetIds))
+    .map((node) => mapNode(node, connectedTargetIds, connectedSourceIds))
 
   // Simulation zone framing (Blender-style purple frame).
   const simInput = graph.nodes.find((n) => n.type === 'GeometryNodeSimulationInput')
