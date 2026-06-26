@@ -533,6 +533,46 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     }
   }
 
+  // A reroute is a wildcard: Blender derives its socket type (and thus its
+  // color) from whatever feeds its input, not from the reroute itself. Exports
+  // often omit a reroute's socket_idname, leaving it as CUSTOM grey, which makes
+  // an otherwise-yellow (or any-colored) link turn grey after passing through a
+  // reroute. Trace each reroute back through the link chain to the originating
+  // real output socket and copy its color/type onto the reroute's sockets — the
+  // same socket objects drive both the reroute dot and the outgoing edge colors.
+  const linkSourceByTarget = new Map<string, string>()
+  for (const link of normalized.links) {
+    linkSourceByTarget.set(link.toSocketId, link.fromSocketId)
+  }
+  const rerouteByOutputSocket = new Map<string, NodeIR>()
+  for (const node of nodes) {
+    if (node.type === 'NodeReroute' && node.outputs[0]) {
+      rerouteByOutputSocket.set(node.outputs[0].id, node)
+    }
+  }
+
+  function resolveRerouteSource(node: NodeIR, seen: Set<string>): SocketIR | undefined {
+    if (seen.has(node.id)) return undefined
+    seen.add(node.id)
+    const inputSocketId = node.inputs[0]?.id
+    if (inputSocketId == null) return undefined
+    const sourceSocketId = linkSourceByTarget.get(inputSocketId)
+    if (sourceSocketId == null) return undefined
+    const upstreamReroute = rerouteByOutputSocket.get(sourceSocketId)
+    if (upstreamReroute) return resolveRerouteSource(upstreamReroute, seen)
+    return socketById.get(sourceSocketId)
+  }
+
+  for (const node of nodes) {
+    if (node.type !== 'NodeReroute') continue
+    const source = resolveRerouteSource(node, new Set())
+    if (!source) continue
+    for (const socket of [...node.inputs, ...node.outputs]) {
+      socket.color = source.color
+      socket.dataType = source.dataType
+    }
+  }
+
   const edges: EdgeIR[] = normalized.links.map((link) => ({
     id: link.id,
     sourceNodeId: socketToNode.get(link.fromSocketId) ?? '',

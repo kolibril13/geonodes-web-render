@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.27] - 2026-06-26
+
+### Fixed
+
+- Reroute nodes now inherit the color of the socket feeding their input, so a
+  link keeps its type's color (e.g. yellow `Image`/RGBA) after passing through
+  one or more reroutes. Previously, exports that omit a reroute's `socket_idname`
+  (such as Compositor trees) fell back to grey, turning otherwise-colored links
+  grey downstream of every reroute.
+
 ## [0.3.26] - 2026-06-25
 
 ### Changed
