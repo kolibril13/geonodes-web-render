@@ -597,6 +597,7 @@ body.is-resizing .right-pane {
 
 .gn-node__color-swatch {
   margin: 2px 8px 4px 18px;
+  width: 50%;
   height: 14px;
   border-radius: 3px;
   border: 1px solid var(--border);
