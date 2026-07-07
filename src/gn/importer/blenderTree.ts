@@ -46,6 +46,8 @@ type BlenderNode = {
     vector?: number[]
     // GeometryNodeGroup (and other group nodes): id of the referenced tree
     node_tree?: number | null
+    // Zone input nodes (Simulation/Repeat/ForEach/Closure): name of the paired output node
+    paired_output?: string
     // ShaderNodeCombineColor / ShaderNodeSeparateColor
     mode?: string
     // FunctionNodeCompare / ShaderNodeMath
@@ -162,6 +164,8 @@ export type NormalizedNode = {
   groupTreeName?: string
   /** Id of the NodeFrame this node is parented to (Blender "parent"), if any. */
   parentFrameId?: string
+  /** For zone input nodes (Simulation/Repeat/…): id of the paired output node. */
+  pairedOutputId?: string
 }
 
 export type NormalizedLink = {
@@ -383,6 +387,12 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
     throw new Error(`"node_trees[${treeIndex}].data.links.data.items" is missing.`)
   }
 
+  // Zone input nodes reference their paired output by node *name*.
+  const nodeIdByName = new Map<string, string>()
+  for (const node of tree.data.nodes.data.items) {
+    if (node?.data?.name) nodeIdByName.set(node.data.name, String(node.id))
+  }
+
   return {
     id: String(tree.id),
     label: tree.data.name,
@@ -451,6 +461,9 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
         // node_tree can legitimately be 0, so compare against null/undefined.
         ...(node.data.node_tree != null ? { groupTreeId: String(node.data.node_tree) } : {}),
         ...(node.data.parent != null ? { parentFrameId: String(node.data.parent) } : {}),
+        ...(node.data.paired_output && nodeIdByName.has(node.data.paired_output)
+          ? { pairedOutputId: nodeIdByName.get(node.data.paired_output) }
+          : {}),
       }
     }),
     links: tree.data.links.data.items.map((link, li) => {
@@ -542,6 +555,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     groupTreeId: node.groupTreeId,
     groupTreeName: node.groupTreeName,
     parentFrameId: node.parentFrameId,
+    pairedOutputId: node.pairedOutputId,
   }))
 
   const socketToNode = new Map<string, string>()

@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.30] - 2026-07-07
+
+### Fixed
+
+- Trees with multiple simulation zones now render a zone rectangle for every
+  zone. Previously only the first Simulation Input/Output pair found got a
+  frame, and the pairing between input and output nodes was guessed rather
+  than taken from the export's `paired_output` reference.
+
+### Added
+
+- Repeat, For-Each-Element, and Closure zones now render tinted zone
+  rectangles too, using Blender's default theme colors for each zone kind.
+
 ## [0.3.29] - 2026-07-07
 
 ### Fixed

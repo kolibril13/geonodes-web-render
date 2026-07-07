@@ -22,8 +22,10 @@ export type GNRerouteNodeData = {
   outputSocketId: string
 }
 
+export type ZoneKind = 'simulation' | 'repeat' | 'foreach' | 'closure'
+
 export type SimulationZoneNodeData = {
-  label: string
+  kind: ZoneKind
 }
 
 export type NodeFrameData = {
@@ -92,6 +94,81 @@ function buildNodeFrames(graph: GraphIR): Node[] {
         zIndex: -8,
       },
     })
+  }
+  return out
+}
+
+// Zone node families: an input node paired with an output node spans a tinted
+// background rectangle (Blender's simulation/repeat/for-each/closure zones).
+const ZONE_NODE_TYPES: Array<{ input: string; output: string; kind: ZoneKind }> = [
+  { input: 'GeometryNodeSimulationInput', output: 'GeometryNodeSimulationOutput', kind: 'simulation' },
+  { input: 'GeometryNodeRepeatInput',     output: 'GeometryNodeRepeatOutput',     kind: 'repeat' },
+  {
+    input:  'GeometryNodeForeachGeometryElementInput',
+    output: 'GeometryNodeForeachGeometryElementOutput',
+    kind: 'foreach',
+  },
+  { input: 'NodeClosureInput', output: 'NodeClosureOutput', kind: 'closure' },
+]
+
+function buildZoneFrames(graph: GraphIR): Node[] {
+  const byId = new Map(graph.nodes.map((n) => [n.id, n]))
+  const out: Node[] = []
+
+  for (const zoneType of ZONE_NODE_TYPES) {
+    const inputs = graph.nodes.filter((n) => n.type === zoneType.input)
+    const outputs = graph.nodes.filter((n) => n.type === zoneType.output)
+
+    for (const zoneInput of inputs) {
+      // Prefer the export's explicit pairing; fall back to the sole output of
+      // this kind (older exports without `paired_output`).
+      const zoneOutput =
+        (zoneInput.pairedOutputId !== undefined
+          ? byId.get(zoneInput.pairedOutputId)
+          : undefined) ?? (outputs.length === 1 ? outputs[0] : undefined)
+      if (!zoneOutput || zoneOutput.type !== zoneType.output) continue
+
+      const memberIds = nodesOnPaths(zoneInput.id, zoneOutput.id, graph)
+      if (memberIds.size === 0) continue
+
+      // Vertical extent: bound every member (incl. the boundary nodes) with a
+      // little padding above and below.
+      let minY = Number.POSITIVE_INFINITY
+      let maxY = Number.NEGATIVE_INFINITY
+      for (const id of memberIds) {
+        const n = byId.get(id)
+        if (!n) continue
+        minY = Math.min(minY, n.position.y)
+        maxY = Math.max(maxY, n.position.y + estimateNodeSize(n).h)
+      }
+
+      // Horizontal extent: in Blender the zone boundary runs *through* the
+      // zone input and output nodes (their outer halves spill outside the
+      // frame), rather than surrounding them. Anchor the left/right edges at
+      // the horizontal centres of the two boundary nodes.
+      const inX = zoneInput.position.x + zoneInput.width / 2
+      const outX = zoneOutput.position.x + zoneOutput.width / 2
+      const left = Math.min(inX, outX)
+      const right = Math.max(inX, outX)
+
+      if (!Number.isFinite(minY) || !Number.isFinite(maxY) || !Number.isFinite(left) || !Number.isFinite(right)) {
+        continue
+      }
+
+      const vpad = 26
+      // A non-interactive background rectangle behind the nodes. It is not a
+      // parent of the member nodes, so they are free to straddle its edges.
+      out.push({
+        id: `zone:${zoneType.kind}:${zoneInput.id}`,
+        type: 'simulationZone',
+        position: { x: left, y: minY - vpad },
+        draggable: false,
+        selectable: false,
+        connectable: false,
+        data: { kind: zoneType.kind } as SimulationZoneNodeData,
+        style: { width: right - left, height: maxY - minY + vpad * 2, zIndex: -10 },
+      })
+    }
   }
   return out
 }
@@ -201,61 +278,9 @@ export function mapGraphIRToFlow(graph: GraphIR): {
     .filter((node) => node.type !== 'NodeFrame')
     .map((node) => mapNode(node, connectedTargetIds, connectedSourceIds))
 
-  // Simulation zone framing (Blender-style purple frame).
-  const simInput = graph.nodes.find((n) => n.type === 'GeometryNodeSimulationInput')
-  const simOutput = graph.nodes.find((n) => n.type === 'GeometryNodeSimulationOutput')
-
-  let nodes = baseNodes
-  if (simInput && simOutput) {
-    const memberIds = nodesOnPaths(simInput.id, simOutput.id, graph)
-    if (memberIds.size > 0) {
-      const byId = new Map(graph.nodes.map((n) => [n.id, n]))
-
-      // Vertical extent: bound every member (incl. the boundary nodes) with a
-      // little padding above and below.
-      let minY = Number.POSITIVE_INFINITY
-      let maxY = Number.NEGATIVE_INFINITY
-      for (const id of memberIds) {
-        const n = byId.get(id)
-        if (!n) continue
-        minY = Math.min(minY, n.position.y)
-        maxY = Math.max(maxY, n.position.y + estimateNodeHeight(n))
-      }
-
-      // Horizontal extent: in Blender the zone boundary runs *through* the
-      // Simulation Input and Output nodes (their outer halves spill outside the
-      // frame), rather than surrounding them. Anchor the left/right edges at the
-      // horizontal centres of the two boundary nodes.
-      const inX = simInput.position.x + simInput.width / 2
-      const outX = simOutput.position.x + simOutput.width / 2
-      const left = Math.min(inX, outX)
-      const right = Math.max(inX, outX)
-
-      if (Number.isFinite(minY) && Number.isFinite(maxY) && Number.isFinite(left) && Number.isFinite(right)) {
-        const vpad = 26
-        const frameX = left
-        const frameY = minY - vpad
-        const frameW = right - left
-        const frameH = (maxY - minY) + vpad * 2
-        const frameId = `zone:simulation:${simInput.id}`
-
-        // A non-interactive background rectangle behind the nodes. It is not a
-        // parent of the member nodes, so they are free to straddle its edges.
-        const frameNode: Node = {
-          id: frameId,
-          type: 'simulationZone',
-          position: { x: frameX, y: frameY },
-          draggable: false,
-          selectable: false,
-          connectable: false,
-          data: {} as SimulationZoneNodeData,
-          style: { width: frameW, height: frameH, zIndex: -10 },
-        }
-
-        nodes = [frameNode, ...baseNodes]
-      }
-    }
-  }
+  // Zone framing (Blender-style tinted rectangles between paired zone nodes).
+  const zoneFrames = buildZoneFrames(graph)
+  const nodes = [...zoneFrames, ...baseNodes]
 
   return {
     // Frame backgrounds first so they sit behind the nodes they contain.

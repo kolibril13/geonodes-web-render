@@ -70,6 +70,8 @@ export type NodeIR = {
   groupTreeName?: string
   /** Id of the NodeFrame this node is parented to (Blender "parent"), if any. */
   parentFrameId?: string
+  /** For zone input nodes (Simulation/Repeat/…): id of the paired output node. */
+  pairedOutputId?: string
 }
 
 export type EdgeIR = {
