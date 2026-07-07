@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.29] - 2026-07-07
+
+### Fixed
+
+- Integer Math, Vector Math, and Boolean Math nodes now show their operation:
+  the header takes the operation's name ("Divide Floor", "Modulo", …) like in
+  Blender, and the operation appears as a dropdown-style row in the node body.
+  Previously only Math and Compare exposed their operation, so e.g. every
+  Integer Math node rendered as an anonymous "Integer Math". Math and Compare
+  headers now also adopt the operation name (custom node labels still win).
+
 ## [0.3.27] - 2026-06-26
 
 ### Fixed

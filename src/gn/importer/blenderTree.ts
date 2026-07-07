@@ -10,6 +10,7 @@ import type {
 } from '../ir/types'
 import { socketColor } from '../ir/socketColors'
 import { nodeHeaderColor } from '../ir/nodeColors'
+import { operationLabel } from '../ir/operationLabels'
 
 type BlenderSocket = {
   id: number
@@ -335,6 +336,16 @@ function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket
   }
 }
 
+// Nodes whose header title reflects the selected operation in Blender
+// (draw_label), and which show the operation dropdown in the node body.
+const OPERATION_NODES = new Set([
+  'ShaderNodeMath',
+  'ShaderNodeVectorMath',
+  'FunctionNodeIntegerMath',
+  'FunctionNodeBooleanMath',
+  'FunctionNodeCompare',
+])
+
 function extractNodeProperties(node: BlenderNode): Record<string, string> | undefined {
   if (node.data.bl_idname === 'FunctionNodeCompare') {
     const props: Record<string, string> = {}
@@ -342,13 +353,23 @@ function extractNodeProperties(node: BlenderNode): Record<string, string> | unde
     if (node.data.operation) props.operation = node.data.operation
     return Object.keys(props).length > 0 ? props : undefined
   }
-  if (node.data.bl_idname === 'ShaderNodeMath') {
+  if (OPERATION_NODES.has(node.data.bl_idname)) {
     const props: Record<string, string> = {}
     if (node.data.operation) props.operation = node.data.operation
     if (node.data.use_clamp) props.use_clamp = 'true'
     return Object.keys(props).length > 0 ? props : undefined
   }
   return undefined
+}
+
+// Blender titles math-style nodes with their operation ("Divide Floor",
+// "Greater Than", …) unless the user set a custom label.
+function nodeDisplayLabel(node: BlenderNode): string {
+  if (node.data.label) return node.data.label
+  if (OPERATION_NODES.has(node.data.bl_idname) && node.data.operation) {
+    return operationLabel(node.data.operation)
+  }
+  return stripDuplicateSuffix(node.data.name)
 }
 
 function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
@@ -415,7 +436,7 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
       return {
         id: String(node.id),
         type: node.data.bl_idname,
-        label: node.data.label || stripDuplicateSuffix(node.data.name),
+        label: nodeDisplayLabel(node),
         position: {
           x: location[0],
           y: -location[1],

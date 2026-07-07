@@ -1,0 +1,86 @@
+/**
+ * Human-readable labels for the `operation` enum shared by the math-style
+ * nodes (Math, Integer Math, Vector Math, Boolean Math, Compare). Mirrors
+ * the labels Blender shows in the node header / operation dropdown.
+ */
+export const OPERATION_LABELS: Record<string, string> = {
+  // Compare
+  EQUAL:          'Equal',
+  NOT_EQUAL:      'Not Equal',
+  LESS_THAN:      'Less Than',
+  LESS_EQUAL:     'Less Than or Equal',
+  GREATER_THAN:   'Greater Than',
+  GREATER_EQUAL:  'Greater Than or Equal',
+  // Math
+  ADD:            'Add',
+  SUBTRACT:       'Subtract',
+  MULTIPLY:       'Multiply',
+  DIVIDE:         'Divide',
+  MULTIPLY_ADD:   'Multiply Add',
+  POWER:          'Power',
+  LOGARITHM:      'Logarithm',
+  SQRT:           'Square Root',
+  INVERSE_SQRT:   'Inverse Square Root',
+  ABSOLUTE:       'Absolute',
+  EXPONENT:       'Exponent',
+  MINIMUM:        'Minimum',
+  MAXIMUM:        'Maximum',
+  SIGN:           'Sign',
+  COMPARE:        'Compare',
+  SMOOTH_MIN:     'Smooth Minimum',
+  SMOOTH_MAX:     'Smooth Maximum',
+  ROUND:          'Round',
+  FLOOR:          'Floor',
+  CEIL:           'Ceiling',
+  TRUNCATE:       'Truncate',
+  FRACTION:       'Fraction',
+  MODULO:         'Modulo',
+  WRAP:           'Wrap',
+  SNAP:           'Snap',
+  PINGPONG:       'Ping-Pong',
+  SINE:           'Sine',
+  COSINE:         'Cosine',
+  TANGENT:        'Tangent',
+  ARCSINE:        'Arcsine',
+  ARCCOSINE:      'Arccosine',
+  ARCTANGENT:     'Arctangent',
+  ARCTAN2:        'Arctan2',
+  SINH:           'Hyperbolic Sine',
+  COSH:           'Hyperbolic Cosine',
+  TANH:           'Hyperbolic Tangent',
+  RADIANS:        'To Radians',
+  DEGREES:        'To Degrees',
+  // Integer Math
+  NEGATE:         'Negate',
+  DIVIDE_ROUND:   'Divide Round',
+  DIVIDE_FLOOR:   'Divide Floor',
+  DIVIDE_CEIL:    'Divide Ceiling',
+  FLOORED_MODULO: 'Floored Modulo',
+  GCD:            'Greatest Common Divisor',
+  LCM:            'Least Common Multiple',
+  // Vector Math
+  CROSS_PRODUCT:  'Cross Product',
+  DOT_PRODUCT:    'Dot Product',
+  PROJECT:        'Project',
+  REFLECT:        'Reflect',
+  REFRACT:        'Refract',
+  FACEFORWARD:    'Faceforward',
+  DISTANCE:       'Distance',
+  LENGTH:         'Length',
+  SCALE:          'Scale',
+  NORMALIZE:      'Normalize',
+  // Boolean Math
+  AND:            'And',
+  OR:             'Or',
+  NOT:            'Not',
+  NAND:           'Not And',
+  NOR:            'Nor',
+  XNOR:           'Equal',
+  XOR:            'Not Equal',
+  IMPLY:          'Imply',
+  NIMPLY:         'Subtract',
+}
+
+export function operationLabel(operation: string): string {
+  return OPERATION_LABELS[operation] ?? operation
+}

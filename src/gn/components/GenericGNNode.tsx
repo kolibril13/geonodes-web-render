@@ -4,6 +4,7 @@ import { buildCurvePaths } from '../ir/curvePath'
 import type { GNFlowNodeData } from '../xyflow/mapGraphIRToFlow'
 import { ColorRampViz } from './ColorRampViz'
 import { useGroupNav } from './groupNavContext'
+import { operationLabel } from '../ir/operationLabels'
 
 const VEC_LABELS = ['X', 'Y', 'Z', 'W']
 
@@ -17,58 +18,9 @@ const DATA_TYPE_LABELS: Record<string, string> = {
   ROTATION: 'Rotation',
 }
 
-const OPERATION_LABELS: Record<string, string> = {
-  // Compare
-  EQUAL:          'Equal',
-  NOT_EQUAL:      'Not Equal',
-  LESS_THAN:      'Less Than',
-  LESS_EQUAL:     'Less Than or Equal',
-  GREATER_THAN:   'Greater Than',
-  GREATER_EQUAL:  'Greater Than or Equal',
-  // Math
-  ADD:            'Add',
-  SUBTRACT:       'Subtract',
-  MULTIPLY:       'Multiply',
-  DIVIDE:         'Divide',
-  MULTIPLY_ADD:   'Multiply Add',
-  POWER:          'Power',
-  LOGARITHM:      'Logarithm',
-  SQRT:           'Square Root',
-  INVERSE_SQRT:   'Inverse Square Root',
-  ABSOLUTE:       'Absolute',
-  EXPONENT:       'Exponent',
-  MINIMUM:        'Minimum',
-  MAXIMUM:        'Maximum',
-  SIGN:           'Sign',
-  COMPARE:        'Compare',
-  SMOOTH_MIN:     'Smooth Minimum',
-  SMOOTH_MAX:     'Smooth Maximum',
-  ROUND:          'Round',
-  FLOOR:          'Floor',
-  CEIL:           'Ceiling',
-  TRUNCATE:       'Truncate',
-  FRACTION:       'Fraction',
-  MODULO:         'Modulo',
-  WRAP:           'Wrap',
-  SNAP:           'Snap',
-  PINGPONG:       'Ping-Pong',
-  SINE:           'Sine',
-  COSINE:         'Cosine',
-  TANGENT:        'Tangent',
-  ARCSINE:        'Arcsine',
-  ARCCOSINE:      'Arccosine',
-  ARCTANGENT:     'Arctangent',
-  ARCTAN2:        'Arctan2',
-  SINH:           'Hyperbolic Sine',
-  COSH:           'Hyperbolic Cosine',
-  TANH:           'Hyperbolic Tangent',
-  RADIANS:        'To Radians',
-  DEGREES:        'To Degrees',
-}
-
 function formatPropertyValue(key: string, value: string): string {
   if (key === 'data_type') return DATA_TYPE_LABELS[value] ?? value
-  if (key === 'operation') return OPERATION_LABELS[value] ?? value
+  if (key === 'operation') return operationLabel(value)
   if (key === 'use_clamp') return 'Clamp'
   return value
 }
