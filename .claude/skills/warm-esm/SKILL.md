@@ -1,6 +1,6 @@
 ---
 name: warm-esm
-description: After publishing geonodes-web-render, warm the esm.sh CDN (so the "@0.3" range used by nodebpy resolves to the new version sooner) and update the downstream consumers (okapi, tree_clipper_website). Use right after `npm publish`, or when a consumer is still seeing an old version.
+description: After publishing geonodes-web-render, warm the esm.sh CDN (so the "@0.3" range used by nodebpy resolves to the new version sooner) and update the downstream consumers (tree_clipper_website). Use right after `npm publish`, or when a consumer is still seeing an old version.
 ---
 
 # Warm esm.sh
@@ -42,8 +42,7 @@ need an exact bump + reinstall + build; the CDN consumer auto-tracks the range
 
 | Project | Path | How it consumes | Update steps |
 | --- | --- | --- | --- |
-| okapi | `~/projects/okapi` | npm dep (`^0.3.x`) | bump `package.json` to new version, `npm install`, `npm run build` |
-| tree_clipper_website | `~/projects/tree_clipper_website` | npm dep (`^0.3.x`) | bump `package.json` to new version, `npm install`, `npm run build` |
+| tree_clipper_website | `~/projects/tree_clipper_website` | npm dep (`^0.3.x`) | bump `package.json` to new version, `npm install`, `npm run build`, commit + push the bump |
 | nodebpy | `~/projects/nodebpy` | esm.sh range `@0.3` (`src/nodebpy/web_render.py`) | no code change — warming esm.sh (above) is enough; the range flips within ~10 min |
 
 `npm install` for the consumers may need to run outside the sandbox (writes to
