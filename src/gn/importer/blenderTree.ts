@@ -367,16 +367,25 @@ function extractNodeProperties(node: BlenderNode): Record<string, string> | unde
 }
 
 // Blender titles math-style nodes with their operation ("Divide Floor",
-// "Greater Than", …) unless the user set a custom label.
-function nodeDisplayLabel(node: BlenderNode): string {
+// "Greater Than", …) and group nodes with the referenced tree's name, unless
+// the user set a custom label.
+function nodeDisplayLabel(node: BlenderNode, treeNameById: Map<string, string>): string {
   if (node.data.label) return node.data.label
   if (OPERATION_NODES.has(node.data.bl_idname) && node.data.operation) {
     return operationLabel(node.data.operation)
   }
+  if (node.data.node_tree != null) {
+    const treeName = treeNameById.get(String(node.data.node_tree))
+    if (treeName) return treeName
+  }
   return stripDuplicateSuffix(node.data.name)
 }
 
-function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
+function normalizeTree(
+  tree: BlenderTree,
+  treeIndex: number,
+  treeNameById: Map<string, string>,
+): NormalizedGraph {
   if (!tree?.data) {
     throw new Error(`"node_trees[${treeIndex}].data" is missing.`)
   }
@@ -446,7 +455,7 @@ function normalizeTree(tree: BlenderTree, treeIndex: number): NormalizedGraph {
       return {
         id: String(node.id),
         type: node.data.bl_idname,
-        label: nodeDisplayLabel(node),
+        label: nodeDisplayLabel(node, treeNameById),
         position: {
           x: location[0],
           y: -location[1],
@@ -485,9 +494,14 @@ export function normalizeBlenderExport(raw: BlenderTreeExport): NormalizedExport
     throw new Error('Expected "node_trees" array with at least one entry.')
   }
 
+  const treeNameById = new Map<string, string>()
+  for (const tree of raw.node_trees) {
+    if (tree?.data?.name) treeNameById.set(String(tree.id), tree.data.name)
+  }
+
   const trees: Record<string, NormalizedGraph> = {}
   for (let i = 0; i < raw.node_trees.length; i++) {
-    const graph = normalizeTree(raw.node_trees[i], i)
+    const graph = normalizeTree(raw.node_trees[i], i, treeNameById)
     trees[graph.id] = graph
   }
 
