@@ -116,6 +116,9 @@ function FlowCanvas(props: {
   useEffect(() => {
     if (!nodesInitialized) return
     const b = getNodesBounds(getNodes())
+    // Syncing from an external measurement (React Flow's rendered node bounds),
+    // which only exists after nodes initialize — not derivable during render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTranslateExtent([
       [b.x, b.y],
       [b.x + b.width, b.y + b.height],

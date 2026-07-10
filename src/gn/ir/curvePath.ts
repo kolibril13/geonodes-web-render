@@ -91,7 +91,7 @@ function computeHandles(pts: FloatCurvePoint[]): Array<{ left: Vec2; right: Vec2
     if (segW < 1e-8) continue
 
     // Right handle of the left knot — must not exceed x3
-    let [rx, ry] = handles[i].right
+    const [rx, ry] = handles[i].right
     if (rx > x3) {
       const t = (x3 - x0) / (rx - x0)
       handles[i] = { ...handles[i], right: [x3, y0 + (ry - y0) * t] }
@@ -100,7 +100,7 @@ function computeHandles(pts: FloatCurvePoint[]): Array<{ left: Vec2; right: Vec2
     }
 
     // Left handle of the right knot — must not go below x0
-    let [lx, ly] = handles[i + 1].left
+    const [lx, ly] = handles[i + 1].left
     if (lx < x0) {
       const t = (x0 - x3) / (lx - x3)
       handles[i + 1] = { ...handles[i + 1], left: [x0, y3 + (ly - y3) * t] }

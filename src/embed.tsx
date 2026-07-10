@@ -29,9 +29,17 @@ export type GraphViewEmbedOptions = {
 
 export function GraphView(props: GraphViewEmbedOptions) {
   const { payload, showCopyButton = true, allowSelection = true } = props
-  const [jsonText, setJsonText] = useState<string>('')
-  const [decodeError, setDecodeError] = useState<string | null>(null)
-  const [decoding, setDecoding] = useState(true)
+  // Decode result, keyed by the payload it came from. A result for a different
+  // payload counts as "still decoding", so a payload change never shows stale
+  // JSON and needs no synchronous state reset in the decode effect.
+  const [decoded, setDecoded] = useState<{
+    payload: string
+    text: string
+    error: string | null
+  } | null>(null)
+  const decoding = decoded?.payload !== payload
+  const jsonText = decoding ? '' : decoded!.text
+  const decodeError = decoding ? null : decoded!.error
   // Raw Tree Clipper node ids currently selected on the canvas (box-select /
   // click). Drives the copy button's label and what it copies.
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -117,19 +125,17 @@ export function GraphView(props: GraphViewEmbedOptions) {
 
   useEffect(() => {
     let cancelled = false
-    setDecoding(true)
-    setDecodeError(null)
     decodeTreeClipperPayload(payload)
       .then((text) => {
-        if (!cancelled) {
-          setJsonText(text)
-          setDecoding(false)
-        }
+        if (!cancelled) setDecoded({ payload, text, error: null })
       })
       .catch((e) => {
         if (!cancelled) {
-          setDecodeError(e instanceof Error ? e.message : String(e))
-          setDecoding(false)
+          setDecoded({
+            payload,
+            text: '',
+            error: e instanceof Error ? e.message : String(e),
+          })
         }
       })
     return () => {

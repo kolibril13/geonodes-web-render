@@ -110,7 +110,7 @@ function hueInterp(
 }
 
 /** Evaluate the ramp at t∈[0,1], returning scene-linear RGBA. */
-export function evalColorRamp(data: ColorRampData, t: number): [number, number, number, number] {
+function evalColorRamp(data: ColorRampData, t: number): [number, number, number, number] {
   const stops = [...data.stops].sort((a, b) => a.position - b.position)
   if (stops.length === 0) return [0, 0, 0, 1]
   if (stops.length === 1) return stops[0].color
