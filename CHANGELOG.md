@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.32] - 2026-07-23
+
+### Changed
+
+- Updated dependencies to their latest versions: `@xyflow/react`, `@codemirror/*`,
+  `@uiw/react-codemirror`, `react`/`react-dom`, `eslint`, `@eslint/js`,
+  `@babel/core`, `vite`, `vite-plugin-dts`, `typescript-eslint`, and others.
+  TypeScript stays on 5.9 until `typescript-eslint` adds support for
+  TypeScript 7.
+
 ## [0.3.30] - 2026-07-07
 
 ### Fixed
