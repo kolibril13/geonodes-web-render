@@ -6,6 +6,7 @@ import {
   useState,
   type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
+  type RefObject,
 } from 'react'
 import {
   Background,
@@ -18,6 +19,7 @@ import {
   useNodesInitialized,
   useNodesState,
   useReactFlow,
+  useUpdateNodeInternals,
   type Edge,
   type Node,
   type OnSelectionChangeParams,
@@ -60,6 +62,51 @@ export type InteractionMode = 'always' | 'hybrid' | 'none'
 
 type Breadcrumb = { id: string; label: string }
 
+/**
+ * Effective scale a host page applies to `el` (e.g. Reveal.js fits its deck to
+ * the window with CSS `zoom` or `transform: scale` on an ancestor). React Flow
+ * measures handles with getBoundingClientRect (which is scaled) but node sizes
+ * with offsetWidth (which is not), so inside a scaled ancestor the edges attach
+ * at the wrong points and pointer math is off by the scale factor. FlowCanvas
+ * compensates by rendering the canvas in an inverse-scaled box (layout size × s,
+ * `transform: scale(1/s)`) so the net scale inside React Flow is 1 again.
+ */
+function useHostScale(ref: RefObject<HTMLDivElement | null>) {
+  const [scale, setScale] = useState(1)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const measure = () => {
+      const layoutWidth = el.offsetWidth
+      // Hidden (e.g. an inactive slide, display: none): keep the last scale.
+      if (!layoutWidth) return
+      const s = el.getBoundingClientRect().width / layoutWidth
+      if (!Number.isFinite(s) || s <= 0) return
+      setScale((prev) => (Math.abs(s - prev) < 0.001 ? prev : s))
+    }
+    measure()
+    // Fires when the canvas gets its size, e.g. when a hidden slide becomes
+    // the active one.
+    const observer = new ResizeObserver(measure)
+    observer.observe(el)
+    // A pure scale change (Reveal re-fitting the deck on window resize) leaves
+    // the layout size untouched, so ResizeObserver stays silent — re-measure on
+    // window resize too, a frame later so the host applied its new scale first.
+    let raf = 0
+    const onResize = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(measure)
+    }
+    window.addEventListener('resize', onResize)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', onResize)
+      cancelAnimationFrame(raf)
+    }
+  }, [ref])
+  return Math.abs(scale - 1) < 0.001 ? 1 : scale
+}
+
 function FlowCanvas(props: {
   nodes: Node[]
   edges: Edge[]
@@ -74,8 +121,19 @@ function FlowCanvas(props: {
 }) {
   const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, interaction = 'always', allowCopy = true, allowSelection = true } = props
   const { fitView, getNodes, getNodesBounds } = useReactFlow()
+  const updateNodeInternals = useUpdateNodeInternals()
   const nodesInitialized = useNodesInitialized()
+  const outerRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const hostScale = useHostScale(outerRef)
+  // Handle positions were measured under the old scale — re-measure them once
+  // the counter-transform for the new scale is in the DOM.
+  const measuredScaleRef = useRef(1)
+  useEffect(() => {
+    if (measuredScaleRef.current === hostScale) return
+    measuredScaleRef.current = hostScale
+    updateNodeInternals(getNodes().map((n) => n.id))
+  }, [hostScale, updateNodeInternals, getNodes])
   // Once the user pans/zooms, stop auto-fitting so we don't fight them.
   const userMovedRef = useRef(false)
   // Latest selected node ids, for the right-click "copy magic string" action.
@@ -299,9 +357,21 @@ function FlowCanvas(props: {
 
   return (
     <div
+      ref={outerRef}
+      style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}
+    >
+    <div
       ref={wrapperRef}
       className={`gn-canvas-wrapper${isHybrid && engaged ? ' gn-canvas-wrapper--engaged' : ''}`}
-      style={{ width: '100%', height: '100%', position: 'relative' }}
+      style={{
+        width: hostScale === 1 ? '100%' : `${hostScale * 100}%`,
+        height: hostScale === 1 ? '100%' : `${hostScale * 100}%`,
+        position: 'relative',
+        // See useHostScale: cancel out a scaled host so React Flow's mixed
+        // rect/offset measurements agree again. At scale 1 this is a no-op.
+        transform: hostScale === 1 ? undefined : `scale(${1 / hostScale})`,
+        transformOrigin: '0 0',
+      }}
       onContextMenu={onContextMenu}
       onPointerDown={onWrapperPointerDown}
       onPointerLeave={onWrapperPointerLeave}
@@ -402,6 +472,7 @@ function FlowCanvas(props: {
         Copied Tree Clipper magic string
       </div>
     ) : null}
+    </div>
     </div>
   )
 }

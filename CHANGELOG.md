@@ -4,6 +4,20 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.33] - 2026-07-28
+
+### Fixed
+
+- The graph now renders correctly inside scaled host pages such as Reveal.js
+  slides. Reveal fits its deck to the window with CSS `zoom` or
+  `transform: scale`, which broke React Flow's measurements (handle positions
+  come from `getBoundingClientRect`, which is scaled, while node sizes come
+  from `offsetWidth`, which is not) — edges attached at the wrong points or
+  floated detached from their sockets. The canvas now detects the host's
+  effective scale and renders in an inverse-scaled box so the net scale inside
+  React Flow is 1; pan/zoom pointer math is corrected by the same fix. Added a
+  `dev-reveal.html` harness that emulates both Reveal scaling modes.
+
 ## [0.3.32] - 2026-07-23
 
 ### Changed

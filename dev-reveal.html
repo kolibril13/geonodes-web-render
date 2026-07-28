@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reveal-style scaling harness — GraphView</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #191919;
+      }
+      /* Mimic Reveal.js: the deck is a fixed-size box that gets scaled to fit
+         the window — with CSS `zoom` (Chrome, scale > 1) or `transform: scale`
+         (everything else). Pick via ?mode=zoom|scale|none&factor=1.6 */
+      .slides {
+        width: 1050px;
+        height: 700px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .slides h1 {
+        color: #a78bfa;
+        font-family: sans-serif;
+        margin: 0;
+        flex: none;
+      }
+      #embed {
+        flex: 1;
+        min-height: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slides" id="slides">
+      <h1>Reveal-style scaled slide</h1>
+      <div id="embed"></div>
+    </div>
+    <script>
+      const params = new URLSearchParams(location.search)
+      const mode = params.get('mode') ?? 'zoom'
+      const factor = Number(params.get('factor') ?? '1.6')
+      const slides = document.getElementById('slides')
+      if (mode === 'zoom') {
+        slides.style.zoom = factor
+        slides.style.transform = 'translate(-50%, -50%)'
+      } else if (mode === 'scale') {
+        slides.style.transform = `translate(-50%, -50%) scale(${factor})`
+      } else {
+        slides.style.transform = 'translate(-50%, -50%)'
+      }
+    </script>
+    <script type="module" src="/src/dev-embed.tsx"></script>
+  </body>
+</html>
