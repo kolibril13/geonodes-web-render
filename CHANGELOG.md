@@ -9,8 +9,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 - Nodes with Blender's `hide` property set now render collapsed, matching
-  Blender's node-header-only view: the box shrinks to its header, outputs
-  stay visible, and unconnected inputs / property widgets disappear.
+  Blender's node-header-only view: the box shrinks to its header and only
+  sockets with an actual connection stay visible; unconnected sockets and
+  property widgets disappear.
 
 ## [0.3.33] - 2026-07-28
 

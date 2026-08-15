@@ -207,14 +207,16 @@ export function GenericGNNode(props: NodeProps) {
   const data = props.data as GNFlowNodeData
   const nav = useGroupNav()
   const connectedIds = new Set(data.connectedInputIds ?? [])
+  const connectedOutputIds = new Set(data.connectedOutputIds ?? [])
   const outputs = data.outputs.filter((s) => s.enabled)
   const inputs = data.inputs.filter((s) => s.enabled)
 
   const groupTreeId = data.groupTreeId
   const isOpenableGroup = groupTreeId !== undefined && data.groupTreeName !== undefined && !!nav
   const isCollapsed = data.hide
-  // Collapsed nodes (Blender's node.hide) shrink to the header: outputs stay
-  // visible, but unconnected inputs and property widgets disappear.
+  // Collapsed nodes (Blender's node.hide) shrink to the header: only sockets
+  // with an actual connection stay visible; everything else disappears.
+  const visibleOutputs = isCollapsed ? outputs.filter((s) => connectedOutputIds.has(s.id)) : outputs
   const visibleInputs = isCollapsed ? inputs.filter((s) => connectedIds.has(s.id)) : inputs
 
   return (
@@ -237,7 +239,7 @@ export function GenericGNNode(props: NodeProps) {
       )}
 
       <div className="gn-node__body">
-        {outputs.map((socket) => (
+        {visibleOutputs.map((socket) => (
           <SocketLine
             key={socket.id}
             socket={socket}

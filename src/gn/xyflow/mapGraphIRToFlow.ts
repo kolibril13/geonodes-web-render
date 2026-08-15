@@ -9,6 +9,7 @@ export type GNFlowNodeData = {
   inputs: SocketIR[]
   outputs: SocketIR[]
   connectedInputIds: string[]
+  connectedOutputIds: string[]
   floatCurve?: FloatCurveData
   colorRamp?: ColorRampData
   properties?: Record<string, string>
@@ -35,10 +36,11 @@ export type NodeFrameData = {
 
 function estimateNodeHeight(node: NodeIR): number {
   if (node.hide) {
-    // Collapsed nodes (Blender's node.hide) shrink to the header plus outputs,
-    // which stay visible even when collapsed; unconnected inputs and property
-    // widgets disappear.
-    return Math.max(32, 32 + node.outputs.length * 18)
+    // Collapsed nodes (Blender's node.hide) shrink to the header plus any
+    // *connected* sockets; unconnected sockets and property widgets disappear.
+    // Connection info isn't available here, so this is a rough single-row
+    // estimate for frame/zone background sizing, not the real node height.
+    return 40
   }
   // Rough sizing approximation: header + rows for max socket count + padding.
   const rows = Math.max(node.inputs.length, node.outputs.length)
@@ -224,6 +226,9 @@ function mapNode(
       outputs,
       connectedInputIds: node.inputs
         .filter((s) => connectedTargetIds.has(s.id))
+        .map((s) => s.id),
+      connectedOutputIds: outputs
+        .filter((s) => connectedSourceIds.has(s.id))
         .map((s) => s.id),
       floatCurve: node.floatCurve,
       colorRamp: node.colorRamp,
