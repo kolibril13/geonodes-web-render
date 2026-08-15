@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.34] - 2026-08-15
+
+### Added
+
+- Nodes with Blender's `hide` property set now render collapsed, matching
+  Blender's node-header-only view: the box shrinks to its header, outputs
+  stay visible, and unconnected inputs / property widgets disappear.
+
 ## [0.3.33] - 2026-07-28
 
 ### Fixed

@@ -558,6 +558,12 @@ body.is-resizing .right-pane {
   border-bottom-right-radius: 7px;
 }
 
+/* Collapsed node (Blender's node.hide): shrunk to header + a couple of
+   connected-socket rows, so the body needs less breathing room. */
+.gn-node--collapsed .gn-node__body {
+  padding: 2px 0;
+}
+
 .gn-node__socket-row {
   position: relative;
   min-height: 20px;

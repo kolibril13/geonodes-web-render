@@ -212,10 +212,14 @@ export function GenericGNNode(props: NodeProps) {
 
   const groupTreeId = data.groupTreeId
   const isOpenableGroup = groupTreeId !== undefined && data.groupTreeName !== undefined && !!nav
+  const isCollapsed = data.hide
+  // Collapsed nodes (Blender's node.hide) shrink to the header: outputs stay
+  // visible, but unconnected inputs and property widgets disappear.
+  const visibleInputs = isCollapsed ? inputs.filter((s) => connectedIds.has(s.id)) : inputs
 
   return (
     <div
-      className={`gn-node${isOpenableGroup ? ' gn-node--group nodrag' : ''}`}
+      className={`gn-node${isCollapsed ? ' gn-node--collapsed' : ''}${isOpenableGroup ? ' gn-node--group nodrag' : ''}`}
       onClick={isOpenableGroup ? () => nav.openGroup(groupTreeId!) : undefined}
       role={isOpenableGroup ? 'button' : undefined}
       title={isOpenableGroup ? `Open group "${data.groupTreeName}"` : undefined}
@@ -224,11 +228,11 @@ export function GenericGNNode(props: NodeProps) {
         <div className="gn-node__title">{data.label}</div>
       </div>
 
-      {isOpenableGroup && <GroupStack />}
+      {!isCollapsed && isOpenableGroup && <GroupStack />}
 
-      {data.properties && <NodePropsBlock properties={data.properties} />}
+      {!isCollapsed && data.properties && <NodePropsBlock properties={data.properties} />}
 
-      {data.floatCurve && (
+      {!isCollapsed && data.floatCurve && (
         <FloatCurveViz curve={data.floatCurve} width={data.width} />
       )}
 
@@ -245,11 +249,11 @@ export function GenericGNNode(props: NodeProps) {
         ))}
 
         {/* Color Ramp widget sits between the Color/Alpha outputs and the Factor input. */}
-        {data.colorRamp && (
+        {!isCollapsed && data.colorRamp && (
           <ColorRampViz data={data.colorRamp} width={data.width} />
         )}
 
-        {inputs.map((socket) => {
+        {visibleInputs.map((socket) => {
           const suppress = connectedIds.has(socket.id)
           return (
             <div key={socket.id}>

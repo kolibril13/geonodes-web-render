@@ -33,6 +33,8 @@ type BlenderNode = {
     width?: number
     location?: [number, number]
     location_absolute?: [number, number]
+    // Node collapsed to its header row (Blender's node.hide)
+    hide?: boolean
     // NodeFrame parent (id of the frame node this node is grouped under)
     parent?: number | null
     // standard nodes
@@ -166,6 +168,8 @@ export type NormalizedNode = {
   parentFrameId?: string
   /** For zone input nodes (Simulation/Repeat/…): id of the paired output node. */
   pairedOutputId?: string
+  /** Blender's node.hide: node is collapsed to its header row. */
+  hide: boolean
 }
 
 export type NormalizedLink = {
@@ -311,6 +315,7 @@ function normalizeRerouteNode(node: BlenderNode, location: [number, number]): No
     headerColor: '',
     inputs: [rerouteSocket(inputId)],
     outputs: [rerouteSocket(outputId)],
+    hide: false,
     ...(node.data.parent != null ? { parentFrameId: String(node.data.parent) } : {}),
   }
 }
@@ -466,6 +471,7 @@ function normalizeTree(
         outputs,
         floatCurve,
         colorRamp,
+        hide: node.data.hide ?? false,
         ...(properties ? { properties } : {}),
         // node_tree can legitimately be 0, so compare against null/undefined.
         ...(node.data.node_tree != null ? { groupTreeId: String(node.data.node_tree) } : {}),
@@ -570,6 +576,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     groupTreeName: node.groupTreeName,
     parentFrameId: node.parentFrameId,
     pairedOutputId: node.pairedOutputId,
+    hide: node.hide,
   }))
 
   const socketToNode = new Map<string, string>()

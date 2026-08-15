@@ -14,6 +14,7 @@ export type GNFlowNodeData = {
   properties?: Record<string, string>
   groupTreeId?: string
   groupTreeName?: string
+  hide: boolean
 }
 
 export type GNRerouteNodeData = {
@@ -33,6 +34,12 @@ export type NodeFrameData = {
 }
 
 function estimateNodeHeight(node: NodeIR): number {
+  if (node.hide) {
+    // Collapsed nodes (Blender's node.hide) shrink to the header plus outputs,
+    // which stay visible even when collapsed; unconnected inputs and property
+    // widgets disappear.
+    return Math.max(32, 32 + node.outputs.length * 18)
+  }
   // Rough sizing approximation: header + rows for max socket count + padding.
   const rows = Math.max(node.inputs.length, node.outputs.length)
   return Math.max(60, 32 + rows * 18 + 16)
@@ -223,6 +230,7 @@ function mapNode(
       properties: node.properties,
       groupTreeId: node.groupTreeId,
       groupTreeName: node.groupTreeName,
+      hide: node.hide,
     } as GNFlowNodeData,
   }
 }

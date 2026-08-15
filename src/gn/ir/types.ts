@@ -72,6 +72,8 @@ export type NodeIR = {
   parentFrameId?: string
   /** For zone input nodes (Simulation/Repeat/…): id of the paired output node. */
   pairedOutputId?: string
+  /** Blender's node.hide: node is collapsed to its header row. */
+  hide: boolean
 }
 
 export type EdgeIR = {
