@@ -208,16 +208,19 @@ export function GenericGNNode(props: NodeProps) {
   const nav = useGroupNav()
   const connectedIds = new Set(data.connectedInputIds ?? [])
   const connectedOutputIds = new Set(data.connectedOutputIds ?? [])
-  const outputs = data.outputs.filter((s) => s.enabled)
-  const inputs = data.inputs.filter((s) => s.enabled)
 
   const groupTreeId = data.groupTreeId
   const isOpenableGroup = groupTreeId !== undefined && data.groupTreeName !== undefined && !!nav
   const isCollapsed = data.hide
-  // Collapsed nodes (Blender's node.hide) shrink to the header: only sockets
-  // with an actual connection stay visible; everything else disappears.
-  const visibleOutputs = isCollapsed ? outputs.filter((s) => connectedOutputIds.has(s.id)) : outputs
-  const visibleInputs = isCollapsed ? inputs.filter((s) => connectedIds.has(s.id)) : inputs
+  // Blender hides a socket when the node is collapsed (node.hide) or the
+  // socket itself is hidden (socket.hide) — unless it has a link, which
+  // always keeps it visible.
+  const visibleOutputs = data.outputs.filter(
+    (s) => s.enabled && (connectedOutputIds.has(s.id) || (!s.hide && !isCollapsed)),
+  )
+  const visibleInputs = data.inputs.filter(
+    (s) => s.enabled && (connectedIds.has(s.id) || (!s.hide && !isCollapsed)),
+  )
 
   return (
     <div

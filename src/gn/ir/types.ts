@@ -44,6 +44,8 @@ export type SocketIR = {
   displayShape: SocketDisplayShape
   color: string
   defaultValue: SocketDefaultValue | null
+  /** Blender's socket.hide: socket is hidden unless it has a link. */
+  hide: boolean
   hideValue: boolean
   enabled: boolean
   index: number

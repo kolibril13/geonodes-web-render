@@ -8,10 +8,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Nodes with Blender's `hide` property set now render collapsed, matching
-  Blender's node-header-only view: the box shrinks to its header and only
-  sockets with an actual connection stay visible; unconnected sockets and
-  property widgets disappear.
+- Blender's two hide mechanisms are now honored. Socket-level `hide`
+  ("Hide unused sockets", Ctrl+H) removes a socket row unless the socket has
+  a link. Node-level `hide` (collapse, H) shrinks the node to its header,
+  keeping only connected sockets and dropping property widgets.
 
 ## [0.3.33] - 2026-07-28
 

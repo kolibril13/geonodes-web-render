@@ -19,6 +19,7 @@ type BlenderSocket = {
     type: string
     display_shape: SocketDisplayShape
     default_value?: unknown
+    hide?: boolean
     hide_value?: boolean
     enabled?: boolean
   }
@@ -141,6 +142,8 @@ export type NormalizedSocket = {
   displayShape: SocketDisplayShape
   color: string
   defaultValue: SocketDefaultValue | null
+  /** Blender's socket.hide: socket is hidden unless it has a link. */
+  hide: boolean
   hideValue: boolean
   enabled: boolean
   index: number
@@ -301,6 +304,7 @@ function normalizeRerouteNode(node: BlenderNode, location: [number, number]): No
     displayShape: 'CIRCLE',
     color,
     defaultValue: null,
+    hide: false,
     hideValue: true,
     enabled: true,
     index: 0,
@@ -339,6 +343,7 @@ function normalizeSocket(socket: BlenderSocket, index: number): NormalizedSocket
     displayShape: socket.data.display_shape,
     color: socketColor(socket.data.type),
     defaultValue: parseDefaultValue(socket.data.default_value),
+    hide: socket.data.hide ?? false,
     hideValue: socket.data.hide_value ?? false,
     enabled: socket.data.enabled ?? true,
     index,

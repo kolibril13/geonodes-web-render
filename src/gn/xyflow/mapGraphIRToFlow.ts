@@ -34,22 +34,32 @@ export type NodeFrameData = {
   label: string
 }
 
-function estimateNodeHeight(node: NodeIR): number {
+function estimateNodeHeight(node: NodeIR, connectedSocketIds: Set<string>): number {
   if (node.hide) {
     // Collapsed nodes (Blender's node.hide) shrink to the header plus any
-    // *connected* sockets; unconnected sockets and property widgets disappear.
-    // Connection info isn't available here, so this is a rough single-row
-    // estimate for frame/zone background sizing, not the real node height.
+    // *connected* sockets; everything else disappears.
     return 40
   }
-  // Rough sizing approximation: header + rows for max socket count + padding.
-  const rows = Math.max(node.inputs.length, node.outputs.length)
+  // Rough sizing approximation: header + rows for max visible socket count +
+  // padding. A socket with socket.hide only shows when it has a link.
+  const visibleRows = (sockets: SocketIR[]) =>
+    sockets.filter((s) => s.enabled && (!s.hide || connectedSocketIds.has(s.id))).length
+  const rows = Math.max(visibleRows(node.inputs), visibleRows(node.outputs))
   return Math.max(60, 32 + rows * 18 + 16)
 }
 
-function estimateNodeSize(node: NodeIR): { w: number; h: number } {
+function connectedSocketIdsOf(graph: GraphIR): Set<string> {
+  const ids = new Set<string>()
+  for (const e of graph.edges) {
+    ids.add(e.sourceSocketId)
+    ids.add(e.targetSocketId)
+  }
+  return ids
+}
+
+function estimateNodeSize(node: NodeIR, connectedSocketIds: Set<string>): { w: number; h: number } {
   if (node.type === 'NodeReroute') return { w: 12, h: 12 }
-  return { w: node.width, h: estimateNodeHeight(node) }
+  return { w: node.width, h: estimateNodeHeight(node, connectedSocketIds) }
 }
 
 // User-created NodeFrame nodes group other nodes; the frame auto-fits its
@@ -58,6 +68,7 @@ function estimateNodeSize(node: NodeIR): { w: number; h: number } {
 function buildNodeFrames(graph: GraphIR): Node[] {
   const frames = graph.nodes.filter((n) => n.type === 'NodeFrame')
   if (frames.length === 0) return []
+  const connectedSocketIds = connectedSocketIdsOf(graph)
 
   const childrenByFrame = new Map<string, NodeIR[]>()
   for (const n of graph.nodes) {
@@ -77,7 +88,7 @@ function buildNodeFrames(graph: GraphIR): Node[] {
     let maxX = Number.NEGATIVE_INFINITY
     let maxY = Number.NEGATIVE_INFINITY
     for (const c of children) {
-      const { w, h } = estimateNodeSize(c)
+      const { w, h } = estimateNodeSize(c, connectedSocketIds)
       minX = Math.min(minX, c.position.x)
       minY = Math.min(minY, c.position.y)
       maxX = Math.max(maxX, c.position.x + w)
@@ -122,6 +133,7 @@ const ZONE_NODE_TYPES: Array<{ input: string; output: string; kind: ZoneKind }> 
 
 function buildZoneFrames(graph: GraphIR): Node[] {
   const byId = new Map(graph.nodes.map((n) => [n.id, n]))
+  const connectedSocketIds = connectedSocketIdsOf(graph)
   const out: Node[] = []
 
   for (const zoneType of ZONE_NODE_TYPES) {
@@ -148,7 +160,7 @@ function buildZoneFrames(graph: GraphIR): Node[] {
         const n = byId.get(id)
         if (!n) continue
         minY = Math.min(minY, n.position.y)
-        maxY = Math.max(maxY, n.position.y + estimateNodeSize(n).h)
+        maxY = Math.max(maxY, n.position.y + estimateNodeSize(n, connectedSocketIds).h)
       }
 
       // Horizontal extent: in Blender the zone boundary runs *through* the
