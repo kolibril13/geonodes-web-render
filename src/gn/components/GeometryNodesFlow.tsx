@@ -30,7 +30,7 @@ import {
   toGraphIR,
   type BlenderTreeExport,
 } from '../importer/blenderTree'
-import { mapGraphIRToFlow } from '../xyflow/mapGraphIRToFlow'
+import { FRAME_PAD, ZONE_VPAD, mapGraphIRToFlow } from '../xyflow/mapGraphIRToFlow'
 import { filterExportToSelection } from '../exporter/nodebpyExporter'
 import { encodeTreeClipperPayload } from '../../utils/encodeTreeClipperPayload'
 import { GenericGNNode } from './GenericGNNode'
@@ -182,6 +182,73 @@ function FlowCanvas(props: {
       [b.x + b.width, b.y + b.height],
     ])
   }, [nodesInitialized, nodes, getNodes, getNodesBounds])
+
+  // Frame and zone rectangles are first laid out from *estimated* node heights
+  // (the DOM doesn't exist yet). Once React Flow has measured the real nodes,
+  // re-derive the rectangles from the measured bounds so frames wrap their
+  // contents exactly instead of cutting off tall nodes at the bottom.
+  useEffect(() => {
+    if (!nodesInitialized) return
+    setLocalNodes((prev) => {
+      const byId = new Map(prev.map((n) => [n.id, n]))
+      let changed = false
+
+      const next = prev.map((node) => {
+        if (node.type !== 'nodeFrame' && node.type !== 'simulationZone') return node
+        const memberIds = (node.data as { memberIds?: string[] }).memberIds
+        if (!memberIds?.length) return node
+
+        let minX = Number.POSITIVE_INFINITY
+        let minY = Number.POSITIVE_INFINITY
+        let maxX = Number.NEGATIVE_INFINITY
+        let maxY = Number.NEGATIVE_INFINITY
+        for (const id of memberIds) {
+          const m = byId.get(id)
+          if (!m?.measured?.height) continue
+          minX = Math.min(minX, m.position.x)
+          minY = Math.min(minY, m.position.y)
+          maxX = Math.max(maxX, m.position.x + (m.measured.width ?? 0))
+          maxY = Math.max(maxY, m.position.y + m.measured.height)
+        }
+        if (!Number.isFinite(minY) || !Number.isFinite(maxY)) return node
+
+        // Zones keep their horizontal anchoring (boundary node centres, exact
+        // from the export); only the vertical extent depends on node heights.
+        const rect =
+          node.type === 'nodeFrame'
+            ? {
+                x: minX - FRAME_PAD.x,
+                y: minY - FRAME_PAD.top,
+                width: maxX - minX + FRAME_PAD.x * 2,
+                height: maxY - minY + FRAME_PAD.top + FRAME_PAD.bottom,
+              }
+            : {
+                x: node.position.x,
+                y: minY - ZONE_VPAD,
+                width: node.style?.width as number,
+                height: maxY - minY + ZONE_VPAD * 2,
+              }
+
+        const same =
+          Math.abs(node.position.x - rect.x) < 0.5 &&
+          Math.abs(node.position.y - rect.y) < 0.5 &&
+          Math.abs(((node.style?.width as number) ?? 0) - rect.width) < 0.5 &&
+          Math.abs(((node.style?.height as number) ?? 0) - rect.height) < 0.5
+        if (same) return node
+
+        changed = true
+        return {
+          ...node,
+          position: { x: rect.x, y: rect.y },
+          style: { ...node.style, width: rect.width, height: rect.height },
+        }
+      })
+
+      return changed ? next : prev
+    })
+    // Keyed on localNodes: measured dimensions stream in via onNodesChange, and
+    // the same-rect bail-out (returning `prev`) keeps this from looping.
+  }, [nodesInitialized, localNodes, setLocalNodes])
 
   useEffect(() => {
     // Re-fit whenever the node set changes (tab switch, new JSON, group drill-down, etc.)

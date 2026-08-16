@@ -28,11 +28,20 @@ export type ZoneKind = 'simulation' | 'repeat' | 'foreach' | 'closure'
 
 export type SimulationZoneNodeData = {
   kind: ZoneKind
+  /** Ids of the flow nodes this zone spans, for re-measuring after render. */
+  memberIds: string[]
 }
 
 export type NodeFrameData = {
   label: string
+  /** Ids of the flow nodes parented to this frame, for re-measuring after render. */
+  memberIds: string[]
 }
+
+// Padding around frame/zone contents. Exported so the canvas can re-derive the
+// rectangles from React Flow's measured node sizes once they exist.
+export const FRAME_PAD = { x: 28, top: 48, bottom: 28 }
+export const ZONE_VPAD = 26
 
 function estimateNodeHeight(node: NodeIR, connectedSocketIds: Set<string>): number {
   if (node.hide) {
@@ -97,20 +106,17 @@ function buildNodeFrames(graph: GraphIR): Node[] {
     if (!Number.isFinite(minX)) continue
 
     // Extra top padding leaves room for the frame's label.
-    const padX = 28
-    const padBottom = 28
-    const padTop = 48
     out.push({
       id: `frame:${frame.id}`,
       type: 'nodeFrame',
-      position: { x: minX - padX, y: minY - padTop },
+      position: { x: minX - FRAME_PAD.x, y: minY - FRAME_PAD.top },
       draggable: false,
       selectable: false,
       connectable: false,
-      data: { label: frame.label } as NodeFrameData,
+      data: { label: frame.label, memberIds: children.map((c) => c.id) } as NodeFrameData,
       style: {
-        width: maxX - minX + padX * 2,
-        height: maxY - minY + padTop + padBottom,
+        width: maxX - minX + FRAME_PAD.x * 2,
+        height: maxY - minY + FRAME_PAD.top + FRAME_PAD.bottom,
         zIndex: -8,
       },
     })
@@ -176,18 +182,17 @@ function buildZoneFrames(graph: GraphIR): Node[] {
         continue
       }
 
-      const vpad = 26
       // A non-interactive background rectangle behind the nodes. It is not a
       // parent of the member nodes, so they are free to straddle its edges.
       out.push({
         id: `zone:${zoneType.kind}:${zoneInput.id}`,
         type: 'simulationZone',
-        position: { x: left, y: minY - vpad },
+        position: { x: left, y: minY - ZONE_VPAD },
         draggable: false,
         selectable: false,
         connectable: false,
-        data: { kind: zoneType.kind } as SimulationZoneNodeData,
-        style: { width: right - left, height: maxY - minY + vpad * 2, zIndex: -10 },
+        data: { kind: zoneType.kind, memberIds: [...memberIds] } as SimulationZoneNodeData,
+        style: { width: right - left, height: maxY - minY + ZONE_VPAD * 2, zIndex: -10 },
       })
     }
   }
