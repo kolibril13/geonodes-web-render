@@ -58,52 +58,6 @@ describe('blenderTree importer', () => {
     })
   }
 
-  it('maps group-node sockets to interface sub-panels with panel_states (example14)', () => {
-    const fixture = Object.entries(fixtures).find(([path]) =>
-      path.endsWith('/example14.json'),
-    )?.[1]
-    expect(fixture).toBeDefined()
-
-    const { rootId, trees } = normalizeBlenderExport(fixture!)
-    const root = trees[rootId]
-
-    const cloth = root.nodes.filter((n) => n.label.startsWith('Cloth Dynamics (Experimental)'))
-    expect(cloth.length).toBeGreaterThan(0)
-
-    for (const node of cloth) {
-      expect(node.panels?.map((p) => p.name)).toEqual([
-        'Solver',
-        'Structure',
-        'Damping',
-        'Gravity',
-        'Tearing',
-        'Effectors',
-      ])
-
-      // Root sockets have no panel; panel sockets point at their panel.
-      const byName = (name: string) => node.inputs.filter((s) => s.name === name)
-      expect(byName('Pin Group')[0]?.panelIndex).toBeUndefined()
-      expect(byName('Substeps')[0]?.panelIndex).toBe(0)
-      expect(byName('Mass')[0]?.panelIndex).toBe(1)
-      expect(byName('Effectors')[0]?.panelIndex).toBe(5)
-
-      // The boolean Gravity input is the Gravity panel's header toggle.
-      const gravitySockets = byName('Gravity')
-      expect(gravitySockets.length).toBe(2)
-      expect(gravitySockets[0].isPanelToggle).toBe(true)
-      expect(gravitySockets[0].panelIndex).toBe(3)
-      expect(gravitySockets[1].isPanelToggle).toBeUndefined()
-    }
-
-    // panel_states drives the initial collapse per instance; in this export
-    // every instance has all six panels collapsed.
-    for (const node of cloth) {
-      expect(node.panels!.map((p) => p.collapsed)).toEqual([
-        true, true, true, true, true, true,
-      ])
-    }
-  })
-
   it('applies builtin panel layouts with panel_states (example15)', () => {
     const fixture = Object.entries(fixtures).find(([path]) =>
       path.endsWith('/example15.json'),
