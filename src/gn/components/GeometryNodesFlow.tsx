@@ -47,8 +47,6 @@ const nodeTypes = {
   nodeFrame: NodeFrame,
 }
 
-const FIT_VIEW_OPTIONS = { padding: 0.08 }
-
 /**
  * How the canvas captures the mouse wheel:
  * - `'always'`  — standalone app: wheel always zooms (and pans with middle drag,
@@ -256,7 +254,7 @@ function FlowCanvas(props: {
     setLocalNodes(nodes)
     onSelectionIds?.([])
     userMovedRef.current = false
-    fitView(FIT_VIEW_OPTIONS)
+    fitView()
   }, [nodes, setLocalNodes, onSelectionIds, fitView])
 
   useEffect(() => {
@@ -270,7 +268,7 @@ function FlowCanvas(props: {
     const el = wrapperRef.current
     if (!el) return
     const observer = new ResizeObserver(() => {
-      if (!userMovedRef.current) fitView(FIT_VIEW_OPTIONS)
+      if (!userMovedRef.current) fitView()
     })
     observer.observe(el)
     return () => observer.disconnect()
@@ -452,7 +450,6 @@ function FlowCanvas(props: {
       onMoveStart={onMoveStart}
       nodeTypes={nodeTypes}
       fitView
-      fitViewOptions={FIT_VIEW_OPTIONS}
       minZoom={0.2}
       translateExtent={translateExtent}
       nodesDraggable={false}

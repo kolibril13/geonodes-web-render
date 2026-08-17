@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import { json } from '@codemirror/lang-json'
 import { EditorView } from '@codemirror/view'
@@ -54,6 +54,17 @@ const tabs: Tab[] = [
   { id: 'custom', label: 'Custom' },
 ]
 
+const DEFAULT_TAB: TabId = 'example1'
+const EXAMPLE_QUERY_KEY = 'example'
+// Session-scoped handoff to the dev-embed harness tab, so "Embed preview"
+// shows exactly what's currently in the editor rather than a fixed sample.
+const EMBED_PREVIEW_PAYLOAD_KEY = 'gnwr-embed-preview-payload'
+
+function tabIdFromLocation(): TabId {
+  const raw = new URLSearchParams(window.location.search).get(EXAMPLE_QUERY_KEY)
+  return tabs.some((t) => t.id === raw) ? (raw as TabId) : DEFAULT_TAB
+}
+
 import { decodeTreeClipperPayload } from '../utils/decodeTreeClipperPayload'
 
 function formatJson(text: string): { ok: true; formatted: string } | { ok: false } {
@@ -72,10 +83,25 @@ export function JsonEditorTabs(props: {
   onToggleTheme: () => void
 }) {
   const { value, onChange, dark, onToggleTheme } = props
-  const [activeTab, setActiveTab] = useState<TabId>('example1')
+  const [activeTab, setActiveTabState] = useState<TabId>(() => tabIdFromLocation())
   const [loadState, setLoadState] = useState<
     { kind: 'idle' } | { kind: 'loading' } | { kind: 'error'; message: string }
   >({ kind: 'idle' })
+
+  // Push a history entry so the URL is shareable and back/forward moves
+  // between examples.
+  const setActiveTab = useCallback((id: TabId) => {
+    setActiveTabState(id)
+    const url = new URL(window.location.href)
+    url.searchParams.set(EXAMPLE_QUERY_KEY, id)
+    window.history.pushState({ [EXAMPLE_QUERY_KEY]: id }, '', url)
+  }, [])
+
+  useEffect(() => {
+    const onPopState = () => setActiveTabState(tabIdFromLocation())
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
 
   const active = useMemo(
     () => tabs.find((t) => t.id === activeTab) ?? tabs[0],
@@ -140,15 +166,21 @@ export function JsonEditorTabs(props: {
       <div className="panel-header">
         <div className="panel-actions">
           {import.meta.env.DEV ? (
-            <a
+            <button
+              type="button"
               className="action-button action-button--dev"
-              href={withBaseUrl('dev-embed.html')}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Open the embeddable GraphView preview (dev only)"
+              onClick={() => {
+                // localStorage (not sessionStorage) because `noopener` below
+                // severs the window.open() opener link, which also disables
+                // the browser's opener->new-tab sessionStorage copy.
+                localStorage.setItem(EMBED_PREVIEW_PAYLOAD_KEY, value)
+                window.open(withBaseUrl('dev-embed.html'), '_blank', 'noopener,noreferrer')
+              }}
+              disabled={value.trim().length === 0}
+              title="Open the embeddable GraphView preview of the currently shown JSON (dev only)"
             >
               ▶ Embed preview
-            </a>
+            </button>
           ) : null}
           <button
             type="button"

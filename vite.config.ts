@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
-import { version } from './package.json'
+import { version } from './package.json' with { type: 'json' }
 
 // https://vite.dev/config/
 export default defineConfig({

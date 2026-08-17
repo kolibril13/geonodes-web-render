@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
-import { version } from './package.json'
+import { version } from './package.json' with { type: 'json' }
 
 const reactExternalRegex = /^react(-dom)?(\/|$)/
 
@@ -24,13 +24,13 @@ export default defineConfig({
   resolve: {
     conditions: ['import', 'module', 'browser', 'default'],
     alias: [
-      { find: /^use-sync-external-store\/shim\/with-selector(\.js)?$/, replacement: resolve(__dirname, 'src/shims/use-sync-external-store-shim-with-selector.ts') },
-      { find: /^use-sync-external-store\/shim(\/index)?(\.js)?$/, replacement: resolve(__dirname, 'src/shims/use-sync-external-store-shim.ts') },
+      { find: /^use-sync-external-store\/shim\/with-selector(\.js)?$/, replacement: resolve(import.meta.dirname, 'src/shims/use-sync-external-store-shim-with-selector.ts') },
+      { find: /^use-sync-external-store\/shim(\/index)?(\.js)?$/, replacement: resolve(import.meta.dirname, 'src/shims/use-sync-external-store-shim.ts') },
     ],
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/embed.tsx'),
+      entry: resolve(import.meta.dirname, 'src/embed.tsx'),
       name: 'GeonodesWebRender',
       formats: ['es'],
       fileName: 'embed',
