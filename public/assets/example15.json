@@ -1,0 +1,1733 @@
+{
+    "blender_version": "5.2.0 LTS",
+    "tree_clipper_version": "0.1.11",
+    "node_trees": [
+        {
+            "id": 0,
+            "data": {
+                "name": "Geometry Nodes",
+                "use_fake_user": false,
+                "use_extra_user": true,
+                "is_runtime_data": false,
+                "tag": false,
+                "color_tag": "NONE",
+                "default_group_node_width": 140,
+                "description": "",
+                "bl_use_group_interface": true,
+                "interface": {
+                    "id": 1,
+                    "data": {
+                        "active_index": 0,
+                        "items_tree": {
+                            "id": 2,
+                            "data": {
+                                "items": [
+                                    {
+                                        "id": 3,
+                                        "data": {
+                                            "name": "Geometry",
+                                            "description": "",
+                                            "socket_type": "NodeSocketGeometry",
+                                            "hide_value": false,
+                                            "hide_in_modifier": false,
+                                            "force_non_field": false,
+                                            "is_inspect_output": false,
+                                            "is_panel_toggle": false,
+                                            "layer_selection_field": false,
+                                            "menu_expanded": false,
+                                            "optional_label": false,
+                                            "select": true,
+                                            "attribute_domain": "POINT",
+                                            "default_attribute_name": "",
+                                            "structure_type": "AUTO",
+                                            "default_input": "VALUE",
+                                            "in_out": "OUTPUT",
+                                            "item_type": "SOCKET"
+                                        }
+                                    },
+                                    {
+                                        "id": 4,
+                                        "data": {
+                                            "name": "Geometry",
+                                            "description": "",
+                                            "socket_type": "NodeSocketGeometry",
+                                            "hide_value": false,
+                                            "hide_in_modifier": false,
+                                            "force_non_field": false,
+                                            "is_inspect_output": false,
+                                            "is_panel_toggle": false,
+                                            "layer_selection_field": false,
+                                            "menu_expanded": false,
+                                            "optional_label": false,
+                                            "select": false,
+                                            "attribute_domain": "POINT",
+                                            "default_attribute_name": "",
+                                            "structure_type": "AUTO",
+                                            "default_input": "VALUE",
+                                            "in_out": "INPUT",
+                                            "item_type": "SOCKET"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "nodes": {
+                    "id": 5,
+                    "data": {
+                        "active": 6,
+                        "items": [
+                            {
+                                "id": 6,
+                                "data": {
+                                    "location": [
+                                        240.0,
+                                        -120.0
+                                    ],
+                                    "location_absolute": [
+                                        240.0,
+                                        -120.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Group Output",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 7,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 8,
+                                                    "data": {
+                                                        "name": "Geometry",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "GEOMETRY",
+                                                        "display_shape": "LINE"
+                                                    }
+                                                },
+                                                {
+                                                    "id": 9,
+                                                    "data": {
+                                                        "name": "",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "CUSTOM",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 10,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 11,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "NodeGroupOutput",
+                                    "parent": null,
+                                    "is_active_output": true
+                                }
+                            },
+                            {
+                                "id": 12,
+                                "data": {
+                                    "location": [
+                                        -230.0,
+                                        -124.0
+                                    ],
+                                    "location_absolute": [
+                                        -230.0,
+                                        -124.0
+                                    ],
+                                    "width": 200.0,
+                                    "height": 386.0,
+                                    "name": "Frame",
+                                    "label": "expanded panels",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 13,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 14,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 15,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "NodeFrame",
+                                    "parent": null,
+                                    "text": null,
+                                    "shrink": true,
+                                    "label_size": 20
+                                }
+                            },
+                            {
+                                "id": 16,
+                                "data": {
+                                    "location": [
+                                        -450.0,
+                                        -124.0
+                                    ],
+                                    "location_absolute": [
+                                        -450.0,
+                                        -124.0
+                                    ],
+                                    "width": 200.0,
+                                    "height": 114.0,
+                                    "name": "Frame.001",
+                                    "label": "collapsed",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 17,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 18,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 19,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "NodeFrame",
+                                    "parent": null,
+                                    "text": null,
+                                    "shrink": true,
+                                    "label_size": 20
+                                }
+                            },
+                            {
+                                "id": 20,
+                                "data": {
+                                    "location": [
+                                        -690.0,
+                                        -124.0
+                                    ],
+                                    "location_absolute": [
+                                        -690.0,
+                                        -124.0
+                                    ],
+                                    "width": 200.0,
+                                    "height": 194.0,
+                                    "name": "Frame.002",
+                                    "label": "normal",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 21,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 22,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 23,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "NodeFrame",
+                                    "parent": null,
+                                    "text": null,
+                                    "shrink": true,
+                                    "label_size": 20
+                                }
+                            },
+                            {
+                                "id": 24,
+                                "data": {
+                                    "location": [
+                                        -600.0,
+                                        120.0
+                                    ],
+                                    "location_absolute": [
+                                        -600.0,
+                                        120.0
+                                    ],
+                                    "width": 420.0,
+                                    "height": 60.0,
+                                    "name": "Frame.003",
+                                    "label": "Three times to same node",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 25,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 26,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 27,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "NodeFrame",
+                                    "parent": null,
+                                    "text": null,
+                                    "shrink": true,
+                                    "label_size": 20
+                                }
+                            },
+                            {
+                                "id": 28,
+                                "data": {
+                                    "location": [
+                                        30.0,
+                                        -36.0
+                                    ],
+                                    "location_absolute": [
+                                        -660.0,
+                                        -160.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Combine Matrix",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 29,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 30,
+                                                    "data": {
+                                                        "name": "Column 1 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 31,
+                                                    "data": {
+                                                        "name": "Column 1 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 32,
+                                                    "data": {
+                                                        "name": "Column 1 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 33,
+                                                    "data": {
+                                                        "name": "Column 1 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 34,
+                                                    "data": {
+                                                        "name": "Column 2 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 35,
+                                                    "data": {
+                                                        "name": "Column 2 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 36,
+                                                    "data": {
+                                                        "name": "Column 2 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 37,
+                                                    "data": {
+                                                        "name": "Column 2 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 38,
+                                                    "data": {
+                                                        "name": "Column 3 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 39,
+                                                    "data": {
+                                                        "name": "Column 3 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 40,
+                                                    "data": {
+                                                        "name": "Column 3 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 41,
+                                                    "data": {
+                                                        "name": "Column 3 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 42,
+                                                    "data": {
+                                                        "name": "Column 4 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 43,
+                                                    "data": {
+                                                        "name": "Column 4 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 44,
+                                                    "data": {
+                                                        "name": "Column 4 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 45,
+                                                    "data": {
+                                                        "name": "Column 4 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 46,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 47,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 48,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 49,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                },
+                                                {
+                                                    "id": 50,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                },
+                                                {
+                                                    "id": 51,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                },
+                                                {
+                                                    "id": 52,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "bl_idname": "FunctionNodeCombineMatrix",
+                                    "parent": 20
+                                }
+                            },
+                            {
+                                "id": 53,
+                                "data": {
+                                    "location": [
+                                        30.0,
+                                        -36.0
+                                    ],
+                                    "location_absolute": [
+                                        -420.0,
+                                        -160.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Combine Matrix.001",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 54,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 55,
+                                                    "data": {
+                                                        "name": "Column 1 Row 1",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 56,
+                                                    "data": {
+                                                        "name": "Column 1 Row 2",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 57,
+                                                    "data": {
+                                                        "name": "Column 1 Row 3",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 58,
+                                                    "data": {
+                                                        "name": "Column 1 Row 4",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 59,
+                                                    "data": {
+                                                        "name": "Column 2 Row 1",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 60,
+                                                    "data": {
+                                                        "name": "Column 2 Row 2",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 61,
+                                                    "data": {
+                                                        "name": "Column 2 Row 3",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 62,
+                                                    "data": {
+                                                        "name": "Column 2 Row 4",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 63,
+                                                    "data": {
+                                                        "name": "Column 3 Row 1",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 64,
+                                                    "data": {
+                                                        "name": "Column 3 Row 2",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 65,
+                                                    "data": {
+                                                        "name": "Column 3 Row 3",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 66,
+                                                    "data": {
+                                                        "name": "Column 3 Row 4",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 67,
+                                                    "data": {
+                                                        "name": "Column 4 Row 1",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 68,
+                                                    "data": {
+                                                        "name": "Column 4 Row 2",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 69,
+                                                    "data": {
+                                                        "name": "Column 4 Row 3",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 70,
+                                                    "data": {
+                                                        "name": "Column 4 Row 4",
+                                                        "description": "",
+                                                        "hide": true,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 71,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 72,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 73,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 74,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                },
+                                                {
+                                                    "id": 75,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                },
+                                                {
+                                                    "id": 76,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                },
+                                                {
+                                                    "id": 77,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "bl_idname": "FunctionNodeCombineMatrix",
+                                    "parent": 16
+                                }
+                            },
+                            {
+                                "id": 78,
+                                "data": {
+                                    "location": [
+                                        30.0,
+                                        -36.0
+                                    ],
+                                    "location_absolute": [
+                                        -200.0,
+                                        -160.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Combine Matrix.002",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 79,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 80,
+                                                    "data": {
+                                                        "name": "Column 1 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 81,
+                                                    "data": {
+                                                        "name": "Column 1 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 82,
+                                                    "data": {
+                                                        "name": "Column 1 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 83,
+                                                    "data": {
+                                                        "name": "Column 1 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 84,
+                                                    "data": {
+                                                        "name": "Column 2 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 85,
+                                                    "data": {
+                                                        "name": "Column 2 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 86,
+                                                    "data": {
+                                                        "name": "Column 2 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 87,
+                                                    "data": {
+                                                        "name": "Column 2 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 88,
+                                                    "data": {
+                                                        "name": "Column 3 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 89,
+                                                    "data": {
+                                                        "name": "Column 3 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 90,
+                                                    "data": {
+                                                        "name": "Column 3 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 91,
+                                                    "data": {
+                                                        "name": "Column 3 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 92,
+                                                    "data": {
+                                                        "name": "Column 4 Row 1",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 93,
+                                                    "data": {
+                                                        "name": "Column 4 Row 2",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 94,
+                                                    "data": {
+                                                        "name": "Column 4 Row 3",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 0.0
+                                                    }
+                                                },
+                                                {
+                                                    "id": 95,
+                                                    "data": {
+                                                        "name": "Column 4 Row 4",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "VALUE",
+                                                        "display_shape": "CIRCLE",
+                                                        "default_value": 1.0
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 96,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 97,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 98,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 99,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": false
+                                                    }
+                                                },
+                                                {
+                                                    "id": 100,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": false
+                                                    }
+                                                },
+                                                {
+                                                    "id": 101,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                },
+                                                {
+                                                    "id": 102,
+                                                    "data": {
+                                                        "identifier": null,
+                                                        "is_collapsed": true
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "bl_idname": "FunctionNodeCombineMatrix",
+                                    "parent": 12
+                                }
+                            },
+                            {
+                                "id": 103,
+                                "data": {
+                                    "location": [
+                                        -160.0,
+                                        40.0
+                                    ],
+                                    "location_absolute": [
+                                        -160.0,
+                                        40.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Multiply Matrices",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 104,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 105,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                },
+                                                {
+                                                    "id": 106,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 107,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 108,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 109,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "FunctionNodeMatrixMultiply",
+                                    "parent": null
+                                }
+                            },
+                            {
+                                "id": 110,
+                                "data": {
+                                    "location": [
+                                        0.0,
+                                        40.0
+                                    ],
+                                    "location_absolute": [
+                                        0.0,
+                                        40.0
+                                    ],
+                                    "width": 140.0,
+                                    "height": 100.0,
+                                    "name": "Multiply Matrices.001",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "inputs": {
+                                        "id": 111,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 112,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                },
+                                                {
+                                                    "id": 113,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 1,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "outputs": {
+                                        "id": 114,
+                                        "data": {
+                                            "items": [
+                                                {
+                                                    "id": 115,
+                                                    "data": {
+                                                        "name": "Matrix",
+                                                        "description": "",
+                                                        "hide": false,
+                                                        "enabled": true,
+                                                        "link_limit": 4095,
+                                                        "show_expanded": false,
+                                                        "hide_value": false,
+                                                        "pin_gizmo": false,
+                                                        "type": "MATRIX",
+                                                        "display_shape": "CIRCLE"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "panel_states": {
+                                        "id": 116,
+                                        "data": {
+                                            "items": []
+                                        }
+                                    },
+                                    "bl_idname": "FunctionNodeMatrixMultiply",
+                                    "parent": null
+                                }
+                            },
+                            {
+                                "id": 117,
+                                "data": {
+                                    "location": [
+                                        -440.0,
+                                        -20.0
+                                    ],
+                                    "location_absolute": [
+                                        -440.0,
+                                        -20.0
+                                    ],
+                                    "height": 100.0,
+                                    "name": "Reroute",
+                                    "label": "",
+                                    "warning_propagation": "ALL",
+                                    "use_custom_color": false,
+                                    "color": [
+                                        0.6079999804496765,
+                                        0.6079999804496765,
+                                        0.6079999804496765
+                                    ],
+                                    "select": false,
+                                    "show_options": true,
+                                    "show_preview": false,
+                                    "hide": false,
+                                    "mute": false,
+                                    "show_texture": false,
+                                    "bl_idname": "NodeReroute",
+                                    "parent": null,
+                                    "single_input": 118,
+                                    "single_output": 119
+                                }
+                            }
+                        ]
+                    }
+                },
+                "bl_idname": "GeometryNodeTree",
+                "annotation": null,
+                "links": {
+                    "id": 120,
+                    "data": {
+                        "items": [
+                            {
+                                "id": 121,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 119,
+                                    "to_socket": 105
+                                }
+                            },
+                            {
+                                "id": 122,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 72,
+                                    "to_socket": 106
+                                }
+                            },
+                            {
+                                "id": 123,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 47,
+                                    "to_socket": 118
+                                }
+                            },
+                            {
+                                "id": 124,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 108,
+                                    "to_socket": 112
+                                }
+                            },
+                            {
+                                "id": 125,
+                                "data": {
+                                    "is_valid": true,
+                                    "is_muted": false,
+                                    "from_socket": 97,
+                                    "to_socket": 113
+                                }
+                            }
+                        ]
+                    }
+                },
+                "is_tool": false,
+                "node_tool_idname": "",
+                "is_modifier": true,
+                "is_mode_object": false,
+                "is_mode_edit": false,
+                "is_mode_sculpt": false,
+                "is_mode_paint": false,
+                "is_type_mesh": false,
+                "is_type_curve": false,
+                "is_type_pointcloud": false,
+                "use_wait_for_click": false,
+                "is_type_grease_pencil": false,
+                "show_modifier_manage_panel": true
+            }
+        }
+    ],
+    "external": {},
+    "scenes": {}
+}
