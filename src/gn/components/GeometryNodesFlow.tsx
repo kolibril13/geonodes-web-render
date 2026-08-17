@@ -134,6 +134,12 @@ function FlowCanvas(props: {
   }, [hostScale, updateNodeInternals, getNodes])
   // Once the user pans/zooms, stop auto-fitting so we don't fight them.
   const userMovedRef = useRef(false)
+  // A tab switch fits immediately against nodes that haven't been measured
+  // yet (frames/zones still have their *estimated* height, real nodes have
+  // none at all) — set on every node-set swap, cleared once every node in
+  // the live store reports a real measured size (see below), when we re-fit
+  // against the accurate bounds.
+  const pendingFitRef = useRef(false)
   // Latest selected node ids, for the right-click "copy magic string" action.
   const selectedIdsRef = useRef<string[]>([])
   // Custom context menu position (viewport coords), or null when closed.
@@ -244,9 +250,23 @@ function FlowCanvas(props: {
 
       return changed ? next : prev
     })
+    // `nodesInitialized` (xyflow's own flag) can read true from an explicit
+    // `width` we set upfront, before any node's *height* has actually been
+    // measured by the DOM — so it's not a reliable "safe to fit" signal on
+    // its own. Check the live store directly: once every node reports a
+    // measured size, sizes (and any frame/zone rects derived from them,
+    // above) have genuinely settled and it's safe to fit against real bounds.
+    const liveNodes = getNodes()
+    const allMeasured =
+      liveNodes.length > 0 &&
+      liveNodes.every((n) => n.measured?.width != null && n.measured?.height != null)
+    if (allMeasured && pendingFitRef.current && !userMovedRef.current) {
+      pendingFitRef.current = false
+      fitView()
+    }
     // Keyed on localNodes: measured dimensions stream in via onNodesChange, and
     // the same-rect bail-out (returning `prev`) keeps this from looping.
-  }, [nodesInitialized, localNodes, setLocalNodes])
+  }, [nodesInitialized, localNodes, setLocalNodes, fitView, getNodes])
 
   useEffect(() => {
     // Re-fit whenever the node set changes (tab switch, new JSON, group drill-down, etc.)
@@ -254,6 +274,7 @@ function FlowCanvas(props: {
     setLocalNodes(nodes)
     onSelectionIds?.([])
     userMovedRef.current = false
+    pendingFitRef.current = true
     fitView()
   }, [nodes, setLocalNodes, onSelectionIds, fitView])
 
