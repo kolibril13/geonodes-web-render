@@ -5,7 +5,7 @@
         {
             "id": 0,
             "data": {
-                "name": "Edge Length",
+                "name": "Edge Length.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -582,7 +582,7 @@
         {
             "id": 40,
             "data": {
-                "name": "Store Edge Length",
+                "name": "Store Edge Length.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -1125,7 +1125,7 @@
         {
             "id": 79,
             "data": {
-                "name": "Curve Segment",
+                "name": "Curve Segment.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -3417,7 +3417,7 @@
         {
             "id": 242,
             "data": {
-                "name": "Store Segment Length",
+                "name": "Store Segment Length.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -3996,7 +3996,7 @@
         {
             "id": 283,
             "data": {
-                "name": "Store Segment Rotation",
+                "name": "Store Segment Rotation.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -5197,7 +5197,7 @@
         {
             "id": 366,
             "data": {
-                "name": "Store Bend Rotation",
+                "name": "Store Bend Rotation.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -6420,7 +6420,7 @@
         {
             "id": 451,
             "data": {
-                "name": "Setup Structural Rest Data",
+                "name": "Setup Structural Rest Data.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -8067,7 +8067,7 @@
         {
             "id": 572,
             "data": {
-                "name": "For Each Sim Geometry",
+                "name": "For Each Sim Geometry.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -9824,7 +9824,7 @@
         {
             "id": 705,
             "data": {
-                "name": "Apply Each Geometry Cache",
+                "name": "Apply Each Geometry Cache.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -11657,7 +11657,7 @@
         {
             "id": 844,
             "data": {
-                "name": "For Each Typed Bundle",
+                "name": "For Each Typed Bundle.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -13384,7 +13384,7 @@
         {
             "id": 974,
             "data": {
-                "name": "Simplify Cached Collider Info",
+                "name": "Simplify Cached Collider Info.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -14901,7 +14901,7 @@
         {
             "id": 1091,
             "data": {
-                "name": "Is Effector for Geometry",
+                "name": "Is Effector for Geometry.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -15947,7 +15947,7 @@
         {
             "id": 1165,
             "data": {
-                "name": "Evaluate Custom Effectors",
+                "name": "Evaluate Custom Effectors.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -20622,7 +20622,7 @@
         {
             "id": 1521,
             "data": {
-                "name": "Set Previous World Items",
+                "name": "Set Previous World Items.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -22663,7 +22663,7 @@
         {
             "id": 1672,
             "data": {
-                "name": "Clear Previous World Items",
+                "name": "Clear Previous World Items.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -24050,7 +24050,7 @@
         {
             "id": 1775,
             "data": {
-                "name": "Rename Sim Attributes",
+                "name": "Rename Sim Attributes.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -25179,7 +25179,7 @@
         {
             "id": 1858,
             "data": {
-                "name": "Remove Sim Attributes",
+                "name": "Remove Sim Attributes.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -26210,7 +26210,7 @@
         {
             "id": 1935,
             "data": {
-                "name": "Evaluate Effector Attributes",
+                "name": "Evaluate Effector Attributes.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -41475,7 +41475,7 @@
         {
             "id": 3131,
             "data": {
-                "name": "XPBD Solver",
+                "name": "XPBD Solver.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -44250,7 +44250,7 @@
         {
             "id": 3331,
             "data": {
-                "name": "Evaluate Forces",
+                "name": "Evaluate Forces.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -47760,7 +47760,7 @@
         {
             "id": 3592,
             "data": {
-                "name": "Copy Solver Data",
+                "name": "Copy Solver Data.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -49243,7 +49243,7 @@
         {
             "id": 3701,
             "data": {
-                "name": "XPBD Simulation",
+                "name": "XPBD Simulation.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -53325,7 +53325,7 @@
         {
             "id": 3995,
             "data": {
-                "name": "Pin Positions",
+                "name": "Pin Positions.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -54162,7 +54162,7 @@
         {
             "id": 4054,
             "data": {
-                "name": "Softness to Compliance",
+                "name": "Softness to Compliance.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -54701,7 +54701,7 @@
         {
             "id": 4092,
             "data": {
-                "name": "Edge Length Constraint",
+                "name": "Edge Length Constraint.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -56206,7 +56206,7 @@
         {
             "id": 4199,
             "data": {
-                "name": "Object Effector",
+                "name": "Object Effector.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -56945,7 +56945,7 @@
         {
             "id": 4251,
             "data": {
-                "name": "Collection Effector",
+                "name": "Collection Effector.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -58386,7 +58386,7 @@
         {
             "id": 4358,
             "data": {
-                "name": "Damping",
+                "name": "Damping.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -58975,7 +58975,7 @@
         {
             "id": 4401,
             "data": {
-                "name": "String to List",
+                "name": "String to List.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -59580,7 +59580,7 @@
         {
             "id": 4444,
             "data": {
-                "name": "Set Geometry Tags",
+                "name": "Set Geometry Tags.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -60377,7 +60377,7 @@
         {
             "id": 4502,
             "data": {
-                "name": "Custom Effector",
+                "name": "Custom Effector.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -63200,7 +63200,7 @@
         {
             "id": 4712,
             "data": {
-                "name": "Tearing Effector",
+                "name": "Tearing Effector.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -67074,7 +67074,7 @@
         {
             "id": 4989,
             "data": {
-                "name": "Set Friction",
+                "name": "Set Friction.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -67735,7 +67735,7 @@
         {
             "id": 5035,
             "data": {
-                "name": "Custom/World/Object Space",
+                "name": "Custom/World/Object Space.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -68398,7 +68398,7 @@
         {
             "id": 5082,
             "data": {
-                "name": "Custom Force",
+                "name": "Custom Force.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -74961,7 +74961,7 @@
         {
             "id": 5546,
             "data": {
-                "name": "Gravity",
+                "name": "Gravity.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -76384,7 +76384,7 @@
         {
             "id": 5644,
             "data": {
-                "name": "Convert Space Transform",
+                "name": "Convert Space Transform.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -79165,7 +79165,7 @@
         {
             "id": 5844,
             "data": {
-                "name": "Apply Geo Cache - Deform Only",
+                "name": "Apply Geo Cache - Deform Only.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -80891,7 +80891,7 @@
         {
             "id": 5966,
             "data": {
-                "name": "Sim Attributes",
+                "name": "Sim Attributes.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -81477,7 +81477,7 @@
         {
             "id": 6009,
             "data": {
-                "name": "Set Geo Updater - Deform Only",
+                "name": "Set Geo Updater - Deform Only.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -82792,7 +82792,7 @@
         {
             "id": 6108,
             "data": {
-                "name": "Apply Geo Cache - Topology Changing",
+                "name": "Apply Geo Cache - Topology Changing.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -84784,7 +84784,7 @@
         {
             "id": 6247,
             "data": {
-                "name": "Set Geo Updater - Simulated Topology",
+                "name": "Set Geo Updater - Simulated Topology.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -87959,7 +87959,7 @@
         {
             "id": 6482,
             "data": {
-                "name": "Cross Edge Length Constraint",
+                "name": "Cross Edge Length Constraint.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -88876,7 +88876,7 @@
         {
             "id": 6547,
             "data": {
-                "name": "Thin Rod Moment of Inertia",
+                "name": "Thin Rod Moment of Inertia.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -90508,7 +90508,7 @@
         {
             "id": 6661,
             "data": {
-                "name": "Set Mass",
+                "name": "Set Mass.001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -92292,7 +92292,7 @@
         {
             "id": 6785,
             "data": {
-                "name": "Cloth Dynamics (Experimental)",
+                "name": "Cloth Dynamics (Experimental).001",
                 "use_fake_user": false,
                 "use_extra_user": false,
                 "is_runtime_data": false,
@@ -109057,7 +109057,7 @@
         {
             "id": 7929,
             "data": {
-                "name": "Geometry Nodes",
+                "name": "Geometry Nodes.002",
                 "use_fake_user": false,
                 "use_extra_user": true,
                 "is_runtime_data": false,
@@ -109128,7 +109128,7 @@
                 "nodes": {
                     "id": 7934,
                     "data": {
-                        "active": 8064,
+                        "active": 7982,
                         "items": [
                             {
                                 "id": 7935,
@@ -109811,7 +109811,7 @@
                                         0.6079999804496765,
                                         0.6079999804496765
                                     ],
-                                    "select": false,
+                                    "select": true,
                                     "show_options": false,
                                     "show_preview": false,
                                     "hide": false,
@@ -109841,7 +109841,7 @@
                                                     "data": {
                                                         "name": "Pin Group",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109857,7 +109857,7 @@
                                                     "data": {
                                                         "name": "Invert Pin Group",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109873,7 +109873,7 @@
                                                     "data": {
                                                         "name": "Stretchiness",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109889,7 +109889,7 @@
                                                     "data": {
                                                         "name": "Bendiness",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109905,7 +109905,7 @@
                                                     "data": {
                                                         "name": "Substeps",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109921,7 +109921,7 @@
                                                     "data": {
                                                         "name": "Constraint Steps",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109937,7 +109937,7 @@
                                                     "data": {
                                                         "name": "Simulation to World",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109952,7 +109952,7 @@
                                                     "data": {
                                                         "name": "Mass",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109968,7 +109968,7 @@
                                                     "data": {
                                                         "name": "Friction",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -109984,7 +109984,7 @@
                                                     "data": {
                                                         "name": "Collision Radius",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110000,7 +110000,7 @@
                                                     "data": {
                                                         "name": "Linear Damping",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110016,7 +110016,7 @@
                                                     "data": {
                                                         "name": "Gravity",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110032,7 +110032,7 @@
                                                     "data": {
                                                         "name": "Gravity",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110052,7 +110052,7 @@
                                                     "data": {
                                                         "name": "Tearing",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110068,7 +110068,7 @@
                                                     "data": {
                                                         "name": "Tearing Mode",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110084,7 +110084,7 @@
                                                     "data": {
                                                         "name": "Tearing Edge Group",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110100,7 +110100,7 @@
                                                     "data": {
                                                         "name": "Tearing Threshold",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110116,7 +110116,7 @@
                                                     "data": {
                                                         "name": "Tearing Voronoi Scale",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110132,7 +110132,7 @@
                                                     "data": {
                                                         "name": "Effectors Collection",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110148,7 +110148,7 @@
                                                     "data": {
                                                         "name": "Cloth Tags",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110164,7 +110164,7 @@
                                                     "data": {
                                                         "name": "Extra Sim Attributes",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110180,7 +110180,7 @@
                                                     "data": {
                                                         "name": "Effectors",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 1,
                                                         "show_expanded": false,
@@ -110217,7 +110217,7 @@
                                                     "data": {
                                                         "name": "Residual Error",
                                                         "description": "",
-                                                        "hide": false,
+                                                        "hide": true,
                                                         "enabled": true,
                                                         "link_limit": 4095,
                                                         "show_expanded": false,
@@ -110735,42 +110735,42 @@
                                                     "id": 8046,
                                                     "data": {
                                                         "identifier": null,
-                                                        "is_collapsed": true
+                                                        "is_collapsed": false
                                                     }
                                                 },
                                                 {
                                                     "id": 8047,
                                                     "data": {
                                                         "identifier": null,
-                                                        "is_collapsed": true
+                                                        "is_collapsed": false
                                                     }
                                                 },
                                                 {
                                                     "id": 8048,
                                                     "data": {
                                                         "identifier": null,
-                                                        "is_collapsed": true
+                                                        "is_collapsed": false
                                                     }
                                                 },
                                                 {
                                                     "id": 8049,
                                                     "data": {
                                                         "identifier": null,
-                                                        "is_collapsed": true
+                                                        "is_collapsed": false
                                                     }
                                                 },
                                                 {
                                                     "id": 8050,
                                                     "data": {
                                                         "identifier": null,
-                                                        "is_collapsed": true
+                                                        "is_collapsed": false
                                                     }
                                                 },
                                                 {
                                                     "id": 8051,
                                                     "data": {
                                                         "identifier": null,
-                                                        "is_collapsed": true
+                                                        "is_collapsed": false
                                                     }
                                                 }
                                             ]
@@ -110846,7 +110846,7 @@
                                         131.37673950195312
                                     ],
                                     "width": 260.279052734375,
-                                    "height": 386.446533203125,
+                                    "height": 157.6092987060547,
                                     "name": "Frame.001",
                                     "label": "hidden",
                                     "warning_propagation": "ALL",
@@ -110899,7 +110899,7 @@
                                         131.9348907470703
                                     ],
                                     "width": 260.27899169921875,
-                                    "height": 386.446533203125,
+                                    "height": 774.91162109375,
                                     "name": "Frame.002",
                                     "label": "expaneded menus",
                                     "warning_propagation": "ALL",
@@ -110962,7 +110962,7 @@
                                         0.6079999804496765,
                                         0.6079999804496765
                                     ],
-                                    "select": true,
+                                    "select": false,
                                     "show_options": true,
                                     "show_preview": false,
                                     "hide": false,
