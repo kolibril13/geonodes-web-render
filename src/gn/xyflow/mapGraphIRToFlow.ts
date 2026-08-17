@@ -1,5 +1,5 @@
 import { Position, type Edge, type Node } from '@xyflow/react'
-import type { ColorRampData, FloatCurveData, GraphIR, NodeIR, SocketIR } from '../ir/types'
+import type { ColorRampData, FloatCurveData, GraphIR, NodeIR, NodePanelIR, SocketIR } from '../ir/types'
 
 export type GNFlowNodeData = {
   label: string
@@ -16,6 +16,7 @@ export type GNFlowNodeData = {
   groupTreeId?: string
   groupTreeName?: string
   hide: boolean
+  panels?: NodePanelIR[]
 }
 
 export type GNRerouteNodeData = {
@@ -50,11 +51,28 @@ function estimateNodeHeight(node: NodeIR, connectedSocketIds: Set<string>): numb
     return 40
   }
   // Rough sizing approximation: header + rows for max visible socket count +
-  // padding. A socket with socket.hide only shows when it has a link.
+  // padding. A socket with socket.hide only shows when it has a link, and a
+  // socket in a collapsed sub-panel only shows when it has a link (panel
+  // toggles live in their panel's header row, so they never add a row).
+  const collapsedPanel = (s: SocketIR) =>
+    s.panelIndex !== undefined && (node.panels?.[s.panelIndex]?.collapsed ?? false)
   const visibleRows = (sockets: SocketIR[]) =>
-    sockets.filter((s) => s.enabled && (!s.hide || connectedSocketIds.has(s.id))).length
+    sockets.filter(
+      (s) =>
+        s.enabled &&
+        !s.isPanelToggle &&
+        (connectedSocketIds.has(s.id) || (!s.hide && !collapsedPanel(s))),
+    ).length
   const rows = Math.max(visibleRows(node.inputs), visibleRows(node.outputs))
-  return Math.max(60, 32 + rows * 18 + 16)
+  // A panel header only shows when at least one of its sockets is visible
+  // (a fully socket-hidden panel disappears, like in Blender).
+  const panelHeaderRows = (node.panels ?? []).filter((_, i) =>
+    [...node.inputs, ...node.outputs].some(
+      (s) =>
+        s.panelIndex === i && s.enabled && (!s.hide || connectedSocketIds.has(s.id)),
+    ),
+  ).length
+  return Math.max(60, 32 + (rows + panelHeaderRows) * 18 + 16)
 }
 
 function connectedSocketIdsOf(graph: GraphIR): Set<string> {
@@ -253,6 +271,7 @@ function mapNode(
       groupTreeId: node.groupTreeId,
       groupTreeName: node.groupTreeName,
       hide: node.hide,
+      panels: node.panels,
     } as GNFlowNodeData,
   }
 }

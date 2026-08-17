@@ -4,6 +4,7 @@ import type {
   FloatCurveData,
   GraphIR,
   NodeIR,
+  NodePanelIR,
   SocketDefaultValue,
   SocketDisplayShape,
   SocketIR,
@@ -51,6 +52,14 @@ type BlenderNode = {
     node_tree?: number | null
     // Zone input nodes (Simulation/Repeat/ForEach/Closure): name of the paired output node
     paired_output?: string
+    // Per-instance collapse state of the node's socket sub-panels, exported
+    // for every node (Blender 5.2+, tree_clipper PR #226) in panel declaration
+    // order — interface order for group nodes. identifier is null as of 0.1.11.
+    panel_states?: {
+      data: {
+        items: Array<{ data: { identifier?: string | null; is_collapsed?: boolean } }>
+      }
+    }
     // ShaderNodeCombineColor / ShaderNodeSeparateColor
     mode?: string
     // FunctionNodeCompare / ShaderNodeMath
@@ -113,11 +122,28 @@ type BlenderLink = {
   }
 }
 
+type BlenderInterfaceItem = {
+  id: number
+  data: {
+    // SOCKET | PANEL
+    item_type: string
+    name?: string
+    in_out?: 'INPUT' | 'OUTPUT'
+    is_panel_toggle?: boolean
+    default_closed?: boolean
+  }
+}
+
 type BlenderTree = {
   id: number
   data: {
     name: string
     is_modifier?: boolean
+    interface?: {
+      data: {
+        items_tree?: { data: { items: BlenderInterfaceItem[] } }
+      }
+    }
     nodes: {
       data: {
         items: BlenderNode[]
@@ -147,6 +173,64 @@ export type NormalizedSocket = {
   hideValue: boolean
   enabled: boolean
   index: number
+  /** Index into the owning node's `panels`; undefined for root-level sockets. */
+  panelIndex?: number
+  /** Boolean socket drawn as a checkbox in its panel's header (is_panel_toggle). */
+  isPanelToggle?: boolean
+}
+
+/**
+ * Socket sub-panels declared on a group tree's interface. The exported
+ * items_tree is a flat, depth-first list: a PANEL item owns every SOCKET item
+ * that follows it until the next PANEL (nesting is not present in exports).
+ * Group node instances create their sockets from this list in order, inputs
+ * and outputs separately, which is how sockets map back to panels by index.
+ */
+type TreeInterfaceInfo = {
+  panels: Array<{ name: string; defaultClosed: boolean }>
+  /** Per interface INPUT socket, in order: owning panel (-1 = root) and toggle flag. */
+  inputs: Array<{ panelIndex: number; isToggle: boolean }>
+  outputs: Array<{ panelIndex: number; isToggle: boolean }>
+}
+
+function parseTreeInterface(tree: BlenderTree): TreeInterfaceInfo | undefined {
+  const items = tree.data?.interface?.data?.items_tree?.data?.items
+  if (!items || items.length === 0) return undefined
+
+  const info: TreeInterfaceInfo = { panels: [], inputs: [], outputs: [] }
+  let currentPanel = -1
+  for (const item of items) {
+    const d = item?.data
+    if (!d) continue
+    if (d.item_type === 'PANEL') {
+      info.panels.push({ name: d.name ?? '', defaultClosed: d.default_closed ?? false })
+      currentPanel = info.panels.length - 1
+    } else if (d.item_type === 'SOCKET') {
+      const entry = { panelIndex: currentPanel, isToggle: d.is_panel_toggle ?? false }
+      if (d.in_out === 'OUTPUT') info.outputs.push(entry)
+      else info.inputs.push(entry)
+    }
+  }
+  return info.panels.length > 0 ? info : undefined
+}
+
+// Panel layouts of builtin nodes are declared in Blender's C++ source and not
+// part of the export — only their panel_states are. Nodes listed here get the
+// same treatment as group nodes; the rest render flat. Socket order must match
+// the node's declaration exactly (assignPanels bails on a count mismatch).
+const matrixColumnPanels = (side: 'inputs' | 'outputs'): TreeInterfaceInfo => ({
+  panels: [1, 2, 3, 4].map((n) => ({ name: `Column ${n}`, defaultClosed: true })),
+  // 16 component sockets, four per column panel; the matrix socket is root.
+  [side]: Array.from({ length: 16 }, (_, i) => ({
+    panelIndex: Math.floor(i / 4),
+    isToggle: false,
+  })),
+  [side === 'inputs' ? 'outputs' : 'inputs']: [{ panelIndex: -1, isToggle: false }],
+} as TreeInterfaceInfo)
+
+const BUILTIN_NODE_PANELS: Record<string, TreeInterfaceInfo> = {
+  FunctionNodeCombineMatrix: matrixColumnPanels('inputs'),
+  FunctionNodeSeparateMatrix: matrixColumnPanels('outputs'),
 }
 
 export type NormalizedNode = {
@@ -173,6 +257,8 @@ export type NormalizedNode = {
   pairedOutputId?: string
   /** Blender's node.hide: node is collapsed to its header row. */
   hide: boolean
+  /** Collapsible socket sub-panels, in interface order (group nodes only). */
+  panels?: NodePanelIR[]
 }
 
 export type NormalizedLink = {
@@ -391,10 +477,46 @@ function nodeDisplayLabel(node: BlenderNode, treeNameById: Map<string, string>):
   return stripDuplicateSuffix(node.data.name)
 }
 
+// Attach a panel layout (group interface or builtin declaration) to a node
+// instance: sockets map to layout sockets by position, and panel_states
+// carries the per-instance collapse state (one entry per panel, in order).
+function assignPanels(
+  node: BlenderNode,
+  iface: TreeInterfaceInfo,
+  inputs: NormalizedSocket[],
+  outputs: NormalizedSocket[],
+): NodePanelIR[] | undefined {
+  // A socket-count mismatch means the instance is out of sync with the
+  // interface (stale export); panel membership by index would be wrong.
+  if (inputs.length !== iface.inputs.length || outputs.length !== iface.outputs.length) {
+    return undefined
+  }
+
+  const applyTo = (
+    sockets: NormalizedSocket[],
+    entries: TreeInterfaceInfo['inputs'],
+  ) => {
+    for (let i = 0; i < sockets.length; i++) {
+      const { panelIndex, isToggle } = entries[i]
+      if (panelIndex >= 0) sockets[i].panelIndex = panelIndex
+      if (isToggle) sockets[i].isPanelToggle = true
+    }
+  }
+  applyTo(inputs, iface.inputs)
+  applyTo(outputs, iface.outputs)
+
+  const states = node.data.panel_states?.data?.items ?? []
+  return iface.panels.map((panel, i) => ({
+    name: panel.name,
+    collapsed: states[i]?.data?.is_collapsed ?? panel.defaultClosed,
+  }))
+}
+
 function normalizeTree(
   tree: BlenderTree,
   treeIndex: number,
   treeNameById: Map<string, string>,
+  treeInterfaceById: Map<string, TreeInterfaceInfo>,
 ): NormalizedGraph {
   if (!tree?.data) {
     throw new Error(`"node_trees[${treeIndex}].data" is missing.`)
@@ -462,6 +584,15 @@ function normalizeTree(
 
       const properties = extractNodeProperties(node)
 
+      // Group nodes inherit collapsible socket sub-panels from the referenced
+      // tree's interface; builtin nodes only from BUILTIN_NODE_PANELS, since
+      // Blender declares their layouts in C++ and the export omits them.
+      const iface =
+        node.data.node_tree != null
+          ? treeInterfaceById.get(String(node.data.node_tree))
+          : BUILTIN_NODE_PANELS[node.data.bl_idname]
+      const panels = iface ? assignPanels(node, iface, inputs, outputs) : undefined
+
       return {
         id: String(node.id),
         type: node.data.bl_idname,
@@ -478,6 +609,7 @@ function normalizeTree(
         colorRamp,
         hide: node.data.hide ?? false,
         ...(properties ? { properties } : {}),
+        ...(panels && panels.length > 0 ? { panels } : {}),
         // node_tree can legitimately be 0, so compare against null/undefined.
         ...(node.data.node_tree != null ? { groupTreeId: String(node.data.node_tree) } : {}),
         ...(node.data.parent != null ? { parentFrameId: String(node.data.parent) } : {}),
@@ -506,13 +638,16 @@ export function normalizeBlenderExport(raw: BlenderTreeExport): NormalizedExport
   }
 
   const treeNameById = new Map<string, string>()
+  const treeInterfaceById = new Map<string, TreeInterfaceInfo>()
   for (const tree of raw.node_trees) {
     if (tree?.data?.name) treeNameById.set(String(tree.id), tree.data.name)
+    const iface = tree?.data ? parseTreeInterface(tree) : undefined
+    if (iface) treeInterfaceById.set(String(tree.id), iface)
   }
 
   const trees: Record<string, NormalizedGraph> = {}
   for (let i = 0; i < raw.node_trees.length; i++) {
-    const graph = normalizeTree(raw.node_trees[i], i, treeNameById)
+    const graph = normalizeTree(raw.node_trees[i], i, treeNameById, treeInterfaceById)
     trees[graph.id] = graph
   }
 
@@ -582,6 +717,7 @@ export function toGraphIR(normalized: NormalizedGraph): GraphIR {
     parentFrameId: node.parentFrameId,
     pairedOutputId: node.pairedOutputId,
     hide: node.hide,
+    panels: node.panels,
   }))
 
   const socketToNode = new Map<string, string>()

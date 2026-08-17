@@ -49,6 +49,17 @@ export type SocketIR = {
   hideValue: boolean
   enabled: boolean
   index: number
+  /** Index into the owning node's `panels`; undefined for root-level sockets. */
+  panelIndex?: number
+  /** Boolean socket drawn as a checkbox in its panel's header (is_panel_toggle). */
+  isPanelToggle?: boolean
+}
+
+/** A collapsible socket sub-panel on a node (from the group interface). */
+export type NodePanelIR = {
+  name: string
+  /** Initial collapsed state: the node's panel_states, else the interface default. */
+  collapsed: boolean
 }
 
 export type NodeIR = {
@@ -76,6 +87,8 @@ export type NodeIR = {
   pairedOutputId?: string
   /** Blender's node.hide: node is collapsed to its header row. */
   hide: boolean
+  /** Collapsible socket sub-panels, in interface order (group nodes only). */
+  panels?: NodePanelIR[]
 }
 
 export type EdgeIR = {
