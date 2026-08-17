@@ -138,23 +138,6 @@ export function JsonEditorTabs(props: {
   return (
     <div className="panel">
       <div className="panel-header">
-        <div className="tabs" role="tablist" aria-label="Editor tabs">
-          {tabs.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              className={`tab ${t.id === activeTab ? 'active' : ''}`}
-              role="tab"
-              aria-selected={t.id === activeTab}
-              onClick={() => {
-                if (t.id === 'custom') onChange('')
-                setActiveTab(t.id)
-              }}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
         <div className="panel-actions">
           {import.meta.env.DEV ? (
             <a
@@ -203,28 +186,48 @@ export function JsonEditorTabs(props: {
         </div>
       </div>
 
-      <div className="panel-body">
-        <CodeMirror
-          className="cm-editor"
-          value={value}
-          height="100%"
-          basicSetup={{
-            lineNumbers: true,
-            foldGutter: true,
-            highlightActiveLine: true,
-            highlightSelectionMatches: true,
-          }}
-          extensions={[
-            json(),
-            EditorView.lineWrapping,
-            EditorView.theme({
-              '&': { height: '100%' },
-              '.cm-scroller': { overflow: 'auto' },
-            }),
-          ]}
-          theme={dark ? oneDark : undefined}
-          onChange={onChange}
-        />
+      <div className="panel-content">
+        <div className="tabs" role="tablist" aria-label="Editor tabs">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              className={`tab ${t.id === activeTab ? 'active' : ''}`}
+              role="tab"
+              aria-selected={t.id === activeTab}
+              onClick={() => {
+                if (t.id === 'custom') onChange('')
+                setActiveTab(t.id)
+              }}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="panel-body">
+          <CodeMirror
+            className="cm-editor"
+            value={value}
+            height="100%"
+            basicSetup={{
+              lineNumbers: true,
+              foldGutter: true,
+              highlightActiveLine: true,
+              highlightSelectionMatches: true,
+            }}
+            extensions={[
+              json(),
+              EditorView.lineWrapping,
+              EditorView.theme({
+                '&': { height: '100%' },
+                '.cm-scroller': { overflow: 'auto' },
+              }),
+            ]}
+            theme={dark ? oneDark : undefined}
+            onChange={onChange}
+          />
+        </div>
       </div>
 
       <div className="panel-footer">
