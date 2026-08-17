@@ -140,6 +140,13 @@ function FlowCanvas(props: {
   // the live store reports a real measured size (see below), when we re-fit
   // against the accurate bounds.
   const pendingFitRef = useRef(false)
+  // Hides the canvas while a fit is pending, so a tab switch reveals nodes
+  // already correctly framed instead of popping in small/misplaced and then
+  // jumping to their final position once measurement settles.
+  const [graphReady, setGraphReady] = useState(false)
+  // Safety net in case measurement never fully settles for some reason —
+  // reveal anyway rather than leaving the canvas blank forever.
+  const readyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   // Latest selected node ids, for the right-click "copy magic string" action.
   const selectedIdsRef = useRef<string[]>([])
   // Custom context menu position (viewport coords), or null when closed.
@@ -261,8 +268,22 @@ function FlowCanvas(props: {
       liveNodes.length > 0 &&
       liveNodes.every((n) => n.measured?.width != null && n.measured?.height != null)
     if (allMeasured && pendingFitRef.current && !userMovedRef.current) {
-      pendingFitRef.current = false
-      fitView()
+      if (readyTimeoutRef.current) clearTimeout(readyTimeoutRef.current)
+      // fitView() queues the fit against the *next* store pass rather than
+      // computing it synchronously — revealing right after calling it (not
+      // after it resolves) showed one frame at the pre-fit viewport. Await
+      // it, and leave `pendingFitRef` set until then so a re-run triggered
+      // before it resolves (localNodes can still be settling) retries
+      // cleanly instead of leaving the canvas hidden forever.
+      let cancelled = false
+      fitView().then(() => {
+        if (cancelled) return
+        pendingFitRef.current = false
+        setGraphReady(true)
+      })
+      return () => {
+        cancelled = true
+      }
     }
     // Keyed on localNodes: measured dimensions stream in via onNodesChange, and
     // the same-rect bail-out (returning `prev`) keeps this from looping.
@@ -274,9 +295,31 @@ function FlowCanvas(props: {
     setLocalNodes(nodes)
     onSelectionIds?.([])
     userMovedRef.current = false
+    if (readyTimeoutRef.current) clearTimeout(readyTimeoutRef.current)
+
+    if (nodes.length === 0) {
+      // Nothing to measure or fit (e.g. the empty Custom tab) — reveal immediately.
+      pendingFitRef.current = false
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setGraphReady(true)
+      return
+    }
+
+    // No immediate rough fitView() here on purpose: that call used to paint a
+    // viewport fitted to unmeasured (wrong) bounds before the canvas had a
+    // chance to hide, causing exactly the pop/jump this is meant to avoid.
+    // Stay hidden and wait for the one, correct fitView() once measured
+    // (below) instead.
+    setGraphReady(false)
     pendingFitRef.current = true
-    fitView()
-  }, [nodes, setLocalNodes, onSelectionIds, fitView])
+    readyTimeoutRef.current = setTimeout(() => {
+      pendingFitRef.current = false
+      setGraphReady(true)
+    }, 1500)
+    return () => {
+      if (readyTimeoutRef.current) clearTimeout(readyTimeoutRef.current)
+    }
+  }, [nodes, setLocalNodes, onSelectionIds])
 
   useEffect(() => {
     setLocalEdges(edges)
@@ -457,6 +500,14 @@ function FlowCanvas(props: {
         // rect/offset measurements agree again. At scale 1 this is a no-op.
         transform: hostScale === 1 ? undefined : `scale(${1 / hostScale})`,
         transformOrigin: '0 0',
+        // Stay hidden until the fit-view effects above have settled against
+        // real measurements, so nodes appear already correctly framed instead
+        // of popping in small/misplaced and jumping to their final spot.
+        // No transition: the hidden window is typically well under 100ms, so
+        // an opacity fade would never finish before reversing — it would read
+        // as a flicker rather than a clean hide. An instant toggle is invisible.
+        opacity: graphReady ? 1 : 0,
+        pointerEvents: graphReady ? undefined : 'none',
       }}
       onContextMenu={onContextMenu}
       onPointerDown={onWrapperPointerDown}

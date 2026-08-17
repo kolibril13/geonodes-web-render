@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.38] - 2026-08-17
+
+### Fixed
+
+- The graph no longer pops in at the wrong zoom/position and jumps to its
+  final framing a moment later. A tab switch used to fit the view immediately,
+  before any node had a real measured size, painting a wrongly zoomed
+  viewport that only self-corrected once measurement caught up. The canvas
+  now stays hidden until fitting has genuinely settled against real
+  measurements (not xyflow's own `nodesInitialized`, which can read `true`
+  from an explicit estimated width before height is ever measured), so nodes
+  appear already correctly framed the moment they're shown.
+
 ## [0.3.35] - 2026-08-16
 
 ### Fixed
