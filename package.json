@@ -1,6 +1,6 @@
 {
   "name": "geonodes-web-render",
-  "version": "0.3.36",
+  "version": "0.3.37",
   "description": "Browser-based viewer for Blender Geometry Nodes exported via Tree Clipper. Renders node trees as a read-only, Blender-styled graph.",
   "type": "module",
   "exports": {

@@ -602,25 +602,15 @@ body.is-resizing .right-pane {
   padding: 0 10px;
   cursor: pointer;
   user-select: none;
-  background: color-mix(in srgb, var(--text) 6%, transparent);
+  /* Blender draws the same raised grey strip whether the panel is
+     collapsed or expanded. */
+  background: color-mix(in srgb, var(--text) 11%, transparent);
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .gn-node__panel-header:hover {
-  background: color-mix(in srgb, var(--text) 12%, transparent);
-}
-
-/* Collapsed headers read as plain rows in Blender; only expanded ones get
-   the raised strip. */
-.gn-node__panel-header--collapsed {
-  background: transparent;
-  border-top-color: transparent;
-  border-bottom-color: transparent;
-}
-
-.gn-node__panel-header--collapsed:hover {
-  background: color-mix(in srgb, var(--text) 8%, transparent);
+  background: color-mix(in srgb, var(--text) 17%, transparent);
 }
 
 .gn-node__panel-chevron {
