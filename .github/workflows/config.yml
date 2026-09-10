@@ -1,11 +1,12 @@
-# Deploys main to the site root and nodebpy-export to /nodebpy-export/.
-# GitHub Pages serves one site per repo, so both branches are built into a
-# single combined artifact on every deploy.
+# Deploys main to the site root, nodebpy-export to /nodebpy-export/ and
+# field-context-demo to /field-context-demo/. GitHub Pages serves one site per
+# repo, so every branch is built into a single combined artifact on each deploy
+# — a branch left out here would be erased by the next deploy.
 name: Deploy static content to Pages
 
 on:
   push:
-    branches: ['main', 'nodebpy-export']
+    branches: ['main', 'nodebpy-export', 'field-context-demo']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -38,6 +39,11 @@ jobs:
         with:
           ref: nodebpy-export
           path: nodebpy-export
+      - name: Checkout field-context-demo
+        uses: actions/checkout@v6
+        with:
+          ref: field-context-demo
+          path: field-context-demo
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -46,6 +52,7 @@ jobs:
           cache-dependency-path: |
             main/package-lock.json
             nodebpy-export/package-lock.json
+            field-context-demo/package-lock.json
       - name: Build main
         working-directory: main
         run: |
@@ -56,11 +63,17 @@ jobs:
         run: |
           npm ci
           npm run build -- --base=/geonodes-web-render/nodebpy-export/
+      - name: Build field-context-demo
+        working-directory: field-context-demo
+        run: |
+          npm ci
+          npm run build -- --base=/geonodes-web-render/field-context-demo/
       - name: Combine into one site
         run: |
-          mkdir -p site/nodebpy-export
+          mkdir -p site/nodebpy-export site/field-context-demo
           cp -r main/dist/. site/
           cp -r nodebpy-export/dist/. site/nodebpy-export/
+          cp -r field-context-demo/dist/. site/field-context-demo/
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Upload artifact
