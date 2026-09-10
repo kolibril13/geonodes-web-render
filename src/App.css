@@ -1241,7 +1241,6 @@ body.is-resizing .right-pane {
 
 .flow-panel__body .react-flow__node.gn-traceable {
   pointer-events: all;
-  cursor: help;
 }
 
 .flow-panel__body .react-flow__node.gn-trace-dim,
@@ -1254,7 +1253,6 @@ body.is-resizing .right-pane {
 .flow-panel__body .react-flow__node.gn-trace-field .gn-node {
   box-shadow:
     0 0 0 1.5px var(--trace-field, #c9a6ff),
-    0 0 18px 2px color-mix(in srgb, var(--trace-field, #c9a6ff) 35%, transparent),
     var(--shadow);
 }
 
@@ -1262,7 +1260,6 @@ body.is-resizing .right-pane {
 .flow-panel__body .react-flow__node.gn-trace-geo .gn-node {
   box-shadow:
     0 0 0 1.5px var(--trace-geo, #00d6a3),
-    0 0 18px 2px color-mix(in srgb, var(--trace-geo, #00d6a3) 30%, transparent),
     var(--shadow);
 }
 
