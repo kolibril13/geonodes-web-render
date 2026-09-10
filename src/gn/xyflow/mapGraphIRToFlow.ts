@@ -17,6 +17,8 @@ export type GNFlowNodeData = {
   groupTreeName?: string
   hide: boolean
   panels?: NodePanelIR[]
+  /** Socket ids to accent while a field-context trace is showing (see fieldContext.ts). */
+  traceSocketIds?: string[]
 }
 
 export type GNRerouteNodeData = {

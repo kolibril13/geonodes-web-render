@@ -39,6 +39,8 @@ import { SimulationZoneFrame } from './SimulationZoneFrame.tsx'
 import { NodeFrame } from './NodeFrame'
 import { GroupNavContext } from './groupNavContext'
 import type { GraphIR } from '../ir/types'
+import { computeFieldContext, traceableNodeIds } from '../ir/fieldContext'
+import type { GNFlowNodeData } from '../xyflow/mapGraphIRToFlow'
 
 const nodeTypes = {
   gnNode: GenericGNNode,
@@ -108,6 +110,7 @@ function useHostScale(ref: RefObject<HTMLDivElement | null>) {
 function FlowCanvas(props: {
   nodes: Node[]
   edges: Edge[]
+  graph: GraphIR
   jsonText: string
   breadcrumbs: Breadcrumb[]
   onNavigate: (index: number) => void
@@ -117,7 +120,7 @@ function FlowCanvas(props: {
   allowCopy?: boolean
   allowSelection?: boolean
 }) {
-  const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, interaction = 'always', allowCopy = true, allowSelection = true } = props
+  const { nodes, edges, graph, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, interaction = 'always', allowCopy = true, allowSelection = true } = props
   const { fitView, getNodes, getNodesBounds } = useReactFlow()
   const updateNodeInternals = useUpdateNodeInternals()
   const nodesInitialized = useNodesInitialized()
@@ -173,6 +176,59 @@ function FlowCanvas(props: {
   // Local copies so React Flow can apply selection changes (box select / click).
   const [localNodes, setLocalNodes, onNodesChange] = useNodesState(nodes)
   const [localEdges, setLocalEdges, onEdgesChange] = useEdgesState(edges)
+
+  // ── Field-context trace ────────────────────────────────────────────
+  // Hovering a field node (Position, Compare, …) answers "which geometry is
+  // this evaluated on?" by dimming everything except the path from the field
+  // to its consumer and the geometry feeding that consumer's context input.
+  const [hoveredFieldId, setHoveredFieldId] = useState<string | null>(null)
+  const traceable = useMemo(() => traceableNodeIds(graph), [graph])
+  const trace = useMemo(
+    () => (hoveredFieldId ? computeFieldContext(graph, hoveredFieldId) : null),
+    [graph, hoveredFieldId],
+  )
+  const onNodeMouseEnter = useCallback(
+    (_: ReactMouseEvent, node: Node) => {
+      setHoveredFieldId(traceable.has(node.id) ? node.id : null)
+    },
+    [traceable],
+  )
+  const onNodeMouseLeave = useCallback(() => setHoveredFieldId(null), [])
+
+  // Decorate (rather than mutate) the live node/edge state: measurement, fitting
+  // and selection all write to localNodes, so the trace stays a render-time layer.
+  const displayNodes = useMemo(() => {
+    if (!trace) {
+      return localNodes.map((n) =>
+        traceable.has(n.id) ? { ...n, className: 'gn-traceable' } : n,
+      )
+    }
+    return localNodes.map((n) => {
+      const inField = trace.fieldNodeIds.has(n.id)
+      const inGeometry = trace.geometryNodeIds.has(n.id)
+      if (!inField && !inGeometry) {
+        return { ...n, className: 'gn-trace-dim' }
+      }
+      const socketIds = [...trace.socketIds]
+      return {
+        ...n,
+        className: `${traceable.has(n.id) ? 'gn-traceable ' : ''}${
+          inField ? 'gn-trace-field' : 'gn-trace-geo'
+        }`,
+        data: { ...(n.data as GNFlowNodeData), traceSocketIds: socketIds },
+      }
+    })
+  }, [localNodes, trace, traceable])
+
+  const displayEdges = useMemo(() => {
+    if (!trace) return localEdges
+    return localEdges.map((e) => {
+      const inField = trace.fieldEdgeIds.has(e.id)
+      const inGeometry = trace.geometryEdgeIds.has(e.id)
+      if (!inField && !inGeometry) return { ...e, className: 'gn-trace-dim' }
+      return { ...e, className: inField ? 'gn-trace-field' : 'gn-trace-geo', zIndex: 10 }
+    })
+  }, [localEdges, trace])
 
   // Lock panning to the exact node bounding box, measured by React Flow (so it
   // accounts for property panels, curves, parented zone nodes, etc.). At fit-view
@@ -514,10 +570,12 @@ function FlowCanvas(props: {
       onPointerLeave={onWrapperPointerLeave}
     >
     <ReactFlow
-      nodes={localNodes}
-      edges={localEdges}
+      nodes={displayNodes}
+      edges={displayEdges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
+      onNodeMouseEnter={onNodeMouseEnter}
+      onNodeMouseLeave={onNodeMouseLeave}
       onSelectionChange={onSelectionChange}
       onMoveStart={onMoveStart}
       nodeTypes={nodeTypes}
@@ -581,6 +639,40 @@ function FlowCanvas(props: {
           ) : null}
         </div>
       </Panel>
+      {trace ? (
+        <Panel position="bottom-left">
+          <div className="gn-field-context" role="status">
+            <div className="gn-field-context__head">
+              <span className="gn-field-context__chip">field</span>
+              <span className="gn-field-context__origin">{trace.originLabel}</span>
+              {trace.hits.length > 1 ? (
+                <span className="gn-field-context__count">{trace.hits.length} contexts</span>
+              ) : null}
+            </div>
+            {trace.hits.map((hit, i) => (
+              <div className="gn-field-context__hit" key={`${hit.consumerNodeId}-${i}`}>
+                <div className="gn-field-context__consumer">
+                  <span className="gn-field-context__socket">{hit.fieldSocketName}</span>
+                  <span className="gn-field-context__muted"> of </span>
+                  {hit.consumerLabel}
+                </div>
+                {hit.note ? (
+                  <div className="gn-field-context__note">{hit.note}</div>
+                ) : (
+                  <div className="gn-field-context__ctx">
+                    evaluated on {hit.domain ? `the ${hit.domain} of ` : ''}
+                    <strong>{hit.originLabel ?? hit.consumerLabel}</strong>
+                    <span className="gn-field-context__muted">
+                      {' '}
+                      &rsaquo; {hit.geometrySocketName}
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </Panel>
+      ) : null}
     </ReactFlow>
     {menu ? (
       <div
@@ -738,6 +830,7 @@ export function GeometryNodesFlow(props: {
               <FlowCanvas
                 nodes={current.flow.nodes}
                 edges={current.flow.edges}
+                graph={current.graph}
                 jsonText={jsonText}
                 breadcrumbs={breadcrumbs}
                 onNavigate={(index) => setNav({ json: jsonText, ids: path.slice(1, index + 1) })}

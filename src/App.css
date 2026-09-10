@@ -1234,3 +1234,113 @@ body.is-resizing .right-pane {
   color: var(--text-h);
   font-weight: 600;
 }
+
+/* ── Field-context trace (hover a field node) ──────────────────────
+   Nodes are pointer-events:none by default so left-drag box-selects over
+   them; field nodes opt back in so they can be hovered. */
+
+.flow-panel__body .react-flow__node.gn-traceable {
+  pointer-events: all;
+  cursor: help;
+}
+
+.flow-panel__body .react-flow__node.gn-trace-dim,
+.flow-panel__body .react-flow__edge.gn-trace-dim {
+  opacity: 0.12;
+  transition: opacity 0.12s ease;
+}
+
+/* The field's path to whatever consumes it. */
+.flow-panel__body .react-flow__node.gn-trace-field .gn-node {
+  box-shadow:
+    0 0 0 1.5px var(--trace-field, #c9a6ff),
+    0 0 18px 2px color-mix(in srgb, var(--trace-field, #c9a6ff) 35%, transparent),
+    var(--shadow);
+}
+
+/* The geometry that gives the field its evaluation context. */
+.flow-panel__body .react-flow__node.gn-trace-geo .gn-node {
+  box-shadow:
+    0 0 0 1.5px var(--trace-geo, #00d6a3),
+    0 0 18px 2px color-mix(in srgb, var(--trace-geo, #00d6a3) 30%, transparent),
+    var(--shadow);
+}
+
+.flow-panel__body .react-flow__edge.gn-trace-field .react-flow__edge-path {
+  stroke: var(--trace-field, #c9a6ff);
+  stroke-width: 4;
+}
+
+.flow-panel__body .react-flow__edge.gn-trace-geo .react-flow__edge-path {
+  stroke: var(--trace-geo, #00d6a3);
+  stroke-width: 4;
+}
+
+/* The two sockets that actually carry the answer: the consumed field input
+   and the geometry input that sets its context. */
+.gn-node__socket-row--traced {
+  background: color-mix(in srgb, var(--trace-field, #c9a6ff) 18%, transparent);
+  border-radius: 3px;
+}
+
+.gn-field-context {
+  max-width: 340px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 82%, #000 18%);
+  box-shadow: var(--shadow);
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-h);
+}
+
+.gn-field-context__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.gn-field-context__chip {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--trace-field, #c9a6ff) 28%, transparent);
+  color: var(--trace-field, #c9a6ff);
+}
+
+.gn-field-context__origin {
+  font-weight: 600;
+}
+
+.gn-field-context__count {
+  margin-left: auto;
+  opacity: 0.6;
+}
+
+.gn-field-context__hit + .gn-field-context__hit {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.gn-field-context__socket {
+  color: var(--trace-field, #c9a6ff);
+}
+
+.gn-field-context__ctx strong {
+  color: var(--trace-geo, #00d6a3);
+  font-weight: 600;
+}
+
+.gn-field-context__muted {
+  opacity: 0.55;
+}
+
+.gn-field-context__note {
+  opacity: 0.7;
+  font-style: italic;
+}

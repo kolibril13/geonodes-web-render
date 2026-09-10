@@ -162,13 +162,16 @@ function SocketLine(props: {
   type: 'source' | 'target'
   align: 'left' | 'right'
   suppressDefault: boolean
+  traced?: boolean
 }) {
-  const { socket, position, type, align, suppressDefault } = props
+  const { socket, position, type, align, suppressDefault, traced = false } = props
   const isBlank = socket.name.trim().length === 0
   const showScalar = !suppressDefault && !socket.hideValue && socket.defaultValue?.kind === 'scalar'
 
   return (
-    <div className={`gn-node__socket-row gn-node__socket-row--${align}`}>
+    <div
+      className={`gn-node__socket-row gn-node__socket-row--${align}${traced ? ' gn-node__socket-row--traced' : ''}`}
+    >
       <Handle
         id={socket.id}
         type={type}
@@ -312,6 +315,8 @@ export function GenericGNNode(props: NodeProps) {
   const rootOutputs = showPanels ? visibleOutputs.filter((s) => s.panelIndex === undefined) : visibleOutputs
   const rootInputs = showPanels ? visibleInputs.filter((s) => s.panelIndex === undefined) : visibleInputs
 
+  const tracedSocketIds = new Set(data.traceSocketIds ?? [])
+
   const renderInput = (socket: SocketData) => {
     const suppress = connectedIds.has(socket.id)
     return (
@@ -322,6 +327,7 @@ export function GenericGNNode(props: NodeProps) {
           type="target"
           align="left"
           suppressDefault={suppress}
+          traced={tracedSocketIds.has(socket.id)}
         />
         {showVec(socket, suppress) ? (
           <VecBlock values={(socket.defaultValue as { kind: 'vec'; values: number[] }).values} dataType={socket.dataType} />
@@ -338,6 +344,7 @@ export function GenericGNNode(props: NodeProps) {
       type="source"
       align="right"
       suppressDefault={true}
+      traced={tracedSocketIds.has(socket.id)}
     />
   )
 
