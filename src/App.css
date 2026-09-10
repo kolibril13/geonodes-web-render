@@ -1249,12 +1249,8 @@ body.is-resizing .right-pane {
   transition: opacity 0.12s ease;
 }
 
-/* The field's path to whatever consumes it. */
-.flow-panel__body .react-flow__node.gn-trace-field .gn-node {
-  box-shadow:
-    0 0 0 1.5px var(--trace-field, #c9a6ff),
-    var(--shadow);
-}
+/* The field's path to whatever consumes it is carried by the lit noodles and
+   the accented socket rows — the nodes themselves stay unringed. */
 
 /* The geometry that gives the field its evaluation context. */
 .flow-panel__body .react-flow__node.gn-trace-geo .gn-node {
