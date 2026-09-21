@@ -268,16 +268,21 @@ function FlowCanvas(props: {
       liveNodes.length > 0 &&
       liveNodes.every((n) => n.measured?.width != null && n.measured?.height != null)
     if (allMeasured && pendingFitRef.current && !userMovedRef.current) {
-      if (readyTimeoutRef.current) clearTimeout(readyTimeoutRef.current)
       // fitView() queues the fit against the *next* store pass rather than
       // computing it synchronously — revealing right after calling it (not
       // after it resolves) showed one frame at the pre-fit viewport. Await
       // it, and leave `pendingFitRef` set until then so a re-run triggered
       // before it resolves (localNodes can still be settling) retries
       // cleanly instead of leaving the canvas hidden forever.
+      // The safety-net timeout deliberately stays armed here: xyflow can
+      // drop a queued fit's resolver when another fit is already in flight
+      // (its completion clears `fitViewResolver` unconditionally), and a
+      // promise that never settles would otherwise keep the canvas hidden
+      // forever. Clear it only once we actually reveal.
       let cancelled = false
       fitView().then(() => {
         if (cancelled) return
+        if (readyTimeoutRef.current) clearTimeout(readyTimeoutRef.current)
         pendingFitRef.current = false
         setGraphReady(true)
       })
@@ -521,7 +526,12 @@ function FlowCanvas(props: {
       onSelectionChange={onSelectionChange}
       onMoveStart={onMoveStart}
       nodeTypes={nodeTypes}
-      fitView
+      // No `fitView` prop: the fit is driven by the measured-bounds effect
+      // above (and the ResizeObserver). Letting xyflow also run its own
+      // initial fit races with ours — that fit has no resolver, and when it
+      // finishes it nulls the store's `fitViewResolver`, orphaning the
+      // promise we await, so small graphs (e.g. a single packed group node)
+      // were never revealed.
       minZoom={0.2}
       translateExtent={translateExtent}
       nodesDraggable={false}
