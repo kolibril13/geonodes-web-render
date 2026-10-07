@@ -19,6 +19,7 @@ import {
   useNodesInitialized,
   useNodesState,
   useReactFlow,
+  useStoreApi,
   useUpdateNodeInternals,
   type Edge,
   type Node,
@@ -119,6 +120,7 @@ function FlowCanvas(props: {
 }) {
   const { nodes, edges, jsonText, breadcrumbs, onNavigate, onSelectionIds, onCopiedMagicString, interaction = 'always', allowCopy = true, allowSelection = true } = props
   const { fitView, getNodes, getNodesBounds } = useReactFlow()
+  const store = useStoreApi()
   const updateNodeInternals = useUpdateNodeInternals()
   const nodesInitialized = useNodesInitialized()
   const outerRef = useRef<HTMLDivElement>(null)
@@ -279,20 +281,33 @@ function FlowCanvas(props: {
       // (its completion clears `fitViewResolver` unconditionally), and a
       // promise that never settles would otherwise keep the canvas hidden
       // forever. Clear it only once we actually reveal.
+      //
+      // Don't rely on the promise alone either: the ResizeObserver's first
+      // callback can still issue a fit that overlaps ours. The store's
+      // `fitViewQueued` flag flips back to false in the same synchronous pass
+      // that applies the viewport, so reveal on whichever signal comes first.
       let cancelled = false
-      fitView().then(() => {
+      let unsubscribe: (() => void) | null = null
+      const reveal = () => {
         if (cancelled) return
+        cancelled = true
+        unsubscribe?.()
         if (readyTimeoutRef.current) clearTimeout(readyTimeoutRef.current)
         pendingFitRef.current = false
         setGraphReady(true)
+      }
+      unsubscribe = store.subscribe((state) => {
+        if (!state.fitViewQueued) reveal()
       })
+      fitView().then(reveal)
       return () => {
         cancelled = true
+        unsubscribe?.()
       }
     }
     // Keyed on localNodes: measured dimensions stream in via onNodesChange, and
     // the same-rect bail-out (returning `prev`) keeps this from looping.
-  }, [nodesInitialized, localNodes, setLocalNodes, fitView, getNodes])
+  }, [nodesInitialized, localNodes, setLocalNodes, fitView, getNodes, store])
 
   useEffect(() => {
     // Re-fit whenever the node set changes (tab switch, new JSON, group drill-down, etc.)

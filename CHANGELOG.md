@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.40] - 2026-10-07
+
+### Fixed
+
+- Hardened the "hide until fitted" reveal against overlapping fits (e.g. the
+  ResizeObserver's first callback racing the initial fit). Besides the
+  `fitView()` promise, the canvas now also reveals as soon as the store's
+  `fitViewQueued` flag clears, so a dropped resolver no longer has to wait
+  for the 1.5 s safety timeout.
+
 ## [0.3.39] - 2026-09-21
 
 ### Fixed
