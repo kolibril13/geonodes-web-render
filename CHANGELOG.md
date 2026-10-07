@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.39] - 2026-09-21
+
+### Fixed
+
+- Small graphs could stay invisible forever. The 0.3.38 "hide until fitted"
+  reveal waited on xyflow's `fitView()` promise, but xyflow's own initial fit
+  (from the `fitView` prop) nulls the store's resolver when it finishes —
+  orphaning our promise whenever every node measures on the first pass (a
+  one-node graph, e.g. an asset collapsed into a single group node). The
+  `fitView` prop is gone (the fit is driven by the measured-bounds effect and
+  the ResizeObserver), and the 1.5 s safety timeout is no longer cleared until
+  the graph is actually shown.
+
 ## [0.3.38] - 2026-08-17
 
 ### Fixed
